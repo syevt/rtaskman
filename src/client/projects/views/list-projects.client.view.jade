@@ -1,0 +1,93 @@
+.container.ng-cloak
+  .row
+    .col-xs-6.col-sm-6.col-md-6.col-lg-6.col-xs-offset-3.col-sm-offset-3.col-md-offset-3.col-lg-offset-3
+      h3.text-center.ng-cloak(data-ng-show="projects.length || newProject") Projects list for {{identity.user.firstName}} {{identity.user.lastName}}
+      .well.ng-cloak(data-ng-hide="projects.length || newProject")
+        h3.text-center You don't have projects yet. Why won't you click the button below to add some?
+      div.ng-cloak(data-ng-show="error")
+        p(data-ng-repeat="err in error.data.errorMessages") {{err}}
+
+  .container(data-ng-repeat="project in projects").tm-project-container
+    .row
+      .col-xs-8.col-sm-8.col-md-8.col-lg-8.col-xs-offset-2.col-sm-offset-2.col-md-offset-2.col-lg-offset-2
+        .row.tm-project-header
+          .col-xs-1.col-sm-1.col-md-1.col-lg-1
+            i.fa.fa-calendar-o.tm-glyphicon-shadow-light-bottom
+          .col-xs-11.col-sm-11.col-md-11.col-lg-11(data-ng-hide="projectBeingEdited === project")
+            span.tm-project-name {{project.name}}
+            section.pull-right.tm-project-buttons
+              i.fa.fa-pencil(title="Edit project" data-ng-click="editProjectName(project)")
+              span &#124
+              i(title="Delete project" data-ng-click="delete(project, $index)").fa.fa-trash
+          .col-xs-11.col-sm-11.col-md-11.col-lg-11.ng-cloak(data-ng-show="projectBeingEdited === project")
+            form
+              .input-group
+                input.form-control(data-ng-model="project.name")
+                .input-group-btn
+                  button.btn.btn-success(type="submit" data-ng-click="saveProjectName(project)") Save
+    .row
+      .col-xs-8.col-sm-8.col-md-8.col-lg-8.col-xs-offset-2.col-sm-offset-2.col-md-offset-2.col-lg-offset-2
+        .row.tm-project-add-task
+          .col-xs-1.col-sm-1.col-md-1.col-lg-1
+            i.fa.fa-plus.tm-add-task-button.tm-glyphicon-shadow-dark-top
+          .col-xs-11.col-sm-11.col-md-11.col-lg-11
+            form
+              .input-group
+                input.form-control(data-ng-model="project.newTask.content" placeholder="Start typing to create a task...")
+                //- p.help-block(data-ng-if="addTask.newTaskContent.$error.required") New task should have content
+                .input-group-btn
+                  button.btn.btn-success(type="submit" data-ng-click="addTaskToProject(project)") Add task
+    .row
+      .col-xs-8.col-sm-8.col-md-8.col-lg-8.col-xs-offset-2.col-sm-offset-2.col-md-offset-2.col-lg-offset-2.tm-tasks-table-container.ng-cloak(data-ng-show="project.tasks.length")
+        table.tm-tasks-table
+          tr.tm-task-row(data-ng-repeat="task in project.tasks" id="{{project._id}}-#%&-{{$index}}" tm-task-droppable)
+            td.tm-task-done
+              input(title="Toggle done/undone" type="checkbox" data-ng-disabled="currentTask === task && (taskEditingProperty === 'deadline' || taskEditingProperty === 'content')" data-ng-model="task.done" data-ng-change="toggleStatus(task, project)")
+            td.tm-task-warning
+              i.ng-cloak.fa.fa-bell.tm-task-bell(title="This task is outdated" data-ng-show="taskShowBell(task)").tm-task-bell-pendulum
+            td.tm-task-caption(colspan="6")
+              p(data-ng-hide="currentTask === task && (taskEditingProperty === 'deadline' || taskEditingProperty === 'content')").text-justify {{task.content}}
+              form.form-inline(data-ng-show="currentTask === task && taskEditingProperty === 'deadline'")
+                input.form-control(type="date" data-ng-model="currentTaskCopy.deadlineD")
+                span
+                  button.btn.btn-default(type="button" data-ng-click="saveTaskDeadline(task, project)") Save
+                  button.btn.btn-default(type="cancel" data-ng-click="cancelEditTaskDeadline()") Cancel
+              form.form-inline(data-ng-show="currentTask === task && taskEditingProperty === 'content'")
+                .form-group
+                  input.form-control( data-ng-model="currentTaskCopy.content")
+                span
+                  button.btn.btn-default(type="submit" data-ng-click="saveTaskContent(task, project)") Save
+                  button.btn.btn-default(type="button" data-ng-click="cancelEditTaskContent()") Cancel
+            td
+              section.tm-task-buttons(data-ng-hide="currentTask === task && (taskEditingProperty === 'deadline' || taskEditingProperty === 'content')")
+                  i(title="{{showDeadline(task)}}" data-ng-click="editTaskDeadline(task)").fa.fa-calendar
+                  span &#124
+                  //- i(title="Click for UP, Ctrl+Click for DOWN" data-ng-click="changePriority($index, project, $event)").fa.fa-sort
+                  i(title="Drag to change task priority" tm-task-draggable="{{project._id}}-#%&-{{$index}}").fa.fa-sort
+                  span &#124
+                  i(title="Edit task" data-ng-click="editTaskContent(task)").fa.fa-pencil
+                  span &#124
+                  i.fa.fa-trash(title="Delete task" data-ng-click="removeTask(project, $index)")
+          tr
+            td.tm-task-td &nbsp
+            td.tm-task-td &nbsp
+            td.tm-task-td(colspan="6") &nbsp
+            td.tm-task-td &nbsp
+  .container
+    .row.ng-cloak(data-ng-show="newProject").tm-new-project
+      .col-xs-8.col-sm-8.col-md-8.col-lg-8.col-xs-offset-2.col-sm-offset-2.col-md-offset-2.col-lg-offset-2
+        .row.tm-project-header
+          .col-xs-1.col-sm-1.col-md-1.col-lg-1
+            i.fa.fa-calendar-o.fa-3x.tm-glyphicon-shadow-light-bottom
+          .col-xs-11.col-sm-11.col-md-11.col-lg-11
+            form
+              .input-group
+                input.form-control(data-ng-model="newProject.name" placeholder="Enter a name for the new project...")
+                .input-group-btn
+                  button.btn.btn-success(type="submit" data-ng-click="create()") Add project
+  .container
+    .row
+      .col-xs-4.col-sm-4.col-md-4.col-lg-4.col-xs-offset-4.col-sm-offset-4.col-md-offset-4.col-lg-offset-4
+        .tm-add-project-button.text-center(data-ng-click="addNewProject()")
+          i.fa.fa-plus
+          span Add TODO List

@@ -1,5 +1,6 @@
 {
   "name": "rtaskman",
   "private": true,
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {}
 }

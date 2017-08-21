@@ -1,0 +1,249 @@
+.tm-project-container
+  margin-top 5rem
+
+.tm-project-container p.help-block
+  font-size 1rem
+
+.tm-project-header
+.tm-project-add-task
+  padding 1rem
+  min-width 75rem
+
+.tm-project-header .fa
+  color #000
+  font-size 3rem
+
+.tm-project-add-task .fa
+  font-size 3rem
+
+.tm-project-header span.tm-project-name
+  margin-top 5rem
+  padding-top 5rem
+
+.tm-project-header .input-group-btn .btn
+.tm-project-add-task .input-group-btn .btn
+  min-width 11.5rem
+  background #70a789
+
+.tm-glyphicon-shadow-light-bottom
+  text-shadow 1px 2px 4px #333
+
+.tm-add-task-button
+  color #70a789
+
+.tm-glyphicon-shadow-dark-top
+  text-shadow 1px 2px 4px black
+
+.tm-project-header .input-group-btn .btn:hover
+.tm-project-add-task .input-group-btn .btn:hover
+  background #5f9678
+
+.tm-add-task-button:hover
+  color #5f9678
+
+.tm-project-header .input-group-btn .btn:active
+.tm-project-add-task .input-group-btn .btn:active
+  background #4d8567
+
+.tm-add-task-button:active
+  color #4d8567
+
+.tm-project-header
+  background #4470af
+  color #fff
+  border .5px inset #999
+
+.tm-project-add-task
+  background #eee
+
+.tm-project-name
+  font-size 2rem
+  margin 1rem
+
+i.fa
+  vertical-align baseline
+
+
+.tm-project-buttons
+  font-size 2rem
+  vertical-align middle
+  visibility hidden
+
+.tm-project-header:hover .tm-project-buttons
+  visibility visible
+
+.tm-project-buttons i.fa
+.tm-project-buttons span
+  color #fff
+  font-size 2rem
+  margin-right 1rem
+
+.tm-project-buttons span
+.tm-task-buttons span
+  opacity .3
+
+.tm-task-row
+  // background #99b
+
+.tm-task-row:hover
+  background #fcfed5
+
+.tm-task-done
+  // min-width 10rem
+  width 3rem
+
+.tm-task-warning
+  min-width 5rem
+
+.tm-task-caption
+  min-width 45rem
+
+.tm-task-caption p
+  font-size 1.5rem
+  margin-top .375rem
+  margin-right 2rem
+
+.tm-task-buttons
+  font-size 2rem
+  min-width 12rem
+  margin 0 1rem 0 2rem
+  visibility hidden
+
+.tm-task-row:hover .tm-task-buttons
+  visibility visible
+
+.tm-task-buttons i.fa
+.tm-task-buttons span
+  color #aaa
+  margin-right .5rem
+
+.tm-task-bell
+  margin 0 2rem 0 0
+  color red
+
+.tm-task-bell-pendulum
+  -webkit-animation pendulum .5s infinite linear
+  -moz-animation pendulum .5s infinite linear
+  -o-animation pendulum .5s infinite linear
+  animation pendulum .5s infinite linear
+
+@keyframes pendulum
+  0%
+    transform:rotate(0deg)
+    transform-origin 50% 0
+  25%
+    transform:rotate(45deg)
+    transform-origin 50% 0
+  50%
+    transform:rotate(0deg)
+    transform-origin 50% 0
+  75%
+    transform:rotate(-45deg)
+    transform-origin 50% 0
+  100%
+    transform:rotate(0deg)
+    transform-origin 50% 0
+
+.tm-project-header .input-group
+.tm-project-add-task .input-group
+  margin-top .1rem
+
+.tm-tasks-table-container
+  padding 0px
+
+.tm-tasks-table
+  width 100%
+  background white
+  // background #ddf
+  border-radius 0px 0px 25px 25px
+
+table.tm-tasks-table td
+  border 1px solid #eee
+  height 5rem
+
+table.tm-tasks-table tr:last-child td
+  height 1rem
+
+table.tm-tasks-table tr:first-child td
+  border-top 0
+
+table.tm-tasks-table tr:last-child td
+  border-top 0
+  border-bottom 0
+
+table.tm-tasks-table tr td:nth-child(2)
+  padding-left 2rem
+
+table.tm-tasks-table tr:nth-last-child(2) td
+  border-bottom 0
+
+table.tm-tasks-table tr td:first-child
+  border-left 0
+  align center
+  border-right 7px double rgba(255,0,0,.1)
+
+table.tm-tasks-table tr td:nth-child(2)
+  border-right 0
+
+table.tm-tasks-table tr td:nth-child(3)
+  border-left 0
+
+table.tm-tasks-table tr td:last-child
+  border-right 0
+
+table.tm-tasks-table input[type=checkbox]
+  height 1.5rem
+  width 1.5rem
+  margin 0 3rem 0 4rem
+
+table.tm-tasks-table td form input
+  min-width 32rem
+
+table.tm-tasks-table td form button
+  margin-left .5rem
+
+table.tm-tasks-table td table tr td
+  border hidden
+  margin 0px
+  padding 0px !important
+  height 1rem
+
+.tm-new-project
+  margin-top 2.5rem
+
+.tm-add-project-button
+  max-width 25rem
+  max-height 5rem
+  background #4470af
+  color #fff
+  font-size 2rem
+  margin 3rem
+  padding .2rem
+  border-top 1px inset white
+  border-left 1px inset black
+  border-right 1px inset black
+  border-radius 4px
+  cursor pointer
+
+.tm-add-project-button i.fa
+  color #333
+  // margin-right 2rem
+  margin 1rem 0
+  font-size 3rem
+  vertical-align middle
+
+.tm-add-project-button span
+  margin-left 1rem
+
+.tm-project-name
+.tm-project-buttons span
+.tm-task-buttons span
+.tm-task-row
+  cursor default
+
+.tm-project-buttons i.fa
+.tm-task-buttons i.fa
+  cursor pointer
+
+.tm-task-row-dragover
+  background #eee
