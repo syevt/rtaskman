@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+%html
+  %head
+    %meta{charset: "UTF-8"}
+    %meta{name: "viewport", content: "width=device-width"}
+    = csrf_meta_tags
+    %title Rails API Task Manager
+    %link{href: "/css/style.css", rel: "stylesheet"}
+  %body
+    = yield
+    %script{src: "/js/bundle.js"}
