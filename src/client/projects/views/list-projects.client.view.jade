@@ -3,7 +3,7 @@
     .col-xs-6.col-sm-6.col-md-6.col-lg-6.col-xs-offset-3.col-sm-offset-3.col-md-offset-3.col-lg-offset-3
       h3.text-center.ng-cloak(data-ng-show="projects.length || newProject") Projects list for {{identity.user.firstName}} {{identity.user.lastName}}
       .well.ng-cloak(data-ng-hide="projects.length || newProject")
-        h3.text-center You don't have projects yet. Why won't you click the button below to add some?
+        h3.text-center You don't have any projects yet. Why won't you click the button below to add some?
       div.ng-cloak(data-ng-show="error")
         p(data-ng-repeat="err in error.data.errorMessages") {{err}}
 

@@ -5,14 +5,11 @@ require('angular').module('users').controller 'LoginController',
 
       $scope.signin = ->
         $auth.submitLogin(email: @email, password: @password).then (user) ->
-          if user
-            $scope.identity.user = user
-            @email = null
-            @password = null
-            growl.success 'Successfully logged in!'
-            $location.path "/users/#{$scope.identity.user.id}/projects"
-          else
-            growl.error 'Wrong username or password!'
+          $scope.identity.user = user
+          growl.success 'Successfully logged in!'
+          $location.path "/users/#{$scope.identity.user.id}/projects"
+        , (errorResponse) ->
+            growl.error errorResponse.errors[0]
 
       $scope.showUserProjects = () ->
         $location.path "/users/#{$scope.identity.user.id}/projects"
