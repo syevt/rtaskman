@@ -2,35 +2,45 @@
   h3 Creating a new account
 form(name="userForm" data-ng-submit="create()" novalidate)
   .modal-body
-    div.form-group(data-ng-class="{ 'has-error': userForm.firstName.$invalid && (userForm.firstName.$touched || userForm.$submitted), 'has-success': userForm.firstName.$touched && !userForm.firstName.$invalid }")
-      label.control-label First Name:
-      input.form-control(data-ng-model="firstName" ng-model-options="{ updateOn: 'blur' }" name="firstName" required only-letters)
-      p.help-block(data-ng-if="userForm.firstName.$error.required") First name is required
-      p.help-block(data-ng-if="userForm.firstName.$error.onlyLetters") First name should only contain letters
-    div.form-group(data-ng-class="{ 'has-error': userForm.lastName.$invalid && (userForm.lastName.$touched || userForm.$submitted), 'has-success': userForm.lastName.$touched && !userForm.lastName.$invalid }")
-      label.control-label Last Name:
-      input.form-control(data-ng-model="lastName" ng-model-options="{ updateOn: 'blur' }" name="lastName" only-letters)
-      p.help-block(data-ng-if="userForm.lastName.$error.onlyLetters") Last name should only contain letters
-    div.form-group.has-feedback(data-ng-class="{ 'has-error': userForm.userName.$invalid && (userForm.userName.$touched || userForm.$submitted), 'has-success': userForm.userName.$touched && !userForm.userName.$invalid, 'has-warning': userForm.userName.$touched && userForm.userName.$pending }")
-      label.control-label Username:
-      input.form-control(data-ng-model="userName" ng-model-options="{ updateOn: 'blur' }" name="userName" required only-letters-and-digits user-name-exists)
-      //- i.fa.fa-spinner.fa-spin.fa-pulse.fa-fw.form-control-feedback(data-ng-show="userForm.userName.$pending")
-      i.glyphicon.glyphicon-repeat.glyphicon-spin.form-control-feedback(data-ng-show="userForm.userName.$pending")
-      //- i.glyphicon.glyphicon-ok.form-control-feedback(data-ng-show="userForm.userName.$touched && !(userForm.userName.$pending || userForm.userName.$error")
-      p.help-block(data-ng-if="userForm.userName.$error.required") Username is required
-      p.help-block(data-ng-if="userForm.userName.$error.onlyLettersAndDigits") Username should only contain letters and digits
-      p.help-block(data-ng-show="userForm.userName.$pending.userNameExists") Checking if the name is available...
-      p.help-block(data-ng-if="userForm.userName.$error.userNameExists") This username is already taken
-    div.form-group(data-ng-class="{ 'has-error': userForm.password.$invalid && (userForm.password.$touched || userForm.$submitted), 'has-success': userForm.password.$touched && !userForm.password.$invalid }")
+    div.form-group.has-feedback(
+      data-ng-class="{ 'has-error': userForm.email.$invalid &&\
+      (userForm.email.$touched || userForm.$submitted),\
+      'has-success': userForm.email.$touched && !userForm.email.$invalid,\
+      'has-warning': userForm.email.$touched && userForm.email.$pending }")
+      label.control-label Email:
+      input.form-control(
+        data-ng-model="email" ng-model-options="{ updateOn: 'blur' }"
+        name="email" required email-validator)
+      i.glyphicon.glyphicon-repeat.glyphicon-spin.form-control-feedback(
+        data-ng-show="userForm.email.$pending")
+      p.help-block(data-ng-if="userForm.email.$error.required").
+        Email is required
+      p.help-block(data-ng-if="userForm.email.$error.emailValidator").
+        Please enter a valid email
+    div.form-group(data-ng-class="{ 'has-error': userForm.password.$invalid &&\
+      (userForm.password.$touched || userForm.$submitted),\
+      'has-success': userForm.password.$touched && !userForm.password.$invalid }")
       label.control-label Password:
-      input.form-control(type="password" data-ng-model="password" ng-model-options="{ updateOn: 'blur' }" name="password" required minlength="6")
-      p.help-block(data-ng-if="userForm.password.$error.required") Password is required
-      p.help-block(data-ng-if="userForm.password.$error.minlength") Min 6 chars are required
-    div.form-group(data-ng-class="{ 'has-error': userForm.confirmPassword.$invalid && (userForm.confirmPassword.$touched || userForm.$submitted), 'has-success': userForm.confirmPassword.$touched && !userForm.confirmPassword.$invalid }")
+      input.form-control(type="password" data-ng-model="password"
+        ng-model-options="{ updateOn: 'blur' }" name="password"
+        required minlength="6")
+      p.help-block(data-ng-if="userForm.password.$error.required").
+        Password is required
+      p.help-block(data-ng-if="userForm.password.$error.minlength").
+        Min 6 chars are required
+    div.form-group(data-ng-class="{ 'has-error':\
+      userForm.confirmPassword.$invalid &&\
+      (userForm.confirmPassword.$touched || userForm.$submitted),\
+      'has-success': userForm.confirmPassword.$touched &&\
+      !userForm.confirmPassword.$invalid }")
       label.control-label Confirm password:
-      input.form-control(type="password" data-ng-model="confirmPassword" ng-model-options="{ updateOn: 'blur' }" name="confirmPassword" required confirm-password)
-      p.help-block(data-ng-if="userForm.confirmPassword.$error.required") Confirm the password
-      p.help-block(data-ng-if="userForm.confirmPassword.$error.confirmPassword") This should match the password
+      input.form-control(type="password" data-ng-model="confirmPassword"
+        ng-model-options="{ updateOn: 'blur' }" name="confirmPassword"
+        required confirm-password)
+      p.help-block(data-ng-if="userForm.confirmPassword.$error.required").
+        Confirm the password
+      p.help-block(data-ng-if="userForm.confirmPassword.$error.confirmPassword").
+        This should match the password
     div(data-ng-show="error")
       p(data-ng-repeat="err in error.data.errorMessages") {{ err }}
   .modal-footer

@@ -54,7 +54,7 @@ gulp.task('stylus', function(){
 
 gulp.task('watch', function(){
   gulp.watch('./src/client/**/*.coffee', ['bundle']);
-  gulp.watch('./src/client/**/**/*.jade', ['jade']);
+  gulp.watch('./src/client/**/**/*.jade', ['pug']);
   gulp.watch('./src/client/stylus/**/*.styl', ['stylus']);
 });
 

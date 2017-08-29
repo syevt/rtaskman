@@ -1,4 +1,6 @@
 angular = require 'angular'
+require 'angular-cookie'
+require 'ng-token-auth'
 require 'angular-resource'
 require 'angular-route'
 require 'angular-animate'
@@ -11,7 +13,7 @@ require './projects/projects.client.module'
 mainApplicationModuleName = 'taskManager'
 
 mainApplicationModule = angular.module mainApplicationModuleName,
-  ['ngRoute', 'ngResource', 'ngAnimate',
+  ['ngRoute', 'ngResource', 'ngAnimate', 'ng-token-auth',
     'ui.bootstrap', 'angular-growl', 'index', 'users', 'projects']
 
 mainApplicationModule.config ['$locationProvider', ($locationProvider) ->
@@ -21,6 +23,17 @@ mainApplicationModule.config ['$locationProvider', ($locationProvider) ->
 mainApplicationModule.config ['growlProvider', (growlProvider) ->
   growlProvider.onlyUniqueMessages on
   growlProvider.globalTimeToLive 2000
+]
+
+mainApplicationModule.config ['$authProvider', ($authProvider) ->
+  $authProvider.configure
+    apiUrl: ''
+    # validateOnPageLoad: off
+]
+
+mainApplicationModule.run ['$auth', 'Identity', ($auth, Identity) ->
+  $auth.validateUser().then (user) ->
+    Identity.user = user
 ]
 
 require './common'

@@ -1,6 +1,4 @@
-require('angular').module('users').factory 'Identity', [ '$window', ($window) ->
-  @user = $window.bootstrappedUserObject
-
+require('angular').module('users').factory 'Identity', ['$window', ($window) ->
   user: @user
   isAuthenticated: () ->
     !!@user

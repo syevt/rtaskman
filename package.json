@@ -4,10 +4,12 @@
   "dependencies": {
     "angular": "^1.6.6",
     "angular-animate": "^1.6.6",
+    "angular-cookie": "^4.1.0",
     "angular-growl-v2": "^0.7.5",
     "angular-resource": "^1.6.6",
     "angular-route": "^1.6.6",
-    "angular-ui-bootstrap": "^2.5.0"
+    "angular-ui-bootstrap": "^2.5.0",
+    "ng-token-auth": "0.0.30"
   },
   "devDependencies": {
     "browserify": "^14.4.0",
