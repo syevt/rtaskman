@@ -1,28 +1,29 @@
 require('angular').module('users').controller 'LoginController',
-  ['$scope', '$location', '$routeParams', '$uibModal', 'Identity', 'Authentication', 'growl',
-    ($scope, $location, $routeParams, $uibModal, Identity, Authentication, growl) ->
+  ['$scope', '$location', '$routeParams', '$uibModal', '$auth', 'Identity', 'Authentication', 'growl',
+    ($scope, $location, $routeParams, $uibModal, $auth, Identity, Authentication, growl) ->
       $scope.identity = Identity
 
-      $scope.signin = (username, password) ->
-        Authentication.authenticateUser(username, password).then (success) ->
-          if success
-            growl.success 'Successfully logged in!'
-            $location.path "/users/#{$scope.identity.user._id}/projects"
-          else
-            growl.error 'Wrong username or password!'
+      $scope.signin = ->
+        $auth.submitLogin(email: @email, password: @password).then (user) ->
+          $scope.identity.user = user
+          growl.success 'Successfully logged in!'
+          $location.path "/users/#{$scope.identity.user.id}/projects"
+        , (errorResponse) ->
+            growl.error errorResponse.errors[0]
 
       $scope.showUserProjects = () ->
-        $location.path "/users/#{$scope.identity.user._id}/projects"
+        $location.path "/users/#{$scope.identity.user.id}/projects"
 
       $scope.signout = () ->
-        Authentication.logoutUser().then () ->
+        $auth.signOut().then () ->
+          $scope.email = null
+          $scope.password = null
+          $scope.identity.user = null
           growl.success 'You have logged out!'
-          $scope.username = ""
-          $scope.password = ""
           $location.path '/'
 
       $scope.showSignupModal = () ->
-        @username = ""
+        @email = ""
         @password = ""
         modalInstance = $uibModal.open
           templateUrl: 'users/views/signup-modal.client.view.html'
@@ -31,9 +32,4 @@ require('angular').module('users').controller 'LoginController',
           resolve:
             userForm: () ->
               return $scope.userForm
-
-        # modalInstance.result.then () ->
-        #   console.log 'success form'
-        # , () ->
-        #   console.log 'cancel form'
   ]
