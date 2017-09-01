@@ -155,7 +155,7 @@ angular.module('projects').controller 'ProjectsController',
           $scope.error = errorResponse
 
       $scope.find = () ->
-        $scope.projects = Projects.query userId: @identity.user._id
+        $scope.projects = Projects.query userId: @identity.user.id
         # $scope.error = null
         , (errorResponse) ->
           $scope.error = errorResponse
