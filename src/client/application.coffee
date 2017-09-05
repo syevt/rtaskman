@@ -31,10 +31,10 @@ mainApplicationModule.config ['$authProvider', ($authProvider) ->
     # validateOnPageLoad: off
 ]
 
-mainApplicationModule.run ['$auth', 'Identity', ($auth, Identity) ->
-  $auth.validateUser().then (user) ->
-    Identity.user = user
-]
+# mainApplicationModule.run ['$auth', 'Identity', ($auth, Identity) ->
+  # $auth.validateUser().then (user) ->
+    # Identity.user = user
+# ]
 
 require './common'
 

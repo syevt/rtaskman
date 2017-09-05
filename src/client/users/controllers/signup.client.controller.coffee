@@ -19,7 +19,7 @@ require('angular').module('users').controller 'SignupController',
             $location.path "/users/#{$scope.identity.user.id}/projects"
          , (errorResponse) ->
            $uibModalInstance.close()
-           growl.error errorResponse.data.errors.full_messages[1], ttl: 10000
+           growl.error errorResponse.data.errors.full_messages[0], ttl: 10000
 
       $scope.cancel = () ->
         $uibModalInstance.dismiss()

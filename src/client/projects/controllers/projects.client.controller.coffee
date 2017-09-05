@@ -7,8 +7,6 @@ angular.module('projects').controller 'ProjectsController',
       clearEditing = () ->
         if $scope.currentTask
           $scope.currentTask = null
-        # if $scope.currentTaskCopy
-        #   $scope.currentTaskCopy = null
         $scope.taskEditingProperty = ''
 
       $scope.addNewProject = () ->
@@ -34,8 +32,6 @@ angular.module('projects').controller 'ProjectsController',
           project.newTaskContent = undefined
           $scope.update project
         else
-          # $scope.error.data = {}
-          # $scope.error.data.errorMessages = ['Cannot add empty task']
           growl.error 'New task should have content'
 
       $scope.toggleStatus = (task, project) ->
@@ -51,7 +47,6 @@ angular.module('projects').controller 'ProjectsController',
         $scope.taskEditingProperty = 'content'
 
       $scope.cancelEditTaskContent = () ->
-        # console.log 'cancel editing fired...'
         clearEditing()
 
       $scope.saveTaskContent = (task, project) ->
@@ -69,18 +64,17 @@ angular.module('projects').controller 'ProjectsController',
         $scope.currentTask = task
         $scope.currentTaskCopy = angular.copy task
         if $scope.currentTaskCopy.deadline
-          $scope.currentTaskCopy.deadlineD =
+          $scope.currentTaskCopy.deadline =
             new Date($scope.currentTaskCopy.deadline)
         else
-          $scope.currentTaskCopy.deadlineD = new Date()
-        # console.log $scope.currentTaskCopy
+          $scope.currentTaskCopy.deadline = new Date()
         $scope.taskEditingProperty = 'deadline'
 
       $scope.cancelEditTaskDeadline = () ->
         clearEditing()
 
       $scope.saveTaskDeadline = (task, project) ->
-        task.deadline = $scope.currentTaskCopy.deadlineD
+        task.deadline = $scope.currentTaskCopy.deadline
         clearEditing()
         $scope.update project
 
@@ -113,52 +107,36 @@ angular.module('projects').controller 'ProjectsController',
           return 'Set deadline'
 
       $scope.create = () ->
-        if $scope.newProject.name
-          project = new Projects name: $scope.newProject.name
+        project = new Projects
+          name: $scope.newProject.name
 
-          project.$save userId: @identity.user._id, (response) ->
-            # response.newTask = {}
-            $scope.projects.push response
-            $scope.newProject = null
-            $scope.error = []
-          , (errorResponse) ->
-            $scope.error = errorResponse
-            $scope.newProject = null
-        else
-          growl.error 'New project should have a name'
+        project.$save(userId: @identity.user.id).then (response) ->
+          $scope.projects.push response
+        , (errorResponse) ->
+           growl.error errorResponse.data.errors[0], ttl: -1
+
+        $scope.newProject = null
 
       $scope.update = (project, task) ->
-        project.$update userId: @identity.user._id, () ->
-          # console.log 'project updated'
-          # console.log project
-          $scope.error = []
-          if $scope.backedupProject
-            $scope.backedupProject = null
-          if $scope.backedupTask
-            $scope.backedupTask = null
+        project.$update(userId: @identity.user.id).then () ->
+          $scope.backedupProject = null if $scope.backedupProject
+          $scope.backedupTask = null if $scope.backedupTask
         , (errorResponse) ->
-          $scope.error = errorResponse
-          # console.log $scope.backedupProject
-          if task && $scope.backedupTask
-            task.content = $scope.backedupTask.content
-          # console.log project
-          if $scope.backedupProject
-            project.name = $scope.backedupProject.name
-          # console.log project
-
+          task.content = $scope.backedupTask.content if task && $scope.backedupTask
+          project.name = $scope.backedupProject.name if $scope.backedupProject
+          growl.error errorResponse.data.errors[0], ttl: -1
 
       $scope.delete = (project, projectIndex) ->
-        project.$remove userId: @identity.user._id, () ->
+        project.$remove(userId: @identity.user.id).then () ->
           $scope.projects.splice projectIndex, 1
-          $scope.error = []
         , (errorResponse) ->
-          $scope.error = errorResponse
+          growl.error errorResponse.data.errors[0], ttl: -1
 
       $scope.find = () ->
-        $scope.projects = Projects.query userId: @identity.user.id
-        # $scope.error = null
+        Projects.query(userId: @identity.user.id).$promise.then (response) ->
+          $scope.projects = response
         , (errorResponse) ->
-          $scope.error = errorResponse
+          growl.error errorResponse.data.errors[0], ttl: -1
 
       $scope.find()
     ]

@@ -9355,15 +9355,8 @@ table.tm-tasks-table td table tr td {
 .ng-cloak {
   display: none !important;
 }
-body,
-html {
-  height: 100%;
-}
-.bg {
-  background: #4b3353;
-  background-image: url("../images/1.jpg");
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+body {
+  background: #4b3353 url("../images/1.jpg") center center no-repeat;
+  background-attachment: fixed;
   background-size: cover;
 }
