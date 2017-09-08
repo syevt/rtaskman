@@ -1,7 +1,7 @@
 angular = require 'angular'
 angular.module('projects').controller 'ProjectsController',
-  ['$scope', '$routeParams', 'Projects', 'Identity', 'growl',
-    ($scope, $routeParams, Projects, Identity, growl) ->
+  ['$scope', '$routeParams', '$uibModal', 'Projects', 'Identity', 'growl',
+    ($scope, $routeParams, $uibModal, Projects, Identity, growl) ->
       $scope.identity = Identity
 
       clearEditing = () ->
@@ -27,9 +27,10 @@ angular.module('projects').controller 'ProjectsController',
 
       $scope.addTaskToProject = (project) ->
         if project.newTask
+          project.tasks ?= []
           project.tasks.push content: project.newTask.content
           $scope.backedupTask = angular.copy project.newTask
-          project.newTaskContent = undefined
+          project.newTask.content = null
           $scope.update project
         else
           growl.error 'New task should have content'
@@ -40,7 +41,6 @@ angular.module('projects').controller 'ProjectsController',
 
       $scope.editTaskContent = (task) ->
         clearEditing()
-
         $scope.currentTask = task
         $scope.currentTaskCopy = angular.copy task
         $scope.backedupTask = angular.copy task
@@ -60,7 +60,6 @@ angular.module('projects').controller 'ProjectsController',
 
       $scope.editTaskDeadline = (task) ->
         clearEditing()
-
         $scope.currentTask = task
         $scope.currentTaskCopy = angular.copy task
         if $scope.currentTaskCopy.deadline
@@ -78,23 +77,16 @@ angular.module('projects').controller 'ProjectsController',
         clearEditing()
         $scope.update project
 
-      $scope.changePriority = (index, project, event) ->
-        clearEditing()
-        unless event.ctrlKey
-          unless index is 0
-            task = project.tasks.splice index, 1
-            project.tasks.splice (index - 1), 0, task[0]
-            $scope.update project
-        else
-          unless index is project.tasks.length
-            task = project.tasks.splice index, 1
-            project.tasks.splice (index + 1), 0, task[0]
-            $scope.update project
-
-      $scope.removeTask = (project, taskIndex) ->
-        clearEditing()
-        project.tasks.splice taskIndex, 1
-        $scope.update project
+      $scope.removeTask = (project, task, taskIndex) ->
+        $scope.entityBeingRemoved = task.content
+        $scope.modalInstance = $uibModal.open
+          templateUrl: 'projects/views/remove-modal.client.view.html'
+          size: 'sm'
+          scope: $scope
+        $scope.modalInstance.result.then () ->
+          clearEditing()
+          project.tasks.splice taskIndex, 1
+          $scope.update project
 
       $scope.taskShowBell = (task) ->
         if task.deadline
@@ -126,11 +118,25 @@ angular.module('projects').controller 'ProjectsController',
           project.name = $scope.backedupProject.name if $scope.backedupProject
           growl.error errorResponse.data.errors[0], ttl: -1
 
-      $scope.delete = (project, projectIndex) ->
-        project.$remove(userId: @identity.user.id).then () ->
-          $scope.projects.splice projectIndex, 1
-        , (errorResponse) ->
-          growl.error errorResponse.data.errors[0], ttl: -1
+      $scope.remove = (project, projectIndex) ->
+        $scope.entityBeingRemoved = project.name
+        $scope.modalInstance = $uibModal.open
+          templateUrl: 'projects/views/remove-modal.client.view.html'
+          size: 'sm'
+          scope: $scope
+        $scope.modalInstance.result.then () ->
+          project.$remove(userId: $scope.identity.user.id).then () ->
+            $scope.projects.splice projectIndex, 1
+          , (errorResponse) ->
+            growl.error errorResponse.data.errors[0], ttl: -1
+
+      $scope.closeRemoveModal = () ->
+        $scope.modalInstance.close()
+        $scope.entityBeingRemoved = null
+
+      $scope.dismissRemoveModal = () ->
+        $scope.modalInstance.dismiss()
+        $scope.entityBeingRemoved = null
 
       $scope.find = () ->
         Projects.query(userId: @identity.user.id).$promise.then (response) ->

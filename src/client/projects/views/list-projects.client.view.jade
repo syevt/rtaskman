@@ -18,7 +18,7 @@
             section.pull-right.tm-project-buttons
               i.fa.fa-pencil(title="Edit project" data-ng-click="editProjectName(project)")
               span &#124
-              i(title="Delete project" data-ng-click="delete(project, $index)").fa.fa-trash
+              i(title="Delete project" data-ng-click="remove(project, $index)").fa.fa-trash
           .col-xs-11.col-sm-11.col-md-11.col-lg-11.ng-cloak(data-ng-show="projectBeingEdited === project")
             form
               .input-group
@@ -34,7 +34,6 @@
             form
               .input-group
                 input.form-control(data-ng-model="project.newTask.content" placeholder="Start typing to create a task...")
-                //- p.help-block(data-ng-if="addTask.newTaskContent.$error.required") New task should have content
                 .input-group-btn
                   button.btn.btn-success(type="submit" data-ng-click="addTaskToProject(project)") Add task
     .row
@@ -62,12 +61,11 @@
               section.tm-task-buttons(data-ng-hide="currentTask === task && (taskEditingProperty === 'deadline' || taskEditingProperty === 'content')")
                   i(title="{{showDeadline(task)}}" data-ng-click="editTaskDeadline(task)").fa.fa-calendar
                   span &#124
-                  //- i(title="Click for UP, Ctrl+Click for DOWN" data-ng-click="changePriority($index, project, $event)").fa.fa-sort
                   i(title="Drag to change task priority" tm-task-draggable="{{project._id}}-#%&-{{$index}}").fa.fa-sort
                   span &#124
                   i(title="Edit task" data-ng-click="editTaskContent(task)").fa.fa-pencil
                   span &#124
-                  i.fa.fa-trash(title="Delete task" data-ng-click="removeTask(project, $index)")
+                  i.fa.fa-trash(title="Delete task" data-ng-click="removeTask(project, task, $index)")
           tr
             td.tm-task-td &nbsp
             td.tm-task-td &nbsp
