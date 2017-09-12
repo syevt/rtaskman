@@ -1,7 +1,4 @@
-# require 'modernizr'
-# require 'polyfiller'
 angular = require 'angular'
-require 'angular-datepicker'
 require 'angular-cookie'
 require 'ng-token-auth'
 require 'angular-resource'
@@ -12,10 +9,6 @@ require 'angular-growl-v2'
 require './index/index.client.module'
 require './users/users.client.module'
 require './projects/projects.client.module'
-
-# webshims.setOptions 'waitReady', off
-# webshims.setOptions 'forms-ext', types: 'date'
-# webshims.polyfill 'forms forms-ext'
 
 mainApplicationModuleName = 'taskManager'
 
@@ -38,10 +31,11 @@ mainApplicationModule.config ['$authProvider', ($authProvider) ->
     # validateOnPageLoad: off
 ]
 
-# mainApplicationModule.run ['$auth', 'Identity', ($auth, Identity) ->
-  # $auth.validateUser().then (user) ->
-    # Identity.user = user
-# ]
+mainApplicationModule.run ['$auth', 'Identity', ($auth, Identity) ->
+  unless Identity.user
+    $auth.validateUser().then (user) ->
+      Identity.user = user
+]
 
 require './common'
 
