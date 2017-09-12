@@ -47,7 +47,16 @@
             td.tm-task-caption(colspan="6")
               p(data-ng-hide="currentTask === task && (taskEditingProperty === 'deadline' || taskEditingProperty === 'content')").text-justify {{task.content}}
               form.form-inline(data-ng-show="currentTask === task && taskEditingProperty === 'deadline'")
-                input.form-control(type="date" data-ng-model="currentTaskCopy.deadline")
+                .input-group
+                  input.form-control(data-ng-model="currentTaskCopy.deadline"
+                    uib-datepicker-popup="dd-MMMM-yyyy"
+                    is-open="deadlinePicker.opened"
+                    datepicker-options="deadlinePickerOptions"
+                    show-button-bar="false"
+                    close-text="Close")
+                  .input-group-btn
+                    button.btn.btn-default(type="button" data-ng-click="openDeadlinePicker()")
+                      i.fa.fa-calendar
                 span
                   button.btn.btn-default(type="button" data-ng-click="saveTaskDeadline(task, project)") Save
                   button.btn.btn-default(type="cancel" data-ng-click="cancelEditTaskDeadline()") Cancel
@@ -59,13 +68,22 @@
                   button.btn.btn-default(type="button" data-ng-click="cancelEditTaskContent()") Cancel
             td
               section.tm-task-buttons(data-ng-hide="currentTask === task && (taskEditingProperty === 'deadline' || taskEditingProperty === 'content')")
-                  i(title="{{showDeadline(task)}}" data-ng-click="editTaskDeadline(task)").fa.fa-calendar
-                  span &#124
-                  i(title="Drag to change task priority" tm-task-draggable="{{project._id}}-#%&-{{$index}}").fa.fa-sort
-                  span &#124
-                  i(title="Edit task" data-ng-click="editTaskContent(task)").fa.fa-pencil
-                  span &#124
-                  i.fa.fa-trash(title="Delete task" data-ng-click="removeTask(project, task, $index)")
+                i(title="{{showDeadline(task)}}" data-ng-click="editTaskDeadline(task)").fa.fa-calendar
+                //- i(title="{{showDeadline(task)}}"
+                  //- data-ng-click="editTaskDeadline(task)"
+                  //- uib-datepicker-popup="dd-MMMM-yyyy"
+                  //- ng-model="task.deadline"
+                  //- is-open="deadlinePicker.opened"
+                  //- date-picker-options="dateOptions"
+                  //- data-ng-required="true"
+                  //- close-text="Close"
+                  //- alt-input-formats="altInputFormats").fa.fa-calendar
+                span &#124
+                i(title="Drag to change task priority" tm-task-draggable="{{project._id}}-#%&-{{$index}}").fa.fa-sort
+                span &#124
+                i(title="Edit task" data-ng-click="editTaskContent(task)").fa.fa-pencil
+                span &#124
+                i.fa.fa-trash(title="Delete task" data-ng-click="removeTask(project, task, $index)")
           tr
             td.tm-task-td &nbsp
             td.tm-task-td &nbsp

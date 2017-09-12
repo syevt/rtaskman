@@ -69,6 +69,16 @@ angular.module('projects').controller 'ProjectsController',
           $scope.currentTaskCopy.deadline = new Date()
         $scope.taskEditingProperty = 'deadline'
 
+      $scope.openDeadlinePicker = ->
+        $scope.deadlinePicker.opened = on
+
+      $scope.deadlinePicker =
+        opened: off
+
+      $scope.deadlinePickerOptions =
+        showWeeks: off
+        startingDay: 1
+
       $scope.cancelEditTaskDeadline = () ->
         clearEditing()
 
