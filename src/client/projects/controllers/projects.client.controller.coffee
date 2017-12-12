@@ -1,4 +1,6 @@
+unicodeRegExp = require 'unicoderegexp'
 angular = require 'angular'
+
 angular.module('projects').controller 'ProjectsController',
   ['$scope', '$routeParams', '$uibModal', 'Projects', 'Identity', 'growl',
     ($scope, $routeParams, $uibModal, Projects, Identity, growl) ->
@@ -50,13 +52,33 @@ angular.module('projects').controller 'ProjectsController',
         clearEditing()
 
       $scope.saveTaskContent = (task, project) ->
-        if $scope.currentTaskCopy.content
-          task.content = $scope.currentTaskCopy.content
-          clearEditing()
-          $scope.update project, task
+        content = $scope.currentTaskCopy.content
+        unicodeRange = unicodeRegExp.letter.source
+        unicodeRange = unicodeRange.substring(1, unicodeRange.length - 1)
+        regex = new RegExp "^[#{unicodeRange}\\s-.]+$"
+        # console.log unicodeRange
+        # console.log regex
+        # console.log content.match regex
+        # console.log !!(content.match regex)
+        if content
+          if content.match regex
+            task.content = $scope.currentTaskCopy.content
+            clearEditing()
+            $scope.update project, task
+          else
+            growl.error "Task content should only contain letters, digits,\
+              '-' and '.'"
+            $scope.currentTaskCopy.content = $scope.backedupTask.content
         else
-          $scope.currentTaskCopy.content = $scope.backedupTask.content
           growl.error "Task content cannot be empty"
+
+        # if $scope.currentTaskCopy.content
+          # task.content = $scope.currentTaskCopy.content
+          # clearEditing()
+          # $scope.update project, task
+        # else
+          # $scope.currentTaskCopy.content = $scope.backedupTask.content
+          # growl.error "Task content cannot be empty"
 
       $scope.editTaskDeadline = (task) ->
         clearEditing()
