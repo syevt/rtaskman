@@ -25,9 +25,7 @@ class Api::V1::ProjectsController < ApplicationController
   private
 
   def project_params
-    # params.require(:project).permit(:id, :user_id, :name, :tasks)
     params.permit(:id, :user_id, :name, tasks: [:content, :done, :deadline])
-    # params.require(:project).permit(:id, :user_id, :name, :tasks)
   end
 
   def set_project

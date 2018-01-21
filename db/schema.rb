@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20170830074723) do
   create_table "projects", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
-    t.json "tasks"
+    t.json "tasks", default: []
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_projects_on_user_id"
