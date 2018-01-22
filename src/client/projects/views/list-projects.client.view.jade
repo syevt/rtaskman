@@ -30,17 +30,8 @@
                     data-ng-click="saveProjectName(project)") Save
     .row
       .col-xs-8.col-xs-offset-2
-        .row.tm-project-add-task
-          .col-xs-1
-            i.fa.fa-plus.tm-add-task-button.tm-glyphicon-shadow-dark-top
-          .col-xs-11
-            form
-              .input-group
-                input.form-control(data-ng-model="project.newTask.content"
-                  placeholder="Start typing to create a task...")
-                .input-group-btn
-                  button.btn.btn-success(type="submit"
-                    data-ng-click="addTaskToProject(project)") Add task
+        tm-new-task-form
+        //- div(data-ng-include="'../../projects/views/new-task-form.client.view'")
     .row
       .col-xs-8.col-xs-offset-2.tm-tasks-table-container.ng-cloak(
           data-ng-show="project.tasks.length")
@@ -110,17 +101,7 @@
   .container
     .row.ng-cloak.tm-new-project(data-ng-show="newProject")
       .col-xs-8.col-xs-offset-2
-        .row.tm-project-header
-          .col-xs-1
-            i.fa.fa-calendar-o.fa-3x.tm-glyphicon-shadow-light-bottom
-          .col-xs-11
-            form
-              .input-group
-                input.form-control(data-ng-model="newProject.name"
-                  placeholder="Enter a name for the new project...")
-                .input-group-btn
-                  button.btn.btn-success(type="submit"
-                    data-ng-click="create()") Add project
+        tm-new-project-form
   .container
     .row
       .col-xs-4.col-xs-offset-4
