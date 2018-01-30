@@ -21,7 +21,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem 'activerecord_json_validator'
+gem 'active_model_serializers'
 gem 'devise_token_auth'
 gem 'hamlit-rails'
 gem 'omniauth'
