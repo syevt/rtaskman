@@ -5,7 +5,7 @@ class Api::V1::ProjectsController < ApplicationController
   respond_to :json
 
   def index
-    @projects = Project.where(user_id: params[:user_id])
+    @projects = Project.where(user_id: params[:user_id]).includes(:tasks)
   end
 
   def create
