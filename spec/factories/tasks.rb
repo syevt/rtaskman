@@ -1,9 +1,8 @@
-ProjectTask = Struct.new :content, :deadline, :done
-
 FactoryGirl.define do
-  factory :project_task do
-    content { Faker::Hipster.sentence }
-    sequence(:deadline) { |n| DateTime.now + n.days }
-    done { [true, false].sample }
+  factory :task do
+    project nil
+    done false
+    content "MyString"
+    deadline "2018-01-30"
   end
 end
