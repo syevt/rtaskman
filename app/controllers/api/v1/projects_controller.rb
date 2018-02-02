@@ -5,11 +5,11 @@ class Api::V1::ProjectsController < ApplicationController
   respond_to :json
 
   def index
-    @projects = Project.where(user_id: params[:user_id]).includes(:tasks)
+    @projects = Project.where(user_id: current_user.id).includes(:tasks)
   end
 
   def create
-    @project = Project.new(project_params)
+    @project = Project.new(project_params.merge(user_id: current_user.id))
     @project.save ? render(json: @project) : error_response
   end
 
@@ -25,7 +25,7 @@ class Api::V1::ProjectsController < ApplicationController
   private
 
   def project_params
-    params.permit(:id, :user_id, :name, tasks: [:content, :done, :deadline])
+    params.require(:project).permit(:id, :name)
   end
 
   def set_project

@@ -2,7 +2,7 @@
   unicodeRegExp = require 'unicoderegexp'
   angular = require 'angular'
 
-  Projects = ($scope, $routeParams, $uibModal, Projects, Identity, growl)->
+  Projects = ($scope, $uibModal, Projects, growl)->
     init = ()=>
       @add = add
       @closeRemoveModal = closeRemoveModal
@@ -10,7 +10,6 @@
       @dismissRemoveModal = dismissRemoveModal
       @edit = edit
       @find = find
-      @identity = Identity
       @remove = remove
       @update = update
 
@@ -26,7 +25,7 @@
     create = ()=>
       project = new Projects name: @newProject.name
 
-      project.$save(userId: @identity.user.id).then (response)=>
+      project.$save().then (response)=>
         @projects.push response
       , (errorResponse)->
         growl.error errorResponse.data.errors[0], ttl: -1
@@ -43,8 +42,7 @@
       @projectBeingEdited = project
 
     find = ()=>
-      # '=' in promise success is crucial
-      Projects.query(userId: @identity.user.id).$promise.then (response) =>
+      Projects.query().$promise.then (response) =>
         @projects = response
       , (errorResponse)->
         growl.error errorResponse.data.errors[0], ttl: -1
@@ -53,13 +51,13 @@
       @entityBeingRemoved = project.name
       openRemoveModal()
       @modalInstance.result.then ()=>
-        project.$remove(userId: @identity.user.id).then ()=>
+        project.$remove().then ()=>
           @projects.splice projectIndex, 1
         , (errorResponse)->
           growl.error errorResponse.data.errors[0], ttl: -1
 
     update = (project)=>
-      project.$update(userId: @identity.user.id).then ()=>
+      project.$update().then ()=>
         @backedupProject = null if @backedupProject
         @projectBeingEdited = null
       , (errorResponse)=>
@@ -193,8 +191,7 @@
     init()
     return
 
-  Projects.$inject = ['$scope', '$routeParams', '$uibModal',
-                      'Projects', 'Identity', 'growl']
+  Projects.$inject = ['$scope', '$uibModal', 'Projects', 'growl']
 
   angular.module('projects').controller 'Projects', Projects
 )()

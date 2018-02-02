@@ -7,12 +7,14 @@ require('angular').module('users').controller 'LoginController',
         $auth.submitLogin(email: @email, password: @password).then (user) ->
           $scope.identity.user = user
           growl.success 'Successfully logged in!'
-          $location.path "/users/#{$scope.identity.user.id}/projects"
+          # $location.path "/users/#{$scope.identity.user.id}/projects"
+          $location.path "/projects"
         , (errorResponse) ->
             growl.error errorResponse.errors[0]
 
       $scope.showUserProjects = () ->
-        $location.path "/users/#{$scope.identity.user.id}/projects"
+        # $location.path "/users/#{$scope.identity.user.id}/projects"
+        $location.path "/projects"
 
       $scope.signout = () ->
         $auth.signOut().then () ->
