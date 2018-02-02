@@ -41,7 +41,7 @@
       @projectBeingEdited = project
 
     find = ()=>
-      Projects.query().$promise.then (response) =>
+      ProjectsService.query().$promise.then (response) =>
         @projects = response
       , (errorResponse)->
         growl.error errorResponse.data.errors[0], ttl: -1

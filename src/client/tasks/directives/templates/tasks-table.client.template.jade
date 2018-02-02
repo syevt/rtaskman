@@ -1,0 +1,65 @@
+.col-xs-8.col-xs-offset-2.tm-tasks-table-container.ng-cloak(
+    data-ng-show="project.tasks.length")
+  table.tm-tasks-table
+    tr.tm-task-row(data-ng-repeat="task in project.tasks"
+      id="{{project._id}}-#%&-{{$index}}" tm-task-droppable)
+      td.tm-task-done
+        input(title="Toggle done/undone" type="checkbox"
+          data-ng-disabled="currentTask === task && \
+          (taskEditingProperty === 'deadline' || \
+          taskEditingProperty === 'content')" data-ng-model="task.done"
+          data-ng-change="toggleStatus(task, project)")
+      td.tm-task-warning
+        i.ng-cloak.fa.fa-bell.tm-task-bell(title="This task is outdated"
+          data-ng-show="taskShowBell(task)").tm-task-bell-pendulum
+      td.tm-task-caption(colspan="6")
+        p.text-justify(data-ng-hide="currentTask === task && \
+          (taskEditingProperty === 'deadline' || \
+          taskEditingProperty === 'content')") {{task.content}}
+        form.form-inline(data-ng-show="currentTask === task && \
+          taskEditingProperty === 'deadline'")
+          .input-group
+            input.form-control(data-ng-model="currentTaskCopy.deadline"
+              uib-datepicker-popup="dd-MMMM-yyyy"
+              is-open="deadlinePicker.opened"
+              datepicker-options="deadlinePickerOptions"
+              show-button-bar="false"
+              close-text="Close")
+            .input-group-btn
+              button.btn.btn-default(type="button"
+                data-ng-click="openDeadlinePicker()")
+                i.fa.fa-calendar
+          span
+            button.btn.btn-default(type="button"
+              data-ng-click="saveTaskDeadline(task, project)") Save
+            button.btn.btn-default(type="cancel"
+              data-ng-click="cancelEditTaskDeadline()") Cancel
+        form.form-inline(data-ng-show="currentTask === task && \
+          taskEditingProperty === 'content'")
+          .form-group
+            input.form-control( data-ng-model="currentTaskCopy.content")
+          span
+            button.btn.btn-default(type="submit"
+              data-ng-click="saveTaskContent(task, project)") Save
+            button.btn.btn-default(type="button"
+              data-ng-click="cancelEditTaskContent()") Cancel
+      td
+        section.tm-task-buttons(data-ng-hide="currentTask === task && \
+          (taskEditingProperty === 'deadline' || \
+          taskEditingProperty === 'content')")
+          i.fa.fa-calendar(title="{{showDeadline(task)}}"
+            data-ng-click="editTaskDeadline(task)")
+          span &#124
+          i.fa.fa-sort(title="Drag to change task priority"
+            tm-task-draggable="{{project._id}}-#%&-{{$index}}")
+          span &#124
+          i.fa.fa-pencil(title="Edit task"
+           data-ng-click="editTaskContent(task)")
+          span &#124
+          i.fa.fa-trash(title="Delete task"
+            data-ng-click="removeTask(project, task, $index)")
+    tr
+      td.tm-task-td &nbsp
+      td.tm-task-td &nbsp
+      td.tm-task-td(colspan="6") &nbsp
+      td.tm-task-td &nbsp
