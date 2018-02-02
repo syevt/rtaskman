@@ -8,5 +8,5 @@
 
   projects.$inject = ['$resource']
 
-  require('angular').module('projects').factory('Projects', projects)
+  require('angular').module('projects').factory('ProjectsService', projects)
 )()
