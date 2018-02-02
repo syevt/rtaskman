@@ -1,180 +1,200 @@
-unicodeRegExp = require 'unicoderegexp'
-angular = require 'angular'
+(->
+  unicodeRegExp = require 'unicoderegexp'
+  angular = require 'angular'
 
-angular.module('projects').controller 'ProjectsController',
-  ['$scope', '$routeParams', '$uibModal', 'Projects', 'Identity', 'growl',
-    ($scope, $routeParams, $uibModal, Projects, Identity, growl) ->
-      $scope.identity = Identity
+  Projects = ($scope, $routeParams, $uibModal, Projects, Identity, growl)->
+    init = ()=>
+      @add = add
+      @closeRemoveModal = closeRemoveModal
+      @create = create
+      @dismissRemoveModal = dismissRemoveModal
+      @edit = edit
+      @find = find
+      @identity = Identity
+      @remove = remove
+      @update = update
 
-      clearEditing = () ->
-        if $scope.currentTask
-          $scope.currentTask = null
-        $scope.taskEditingProperty = ''
+      activate()
 
-      $scope.addNewProject = () ->
-        $scope.newProject = {}
+    add = ()=>
+      @newProject = {}
 
-      $scope.editProjectName = (project) ->
-        $scope.newProject = null
-        $scope.backedupProject = angular.copy project
-        $scope.projectBeingEdited = project
+    closeRemoveModal = ()->
+      @modalInstance.close()
+      @entityBeingRemoved = null
 
-      $scope.saveProjectName = (project) ->
-        if project.name
-          $scope.update project, null, $scope.backedupProject
-          $scope.projectBeingEdited = null
-        else
-          growl.error "Project name cannot be empty"
-          project.name = $scope.backedupProject.name
+    create = ()=>
+      project = new Projects name: @newProject.name
 
-      $scope.addTaskToProject = (project) ->
-        if project.newTask
-          project.tasks ?= []
-          project.tasks.push content: project.newTask.content
-          $scope.backedupTask = angular.copy project.newTask
-          project.newTask.content = null
-          $scope.update project
-        else
-          growl.error 'New task should have content'
+      project.$save(userId: @identity.user.id).then (response)=>
+        @projects.push response
+      , (errorResponse)->
+        growl.error errorResponse.data.errors[0], ttl: -1
 
-      $scope.toggleStatus = (task, project) ->
-        clearEditing()
-        $scope.update project
+      @newProject = null
 
-      $scope.editTaskContent = (task) ->
-        clearEditing()
-        $scope.currentTask = task
-        $scope.currentTaskCopy = angular.copy task
-        $scope.backedupTask = angular.copy task
-        $scope.taskEditingProperty = 'content'
+    dismissRemoveModal = ()->
+      @modalInstance.dismiss()
+      @entityBeingRemoved = null
 
-      $scope.cancelEditTaskContent = () ->
-        clearEditing()
+    edit = (project)=>
+      @newProject = null
+      @backedupProject = angular.copy project
+      @projectBeingEdited = project
 
-      $scope.saveTaskContent = (task, project) ->
-        content = $scope.currentTaskCopy.content
-        unicodeRange = unicodeRegExp.letter.source
-        unicodeRange = unicodeRange.substring(1, unicodeRange.length - 1)
-        regex = new RegExp "^[#{unicodeRange}\\s-.]+$"
-        # console.log unicodeRange
-        # console.log regex
-        # console.log content.match regex
-        # console.log !!(content.match regex)
-        if content
-          if content.match regex
-            task.content = $scope.currentTaskCopy.content
-            clearEditing()
-            $scope.update project, task
-          else
-            growl.error "Task content should only contain letters, digits,\
-              '-' and '.'"
-            $scope.currentTaskCopy.content = $scope.backedupTask.content
-        else
-          growl.error "Task content cannot be empty"
+    find = ()=>
+      # '=' in promise success is crucial
+      Projects.query(userId: @identity.user.id).$promise.then (response) =>
+        @projects = response
+      , (errorResponse)->
+        growl.error errorResponse.data.errors[0], ttl: -1
 
-        # if $scope.currentTaskCopy.content
-          # task.content = $scope.currentTaskCopy.content
+    remove = (project, projectIndex)=>
+      @entityBeingRemoved = project.name
+      openRemoveModal()
+      @modalInstance.result.then ()=>
+        project.$remove(userId: @identity.user.id).then ()=>
+          @projects.splice projectIndex, 1
+        , (errorResponse)->
+          growl.error errorResponse.data.errors[0], ttl: -1
+
+    update = (project)=>
+      project.$update(userId: @identity.user.id).then ()=>
+        @backedupProject = null if @backedupProject
+        @projectBeingEdited = null
+      , (errorResponse)=>
+        project.name = @backedupProject.name if @backedupProject
+        growl.error errorResponse.data.errors[0], ttl: -1
+
+    activate = ()->
+      find()
+
+    openRemoveModal = ()=>
+      @modalInstance = $uibModal.open
+        templateUrl: 'projects/views/remove-modal.client.view.html'
+        size: 'sm'
+        scope: $scope
+
+    # vm.saveProjectName = (project) ->r
+      # if project.name
+        # vm.update project, null, vm.backedupProject
+        # vm.projectBeingEdited = null
+      # else
+        # growl.error "Project name cannot be empty"
+        # project.name = vm.backedupProject.name
+
+    # clearEditing = ->
+      # vm.currentTask = null if vm.currentTask
+      # vm.taskEditingProperty = ''
+
+    # vm.addTaskToProject = (project) ->
+      # if project.newTask
+        # project.tasks ?= []
+        # project.tasks.push content: project.newTask.content
+        # vm.backedupTask = angular.copy project.newTask
+        # project.newTask.content = null
+        # vm.update project
+      # else
+        # growl.error 'New task should have content'
+
+    # vm.toggleStatus = (task, project) ->
+      # clearEditing()
+      # vm.update project
+
+    # vm.editTaskContent = (task) ->
+      # clearEditing()
+      # vm.currentTask = task
+      # vm.currentTaskCopy = angular.copy task
+      # vm.backedupTask = angular.copy task
+      # vm.taskEditingProperty = 'content'
+
+    # vm.cancelEditTaskContent = () ->
+      # clearEditing()
+
+    # vm.saveTaskContent = (task, project) ->
+      # content = vm.currentTaskCopy.content
+      # unicodeRange = unicodeRegExp.letter.source
+      # unicodeRange = unicodeRange.substring(1, unicodeRange.length - 1)
+      # regex = new RegExp "^[#{unicodeRange}\\s-.]+$"
+      # # console.log unicodeRange
+      # # console.log regex
+      # # console.log content.match regex
+      # # console.log !!(content.match regex)
+      # if content
+        # if content.match regex
+          # task.content = vm.currentTaskCopy.content
           # clearEditing()
-          # $scope.update project, task
+          # vm.update project, task
         # else
-          # $scope.currentTaskCopy.content = $scope.backedupTask.content
-          # growl.error "Task content cannot be empty"
+          # growl.error "Task content should only contain letters, digits,\
+            # '-' and '.'"
+          # vm.currentTaskCopy.content = vm.backedupTask.content
+      # else
+        # growl.error "Task content cannot be empty"
 
-      $scope.editTaskDeadline = (task) ->
-        clearEditing()
-        $scope.currentTask = task
-        $scope.currentTaskCopy = angular.copy task
-        if $scope.currentTaskCopy.deadline
-          $scope.currentTaskCopy.deadline =
-            new Date($scope.currentTaskCopy.deadline)
-        else
-          $scope.currentTaskCopy.deadline = new Date()
-        $scope.taskEditingProperty = 'deadline'
+      # # if vm.currentTaskCopy.content
+        # # task.content = vm.currentTaskCopy.content
+        # # clearEditing()
+        # # vm.update project, task
+      # # else
+        # # vm.currentTaskCopy.content = vm.backedupTask.content
+        # # growl.error "Task content cannot be empty"
 
-      $scope.openDeadlinePicker = ->
-        $scope.deadlinePicker.opened = on
+    # vm.editTaskDeadline = (task) ->
+      # clearEditing()
+      # vm.currentTask = task
+      # vm.currentTaskCopy = angular.copy task
+      # if vm.currentTaskCopy.deadline
+        # vm.currentTaskCopy.deadline =
+          # new Date(vm.currentTaskCopy.deadline)
+      # else
+        # vm.currentTaskCopy.deadline = new Date()
+      # vm.taskEditingProperty = 'deadline'
 
-      $scope.deadlinePicker =
-        opened: off
+    # vm.openDeadlinePicker = ->
+      # vm.deadlinePicker.opened = on
 
-      $scope.deadlinePickerOptions =
-        showWeeks: off
-        startingDay: 1
+    # vm.deadlinePicker =
+      # opened: off
 
-      $scope.cancelEditTaskDeadline = () ->
-        clearEditing()
+    # vm.deadlinePickerOptions =
+      # showWeeks: off
+      # startingDay: 1
 
-      $scope.saveTaskDeadline = (task, project) ->
-        task.deadline = $scope.currentTaskCopy.deadline
-        clearEditing()
-        $scope.update project
+    # vm.cancelEditTaskDeadline = () ->
+      # clearEditing()
 
-      $scope.removeTask = (project, task, taskIndex) ->
-        $scope.entityBeingRemoved = task.content
-        $scope.modalInstance = $uibModal.open
-          templateUrl: 'projects/views/remove-modal.client.view.html'
-          size: 'sm'
-          scope: $scope
-        $scope.modalInstance.result.then () ->
-          clearEditing()
-          project.tasks.splice taskIndex, 1
-          $scope.update project
+    # vm.saveTaskDeadline = (task, project) ->
+      # task.deadline = vm.currentTaskCopy.deadline
+      # clearEditing()
+      # vm.update project
 
-      $scope.taskShowBell = (task) ->
-        if task.deadline
-          !task.done and new Date(task.deadline) < Date.now()
+    # vm.removeTask = (project, task, taskIndex) ->
+      # vm.entityBeingRemoved = task.content
+      # vm.modalInstance = $uibModal.open
+        # templateUrl: 'projects/views/remove-modal.client.view.html'
+        # size: 'sm'
+        # scope: $scope
+      # vm.modalInstance.result.then () ->
+        # clearEditing()
+        # project.tasks.splice taskIndex, 1
+        # vm.update project
 
-      $scope.showDeadline = (task) ->
-        if task.deadline
-          return 'Edit deadline: ' + (new Date(task.deadline)).toLocaleDateString()
-        else
-          return 'Set deadline'
+    # vm.taskShowBell = (task) ->
+      # if task.deadline
+        # !task.done and new Date(task.deadline) < Date.now()
 
-      $scope.create = () ->
-        project = new Projects
-          name: $scope.newProject.name
+    # vm.showDeadline = (task) ->
+      # if task.deadline
+        # return 'Edit deadline: ' + (new Date(task.deadline)).toLocaleDateString()
+      # else
+        # return 'Set deadline'
 
-        project.$save(userId: @identity.user.id).then (response) ->
-          $scope.projects.push response
-        , (errorResponse) ->
-           growl.error errorResponse.data.errors[0], ttl: -1
+    init()
+    return
 
-        $scope.newProject = null
+  Projects.$inject = ['$scope', '$routeParams', '$uibModal',
+                      'Projects', 'Identity', 'growl']
 
-      $scope.update = (project, task) ->
-        project.$update(userId: @identity.user.id).then () ->
-          $scope.backedupProject = null if $scope.backedupProject
-          $scope.backedupTask = null if $scope.backedupTask
-        , (errorResponse) ->
-          task.content = $scope.backedupTask.content if task && $scope.backedupTask
-          project.name = $scope.backedupProject.name if $scope.backedupProject
-          growl.error errorResponse.data.errors[0], ttl: -1
-
-      $scope.remove = (project, projectIndex) ->
-        $scope.entityBeingRemoved = project.name
-        $scope.modalInstance = $uibModal.open
-          templateUrl: 'projects/views/remove-modal.client.view.html'
-          size: 'sm'
-          scope: $scope
-        $scope.modalInstance.result.then () ->
-          project.$remove(userId: $scope.identity.user.id).then () ->
-            $scope.projects.splice projectIndex, 1
-          , (errorResponse) ->
-            growl.error errorResponse.data.errors[0], ttl: -1
-
-      $scope.closeRemoveModal = () ->
-        $scope.modalInstance.close()
-        $scope.entityBeingRemoved = null
-
-      $scope.dismissRemoveModal = () ->
-        $scope.modalInstance.dismiss()
-        $scope.entityBeingRemoved = null
-
-      $scope.find = () ->
-        Projects.query(userId: @identity.user.id).$promise.then (response) ->
-          $scope.projects = response
-        , (errorResponse) ->
-          growl.error errorResponse.data.errors[0], ttl: -1
-
-      $scope.find()
-    ]
+  angular.module('projects').controller 'Projects', Projects
+)()

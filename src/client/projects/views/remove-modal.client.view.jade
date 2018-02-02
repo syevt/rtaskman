@@ -1,7 +1,7 @@
 .modal-header
   h3 Deleting
 .modal-body
-  p.text-center Really delete "{{entityBeingRemoved}}"?
+  p.text-center Really delete "{{vm.entityBeingRemoved}}"?
 .modal-footer
-  button.btn.btn-danger(data-ng-click="closeRemoveModal()") Delete
-  button.btn.btn-primary(data-ng-click="dismissRemoveModal()") Cancel
+  button.btn.btn-danger(data-ng-click="vm.closeRemoveModal()") Delete
+  button.btn.btn-primary(data-ng-click="vm.dismissRemoveModal()") Cancel

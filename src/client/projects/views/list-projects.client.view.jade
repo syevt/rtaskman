@@ -1,13 +1,5 @@
 .container.ng-cloak
-  .row
-    .col-xs-6.col-xs-offset-3
-      h3.text-center.ng-cloak(data-ng-show="projects.length || newProject").
-        Projects list for {{identity.user.email}}
-      .well.ng-cloak(data-ng-hide="projects.length || newProject")
-        h3.text-center.
-          You don't have any projects yet. Why won't you click
-          the button below to add some?
-  .container.tm-project-container(data-ng-repeat="project in projects")
+  .container.tm-project-container(data-ng-repeat="project in vm.projects")
     .row
       .col-xs-8.col-xs-offset-2
         tm-project-header
@@ -81,12 +73,12 @@
             td.tm-task-td(colspan="6") &nbsp
             td.tm-task-td &nbsp
   .container
-    .row.ng-cloak.tm-new-project(data-ng-show="newProject")
+    .row.ng-cloak.tm-new-project(data-ng-show="vm.newProject")
       .col-xs-8.col-xs-offset-2
         tm-new-project-form
   .container
     .row
       .col-xs-4.col-xs-offset-4
-        .tm-add-project-button.text-center(data-ng-click="addNewProject()")
+        .tm-add-project-button.text-center(data-ng-click="vm.add()")
           i.fa.fa-plus
           span Add TODO List

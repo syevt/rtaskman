@@ -1,18 +1,17 @@
 .row.tm-project-header
   .col-xs-1
     i.fa.fa-calendar-o.tm-glyphicon-shadow-light-bottom
-  .col-xs-11(data-ng-hide="projectBeingEdited === project")
+  .col-xs-11(data-ng-hide="vm.projectBeingEdited === project")
     span.tm-project-name {{project.name}}
     section.pull-right.tm-project-buttons
-      i.fa.fa-pencil(title="Edit project"
-        data-ng-click="editProjectName(project)")
+      i.fa.fa-pencil(title="Edit project" data-ng-click="vm.edit(project)")
       span &#124
       i(title="Delete project"
-        data-ng-click="remove(project, $index)").fa.fa-trash
-  .col-xs-11.ng-cloak(data-ng-show="projectBeingEdited === project")
+        data-ng-click="vm.remove(project, $index)").fa.fa-trash
+  .col-xs-11.ng-cloak(data-ng-show="vm.projectBeingEdited === project")
     form
       .input-group
         input.form-control(data-ng-model="project.name")
         .input-group-btn
           button.btn.btn-success(type="submit"
-            data-ng-click="saveProjectName(project)") Save
+            data-ng-click="vm.update(project)") Save

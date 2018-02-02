@@ -3,5 +3,5 @@ require('angular').module('projects').config ['$routeProvider',
     $routeProvider.
     when '/users/:userId/projects',
       templateUrl: 'projects/views/list-projects.client.view.html'
-      controller: 'ProjectsController'
+      controller: 'Projects as vm'
 ]
