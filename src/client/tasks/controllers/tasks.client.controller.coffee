@@ -3,6 +3,23 @@
 
   Tasks = ($scope, $uibModal, TasksService, growl)->
     init = ()=>
+      @cancelEditContent = cancelEditContent
+      @editContent = editContent
+
+    cancelEditContent = ()->
+      clearEditing()
+
+    editContent = (task)=>
+      console.log 'taaaaaaskkkkk...'
+      clearEditing()
+      @currentTask = task
+      @currentTaskCopy = angular.copy task
+      @backedupTask = angular.copy task
+      @taskEditingProperty = 'content'
+
+    clearEditing = ()=>
+      @currentTask = null if @currentTask
+      @taskEditingProperty = ''
 
     # vm.saveProjectName = (project) ->r
       # if project.name
@@ -11,10 +28,6 @@
       # else
         # growl.error "Project name cannot be empty"
         # project.name = vm.backedupProject.name
-
-    # clearEditing = ->
-      # vm.currentTask = null if vm.currentTask
-      # vm.taskEditingProperty = ''
 
     # vm.addTaskToProject = (project) ->
       # if project.newTask
@@ -29,16 +42,6 @@
     # vm.toggleStatus = (task, project) ->
       # clearEditing()
       # vm.update project
-
-    # vm.editTaskContent = (task) ->
-      # clearEditing()
-      # vm.currentTask = task
-      # vm.currentTaskCopy = angular.copy task
-      # vm.backedupTask = angular.copy task
-      # vm.taskEditingProperty = 'content'
-
-    # vm.cancelEditTaskContent = () ->
-      # clearEditing()
 
     # vm.saveTaskContent = (task, project) ->
       # content = vm.currentTaskCopy.content
@@ -123,4 +126,6 @@
     return
 
   Tasks.$inject = ['$scope', '$uibModal', 'TasksService', 'growl']
+
+  angular.module('tasks').controller('Tasks', Tasks)
 )()

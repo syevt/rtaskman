@@ -1,0 +1,9 @@
+form.form-inline(data-ng-show="currentTask === task && \
+  taskEditingProperty === 'content'")
+  .form-group
+    input.form-control( data-ng-model="currentTaskCopy.content")
+  span
+    button.btn.btn-default(type="submit"
+      data-ng-click="saveTaskContent(task, project)") Save
+    button.btn.btn-default(type="button"
+      data-ng-click="cancelEditTaskContent()") Cancel

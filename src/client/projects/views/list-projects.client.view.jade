@@ -3,11 +3,12 @@
     .row
       .col-xs-8.col-xs-offset-2
         tm-project-header
-    .row
-      .col-xs-8.col-xs-offset-2
-        tm-new-task-form
-    .row
-      tm-tasks-table
+    div(data-ng-controller="Tasks as vm")
+      .row
+        .col-xs-8.col-xs-offset-2
+          tm-new-task-form
+      .row
+        tm-tasks-table
   .container
     .row.ng-cloak.tm-new-project(data-ng-show="vm.newProject")
       .col-xs-8.col-xs-offset-2
