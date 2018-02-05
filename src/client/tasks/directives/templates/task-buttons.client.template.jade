@@ -7,8 +7,6 @@ section.tm-task-buttons(data-ng-hide="vm.currentTask === task && \
   i.fa.fa-sort(title="Drag to change task priority"
     tm-task-draggable="{{project._id}}-#%&-{{$index}}")
   span &#124
-  i.fa.fa-pencil(title="Edit task"
-   data-ng-click="vm.edit(task, 'content')")
+  i.fa.fa-pencil(title="Edit task" data-ng-click="vm.edit(task, 'content')")
   span &#124
-  i.fa.fa-trash(title="Delete task"
-    data-ng-click="removeTask(project, task, $index)")
+  i.fa.fa-trash(title="Delete task" data-ng-click="vm.remove(task, $index)")

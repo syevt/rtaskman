@@ -5,12 +5,11 @@
     init = ()=>
       @cancelEdit = cancelEdit
       @create = create
-      # @deadlinePicker = opened: off
-      # @deadlinePickerOptions = showWeeks: off, startingDay: 1
       @edit = edit
-      # @openDeadlinePicker = openDeadlinePicker
+      @remove = remove
       @showBell = showBell
       @showDeadlineTip = showDeadlineTip
+      @today = new Date()
       @toggleStatus = toggleStatus
       @update = update
 
@@ -31,13 +30,14 @@
 
     edit = (task, property)=>
       clearEditing()
+      task.deadline = new Date(task.deadline) if property is 'deadline'
       @currentTask = task
       @backedupTask = angular.copy task
       @editingProperty = property
 
-    # openDeadlinePicker = ()=>
-      # @currentTask.deadline = new Date @currentTask.deadline
-      # @deadlinePicker.opened = on
+    remove = (task, index)=>
+      console.log task.deadline
+      console.log @today
 
     showBell = (task)->
       !!task.deadline && !task.done && new Date(task.deadline) < Date.now()
