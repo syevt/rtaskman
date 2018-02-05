@@ -3,12 +3,12 @@
 
   Tasks = ($scope, $uibModal, Task, growl)->
     init = ()=>
-      @cancelEditContent = cancelEditContent
+      @cancelEdit = cancelEdit
       @create = create
       @editContent = editContent
-      @updateContent = updateContent
+      @update = update
 
-    cancelEditContent = ()->
+    cancelEdit = ()->
       clearEditing()
 
     create = ()=>
@@ -29,69 +29,22 @@
       @backedupTask = angular.copy task
       @taskEditingProperty = 'content'
 
+    update = ()=>
+      task = new Task @currentTask
+      task.$update().then ()=>
+        @currentTask = null
+        @backedupTask = null
+      , (errorResponse)=>
+        @currentTask = @backedupTask if @backedupTask
+        growl.error errorResponse.data.errors[0], ttl: -1
+
     clearEditing = ()=>
       @currentTask = null if @currentTask
       @taskEditingProperty = ''
 
-    updateContent = ()=>
-      task = new Task @currentTask
-      task.$update().then ()=>
-        @currentTask = null
-        @currentTaskCopy = null
-      , (errorResponse)=>
-        @currentTask.content = @backedupTask.content if @backedupTask
-        growl.error errorResponse.data.errors[0], ttl: -1
-
-    # vm.saveProjectName = (project) ->r
-      # if project.name
-        # vm.update project, null, vm.backedupProject
-        # vm.projectBeingEdited = null
-      # else
-        # growl.error "Project name cannot be empty"
-        # project.name = vm.backedupProject.name
-
-    # vm.addTaskToProject = (project) ->
-      # if project.newTask
-        # project.tasks ?= []
-        # project.tasks.push content: project.newTask.content
-        # vm.backedupTask = angular.copy project.newTask
-        # project.newTask.content = null
-        # vm.update project
-      # else
-        # growl.error 'New task should have content'
-
     # vm.toggleStatus = (task, project) ->
       # clearEditing()
       # vm.update project
-
-    # vm.saveTaskContent = (task, project) ->
-      # content = vm.currentTaskCopy.content
-      # unicodeRange = unicodeRegExp.letter.source
-      # unicodeRange = unicodeRange.substring(1, unicodeRange.length - 1)
-      # regex = new RegExp "^[#{unicodeRange}\\s-.]+$"
-      # # console.log unicodeRange
-      # # console.log regex
-      # # console.log content.match regex
-      # # console.log !!(content.match regex)
-      # if content
-        # if content.match regex
-          # task.content = vm.currentTaskCopy.content
-          # clearEditing()
-          # vm.update project, task
-        # else
-          # growl.error "Task content should only contain letters, digits,\
-            # '-' and '.'"
-          # vm.currentTaskCopy.content = vm.backedupTask.content
-      # else
-        # growl.error "Task content cannot be empty"
-
-      # # if vm.currentTaskCopy.content
-        # # task.content = vm.currentTaskCopy.content
-        # # clearEditing()
-        # # vm.update project, task
-      # # else
-        # # vm.currentTaskCopy.content = vm.backedupTask.content
-        # # growl.error "Task content cannot be empty"
 
     # vm.editTaskDeadline = (task) ->
       # clearEditing()

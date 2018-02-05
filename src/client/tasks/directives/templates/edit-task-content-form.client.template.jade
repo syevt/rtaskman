@@ -3,7 +3,5 @@ form.form-inline(data-ng-show="vm.currentTask === task && \
   .form-group
     input.form-control(data-ng-model="vm.currentTask.content")
   span
-    button.btn.btn-default(type="submit"
-      data-ng-click="vm.updateContent()") Save
-    button.btn.btn-default(type="button"
-      data-ng-click="vm.cancelEditContent()") Cancel
+    button.btn.btn-default(type="submit" data-ng-click="vm.update()") Save
+    button.btn.btn-default(type="button" data-ng-click="vm.cancelEdit()") Cancel
