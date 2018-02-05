@@ -1,12 +1,12 @@
 (->
-  projects = ($resource)->
+  Project = ($resource)->
     return $resource 'api/v1/projects/:projectId',
       projectId: '@id'
     ,
       update:
         method: 'PUT'
 
-  projects.$inject = ['$resource']
+  Project.$inject = ['$resource']
 
-  require('angular').module('projects').factory('ProjectsService', projects)
+  require('angular').module('projects').factory('Project', Project)
 )()

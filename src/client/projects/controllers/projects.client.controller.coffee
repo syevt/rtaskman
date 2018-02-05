@@ -1,7 +1,7 @@
 (->
   angular = require 'angular'
 
-  Projects = ($scope, $uibModal, ProjectsService, growl)->
+  Projects = ($scope, $uibModal, Project, growl)->
     init = ()=>
       @add = add
       @closeRemoveModal = closeRemoveModal
@@ -22,7 +22,7 @@
       @entityBeingRemoved = null
 
     create = ()=>
-      project = new Projects name: @newProject.name
+      project = new Project name: @newProject.name
 
       project.$save().then (response)=>
         @projects.push response
@@ -41,7 +41,7 @@
       @projectBeingEdited = project
 
     find = ()=>
-      ProjectsService.query().$promise.then (response) =>
+      Project.query().$promise.then (response) =>
         @projects = response
       , (errorResponse)->
         growl.error errorResponse.data.errors[0], ttl: -1
@@ -75,7 +75,7 @@
     init()
     return
 
-  Projects.$inject = ['$scope', '$uibModal', 'ProjectsService', 'growl']
+  Projects.$inject = ['$scope', '$uibModal', 'Project', 'growl']
 
   angular.module('projects').controller('Projects', Projects)
 )()

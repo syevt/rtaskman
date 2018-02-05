@@ -5,17 +5,17 @@
       id="{{project._id}}-#%&-{{$index}}" tm-task-droppable)
       td.tm-task-done
         input(title="Toggle done/undone" type="checkbox"
-          data-ng-disabled="currentTask === task && \
-          (taskEditingProperty === 'deadline' || \
-          taskEditingProperty === 'content')" data-ng-model="task.done"
-          data-ng-change="toggleStatus(task, project)")
+          data-ng-disabled="vm.currentTask === task && \
+          (vm.taskEditingProperty === 'deadline' || \
+          vm.taskEditingProperty === 'content')" data-ng-model="task.done"
+          data-ng-change="vm.toggleStatus(task, project)")
       td.tm-task-warning
         i.ng-cloak.fa.fa-bell.tm-task-bell(title="This task is outdated"
-          data-ng-show="taskShowBell(task)").tm-task-bell-pendulum
+          data-ng-show="vm.taskShowBell(task)").tm-task-bell-pendulum
       td.tm-task-caption(colspan="6")
-        p.text-justify(data-ng-hide="currentTask === task && \
-          (taskEditingProperty === 'deadline' || \
-          taskEditingProperty === 'content')") {{task.content}}
+        p.text-justify(data-ng-hide="vm.currentTask === task && \
+          (vm.taskEditingProperty === 'deadline' || \
+          vm.taskEditingProperty === 'content')") {{task.content}}
         tm-edit-task-deadline-form
         tm-edit-task-content-form
       td

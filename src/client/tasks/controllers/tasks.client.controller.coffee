@@ -1,16 +1,32 @@
 (->
   angular = require 'angular'
 
-  Tasks = ($scope, $uibModal, TasksService, growl)->
+  Tasks = ($scope, $uibModal, Task, growl)->
     init = ()=>
       @cancelEditContent = cancelEditContent
+      @create = create
       @editContent = editContent
 
     cancelEditContent = ()->
       clearEditing()
 
+    create = ()=>
+      task = new Task
+        project_id: @parentProject.id
+        content: @parentProject.newTask.content
+        priority: @parentProject.tasks.length
+
+      task.$save().then (response)=>
+        @parentProject.tasks.push response
+        @parentProject.newTask = null
+      , (errorResponse)->
+        growl.error errorResponse.data.errors[0], ttl: -1
+
     editContent = (task)=>
-      console.log 'taaaaaaskkkkk...'
+      console.log @parentProject
+      # console.log $scope
+      # console.log $scope.$parent.project
+      # console.log $scope.project
       clearEditing()
       @currentTask = task
       @currentTaskCopy = angular.copy task
@@ -125,7 +141,7 @@
     init()
     return
 
-  Tasks.$inject = ['$scope', '$uibModal', 'TasksService', 'growl']
+  Tasks.$inject = ['$scope', '$uibModal', 'Task', 'growl']
 
   angular.module('tasks').controller('Tasks', Tasks)
 )()
