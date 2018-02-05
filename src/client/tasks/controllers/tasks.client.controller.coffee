@@ -5,12 +5,13 @@
     init = ()=>
       @cancelEdit = cancelEdit
       @create = create
-      @deadlinePicker = opened: off
-      @deadlinePickerOptions = showWeeks: off, startingDay: 1
+      # @deadlinePicker = opened: off
+      # @deadlinePickerOptions = showWeeks: off, startingDay: 1
       @edit = edit
-      @openDeadlinePicker = openDeadlinePicker
+      # @openDeadlinePicker = openDeadlinePicker
       @showBell = showBell
       @showDeadlineTip = showDeadlineTip
+      @toggleStatus = toggleStatus
       @update = update
 
     cancelEdit = ()->
@@ -34,9 +35,9 @@
       @backedupTask = angular.copy task
       @editingProperty = property
 
-    openDeadlinePicker = ()=>
-      @currentTask.deadline = new Date @currentTask.deadline
-      @deadlinePicker.opened = on
+    # openDeadlinePicker = ()=>
+      # @currentTask.deadline = new Date @currentTask.deadline
+      # @deadlinePicker.opened = on
 
     showBell = (task)->
       !!task.deadline && !task.done && new Date(task.deadline) < Date.now()
@@ -44,6 +45,11 @@
     showDeadlineTip = (task)->
       return 'Set deadline' unless task.deadline
       'Edit deadline: ' + (new Date(task.deadline)).toLocaleDateString()
+
+    toggleStatus = (task)=>
+      clearEditing()
+      @currentTask = task
+      update()
 
     update = ()=>
       task = new Task @currentTask
@@ -57,10 +63,6 @@
     clearEditing = ()=>
       @currentTask = null if @currentTask
       @editingProperty = ''
-
-    # vm.toggleStatus = (task, project) ->
-      # clearEditing()
-      # vm.update project
 
     # vm.removeTask = (project, task, taskIndex) ->
       # vm.entityBeingRemoved = task.content

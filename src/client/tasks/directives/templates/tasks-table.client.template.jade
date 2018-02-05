@@ -8,7 +8,7 @@
           data-ng-disabled="vm.currentTask === task && \
           (vm.editingProperty === 'deadline' || \
           vm.editingProperty === 'content')" data-ng-model="task.done"
-          data-ng-change="vm.toggleStatus(task, project)")
+          data-ng-change="vm.toggleStatus(task)")
       td.tm-task-warning
         i.ng-cloak.fa.fa-bell.tm-task-bell(title="This task is outdated"
           data-ng-show="vm.showBell(task)").tm-task-bell-pendulum
