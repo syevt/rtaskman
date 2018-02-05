@@ -9,6 +9,10 @@ class Api::V1::TasksController < ApplicationController
     @task.save ? render(json: @task) : error_response
   end
 
+  def update
+    @task.update_attributes(task_params) ? head(200) : error_response
+  end
+
   private
 
   def task_params

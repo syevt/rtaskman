@@ -6,6 +6,7 @@
       @cancelEditContent = cancelEditContent
       @create = create
       @editContent = editContent
+      @updateContent = updateContent
 
     cancelEditContent = ()->
       clearEditing()
@@ -23,19 +24,23 @@
         growl.error errorResponse.data.errors[0], ttl: -1
 
     editContent = (task)=>
-      console.log @parentProject
-      # console.log $scope
-      # console.log $scope.$parent.project
-      # console.log $scope.project
       clearEditing()
       @currentTask = task
-      @currentTaskCopy = angular.copy task
       @backedupTask = angular.copy task
       @taskEditingProperty = 'content'
 
     clearEditing = ()=>
       @currentTask = null if @currentTask
       @taskEditingProperty = ''
+
+    updateContent = ()=>
+      task = new Task @currentTask
+      task.$update().then ()=>
+        @currentTask = null
+        @currentTaskCopy = null
+      , (errorResponse)=>
+        @currentTask.content = @backedupTask.content if @backedupTask
+        growl.error errorResponse.data.errors[0], ttl: -1
 
     # vm.saveProjectName = (project) ->r
       # if project.name
