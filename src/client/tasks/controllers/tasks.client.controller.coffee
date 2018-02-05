@@ -5,7 +5,12 @@
     init = ()=>
       @cancelEdit = cancelEdit
       @create = create
-      @editContent = editContent
+      @deadlinePicker = opened: off
+      @deadlinePickerOptions = showWeeks: off, startingDay: 1
+      @edit = edit
+      @openDeadlinePicker = openDeadlinePicker
+      @showBell = showBell
+      @showDeadlineTip = showDeadlineTip
       @update = update
 
     cancelEdit = ()->
@@ -23,11 +28,22 @@
       , (errorResponse)->
         growl.error errorResponse.data.errors[0], ttl: -1
 
-    editContent = (task)=>
+    edit = (task, property)=>
       clearEditing()
       @currentTask = task
       @backedupTask = angular.copy task
-      @taskEditingProperty = 'content'
+      @editingProperty = property
+
+    openDeadlinePicker = ()=>
+      @currentTask.deadline = new Date @currentTask.deadline
+      @deadlinePicker.opened = on
+
+    showBell = (task)->
+      !!task.deadline && !task.done && new Date(task.deadline) < Date.now()
+
+    showDeadlineTip = (task)->
+      return 'Set deadline' unless task.deadline
+      'Edit deadline: ' + (new Date(task.deadline)).toLocaleDateString()
 
     update = ()=>
       task = new Task @currentTask
@@ -40,38 +56,9 @@
 
     clearEditing = ()=>
       @currentTask = null if @currentTask
-      @taskEditingProperty = ''
+      @editingProperty = ''
 
     # vm.toggleStatus = (task, project) ->
-      # clearEditing()
-      # vm.update project
-
-    # vm.editTaskDeadline = (task) ->
-      # clearEditing()
-      # vm.currentTask = task
-      # vm.currentTaskCopy = angular.copy task
-      # if vm.currentTaskCopy.deadline
-        # vm.currentTaskCopy.deadline =
-          # new Date(vm.currentTaskCopy.deadline)
-      # else
-        # vm.currentTaskCopy.deadline = new Date()
-      # vm.taskEditingProperty = 'deadline'
-
-    # vm.openDeadlinePicker = ->
-      # vm.deadlinePicker.opened = on
-
-    # vm.deadlinePicker =
-      # opened: off
-
-    # vm.deadlinePickerOptions =
-      # showWeeks: off
-      # startingDay: 1
-
-    # vm.cancelEditTaskDeadline = () ->
-      # clearEditing()
-
-    # vm.saveTaskDeadline = (task, project) ->
-      # task.deadline = vm.currentTaskCopy.deadline
       # clearEditing()
       # vm.update project
 
@@ -85,16 +72,6 @@
         # clearEditing()
         # project.tasks.splice taskIndex, 1
         # vm.update project
-
-    # vm.taskShowBell = (task) ->
-      # if task.deadline
-        # !task.done and new Date(task.deadline) < Date.now()
-
-    # vm.showDeadline = (task) ->
-      # if task.deadline
-        # return 'Edit deadline: ' + (new Date(task.deadline)).toLocaleDateString()
-      # else
-        # return 'Set deadline'
 
     init()
     return

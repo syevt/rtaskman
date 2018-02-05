@@ -1,15 +1,16 @@
 form.form-inline(data-ng-show="vm.currentTask === task && \
-  vm.taskEditingProperty === 'deadline'")
+  vm.editingProperty === 'deadline'")
   .input-group
     input.form-control(data-ng-model="vm.currentTask.deadline"
       uib-datepicker-popup="dd-MMMM-yyyy"
-      is-open="deadlinePicker.opened"
-      datepicker-options="deadlinePickerOptions"
+      is-open="vm.deadlinePicker.opened"
+      datepicker-options="vm.deadlinePickerOptions"
       show-button-bar="false"
       close-text="Close")
     .input-group-btn
-      button.btn.btn-default(type="button" data-ng-click="openDeadlinePicker()")
+      button.btn.btn-default(type="button"
+        data-ng-click="vm.openDeadlinePicker()")
         i.fa.fa-calendar
   span
     button.btn.btn-default(type="button" data-ng-click="vm.update()") Save
-    button.btn.btn-default(type="cancel" data-ng-click="cancelEdit()") Cancel
+    button.btn.btn-default(type="cancel" data-ng-click="vm.cancelEdit()") Cancel
