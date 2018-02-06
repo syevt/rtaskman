@@ -9,7 +9,6 @@
       @remove = remove
       @showBell = showBell
       @showDeadlineTip = showDeadlineTip
-      @today = new Date()
       @toggleStatus = toggleStatus
       @update = update
 
@@ -30,7 +29,7 @@
 
     edit = (task, property)=>
       clearEditing()
-      task.deadline = new Date(task.deadline) if property is 'deadline'
+      setDeadline(task) if property is 'deadline'
       @currentTask = task
       @backedupTask = angular.copy task
       @editingProperty = property
@@ -40,7 +39,8 @@
       console.log @today
 
     showBell = (task)->
-      !!task.deadline && !task.done && new Date(task.deadline) < Date.now()
+      !!task.deadline && !task.done &&
+        new Date(task.deadline) < (new Date()).setUTCHours(0,0,0,0)
 
     showDeadlineTip = (task)->
       return 'Set deadline' unless task.deadline
@@ -63,6 +63,10 @@
     clearEditing = ()=>
       @currentTask = null if @currentTask
       @editingProperty = ''
+
+    setDeadline = (task)->
+      date = task.deadline
+      task.deadline = if date then (new Date(date)) else (new Date())
 
     # vm.removeTask = (project, task, taskIndex) ->
       # vm.entityBeingRemoved = task.content

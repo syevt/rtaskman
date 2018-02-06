@@ -1,9 +1,7 @@
 form.form-inline(data-ng-show="vm.currentTask === task && \
   vm.editingProperty === 'deadline'")
   .input-group
-    input.form-control(type="date" value="{{vm.today}}"
-      data-ng-model="vm.currentTask.deadline")
-    //- input.form-control(type="date" data-ng-model="vm.currentTask.deadline")
+    input.form-control(type="date" data-ng-model="vm.currentTask.deadline")
   span
     button.btn.btn-default(type="button" data-ng-click="vm.update()") Save
     button.btn.btn-default(type="cancel" data-ng-click="vm.cancelEdit()") Cancel
