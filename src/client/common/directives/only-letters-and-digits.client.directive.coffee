@@ -1,6 +1,6 @@
 angular = require 'angular'
 
-angular.module('taskManager')
+angular.module('common')
   .directive 'onlyLettersAndDigits', () ->
     restrict: 'A'
     require: 'ngModel'

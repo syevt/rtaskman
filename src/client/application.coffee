@@ -15,8 +15,8 @@ require './tasks/tasks.client.module'
 mainApplicationModuleName = 'taskManager'
 
 mainApplicationModule = angular.module mainApplicationModuleName,
-  ['ngRoute', 'ngResource', 'ngAnimate', 'ng-token-auth',
-    'ui.bootstrap', 'angular-growl', 'index', 'users', 'projects', 'tasks']
+  ['ngRoute', 'ngResource', 'ngAnimate', 'ng-token-auth', 'ui.bootstrap',
+   'angular-growl', 'common', 'index', 'users', 'projects', 'tasks']
 
 configure = ($locationProvider, growlProvider, $authProvider, $qProvider) ->
   $locationProvider.hashPrefix '!'
