@@ -9,6 +9,7 @@
     "angular-resource": "^1.6.6",
     "angular-route": "^1.6.6",
     "angular-ui-bootstrap": "^2.5.0",
+    "moment": "^2.20.1",
     "ng-token-auth": "0.0.30",
     "unicoderegexp": "^0.4.1"
   },

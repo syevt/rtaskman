@@ -6,6 +6,7 @@ require 'angular-route'
 require 'angular-animate'
 require 'angular-ui-bootstrap'
 require 'angular-growl-v2'
+require './common/common.client.module'
 require './index/index.client.module'
 require './users/users.client.module'
 require './projects/projects.client.module'
@@ -38,7 +39,7 @@ mainApplicationModule
   .config(configure)
   .run(runBlock)
 
-require './common'
+# require './common'
 
 if window.location.hash is '#_=_'
   window.location.hash = '#!'

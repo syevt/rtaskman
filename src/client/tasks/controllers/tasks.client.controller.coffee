@@ -1,5 +1,6 @@
 (->
   angular = require 'angular'
+  moment = require 'moment'
 
   Tasks = ($scope, $uibModal, Task, growl)->
     init = ()=>
@@ -12,8 +13,9 @@
       @toggleStatus = toggleStatus
       @update = update
 
-    cancelEdit = ()->
+    cancelEdit = (task)=>
       clearEditing()
+      angular.extend task, @backedupTask
 
     create = ()=>
       task = new Task
@@ -28,26 +30,33 @@
         growl.error errorResponse.data.errors[0], ttl: -1
 
     edit = (task, property)=>
+      @backedupTask = angular.extend {}, task
       clearEditing()
-      setDeadline(task) if property is 'deadline'
+      setDeadline(task) if @editingProperty is 'deadline'
       @currentTask = task
-      @backedupTask = angular.copy task
       @editingProperty = property
 
-    remove = (task, index)=>
-      console.log task.deadline
-      console.log @today
+    remove = (task, index)->
+      d = moment.utc(task.deadline)
+      console.log d
+      n = moment.utc().startOf('date')
+      console.log n
+      console.log d.isAfter n
 
     showBell = (task)->
       !!task.deadline && !task.done &&
-        new Date(task.deadline) < (new Date()).setUTCHours(0,0,0,0)
+        moment.utc(task.deadline).isBefore moment.utc().startOf('date')
+        # new Date(task.deadline) < (new Date()).setUTCHours(0,0,0,0)
 
     showDeadlineTip = (task)->
+      # consider using task.deadline as parameter from html
       return 'Set deadline' unless task.deadline
       'Edit deadline: ' + (new Date(task.deadline)).toLocaleDateString()
+      # maybe moment.toString?
 
     toggleStatus = (task)=>
       clearEditing()
+      # setDeadline(task)
       @currentTask = task
       update()
 
@@ -66,7 +75,9 @@
 
     setDeadline = (task)->
       date = task.deadline
-      task.deadline = if date then (new Date(date)) else (new Date())
+      # task.deadline = if date then (new Date(date)) else (new Date())
+      task.deadline = if date then moment.utc(date) else moment.utc()
+      # moment() ???
 
     # vm.removeTask = (project, task, taskIndex) ->
       # vm.entityBeingRemoved = task.content
