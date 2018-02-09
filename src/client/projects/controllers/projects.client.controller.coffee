@@ -24,10 +24,8 @@
 
     edit = (project)=>
       @newProject = null
-      # or extend?
-      # @backedupProject = angular.copy project
       @backedupProject = angular.extend {}, project
-      @projectBeingEdited = angular.extend {}, project
+      @currentProject = angular.extend {}, project
 
     find = ()=>
       Project.query().$promise.then (response) =>
@@ -44,13 +42,12 @@
           growl.error errorResponse.data.errors[0], ttl: -1
 
     update = (project)=>
-      project.$update().then ()=>
-        # and extend again?
-        # @backedupProject = null if @backedupProject
-        @projectBeingEdited = null
+      projectBeingUpdated = new Project @currentProject
+      projectBeingUpdated.$update().then (response)=>
+        angular.extend project, response
+        @currentProject = null
       , (errorResponse)=>
-        # project.name = @backedupProject.name if @backedupProject
-        project.name = @backedupProject.name
+        projectBeingUpdated.name = @backedupProject.name
         growl.error errorResponse.data.errors[0], ttl: -1
 
     activate = ()->
