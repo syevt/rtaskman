@@ -47,7 +47,7 @@
         angular.extend project, response
         @currentProject = null
       , (errorResponse)=>
-        projectBeingUpdated.name = @backedupProject.name
+        angular.extend @currentProject, @backedupProject
         growl.error errorResponse.data.errors[0], ttl: -1
 
     activate = ()->
