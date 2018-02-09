@@ -1,25 +1,16 @@
 (->
   angular = require 'angular'
 
-  Projects = ($scope, $uibModal, Project, growl)->
+  Projects = ($scope, RemoveModal, Project, growl)->
     init = ()=>
-      @add = add
-      @closeRemoveModal = closeRemoveModal
+      @add = ()-> @newProject = {}
       @create = create
-      @dismissRemoveModal = dismissRemoveModal
       @edit = edit
       @find = find
       @remove = remove
       @update = update
 
       activate()
-
-    add = ()=>
-      @newProject = {}
-
-    closeRemoveModal = ()->
-      @modalInstance.close()
-      @entityBeingRemoved = null
 
     create = ()=>
       project = new Project name: @newProject.name
@@ -31,14 +22,12 @@
 
       @newProject = null
 
-    dismissRemoveModal = ()->
-      @modalInstance.dismiss()
-      @entityBeingRemoved = null
-
     edit = (project)=>
       @newProject = null
-      @backedupProject = angular.copy project
-      @projectBeingEdited = project
+      # or extend?
+      # @backedupProject = angular.copy project
+      @backedupProject = angular.extend {}, project
+      @projectBeingEdited = angular.extend {}, project
 
     find = ()=>
       Project.query().$promise.then (response) =>
@@ -47,9 +36,8 @@
         growl.error errorResponse.data.errors[0], ttl: -1
 
     remove = (project, projectIndex)=>
-      @entityBeingRemoved = project.name
-      openRemoveModal()
-      @modalInstance.result.then ()=>
+      options = entity: 'project', caption: project.name
+      RemoveModal.open(options).result.then ()=>
         project.$remove().then ()=>
           @projects.splice projectIndex, 1
         , (errorResponse)->
@@ -57,25 +45,21 @@
 
     update = (project)=>
       project.$update().then ()=>
-        @backedupProject = null if @backedupProject
+        # and extend again?
+        # @backedupProject = null if @backedupProject
         @projectBeingEdited = null
       , (errorResponse)=>
-        project.name = @backedupProject.name if @backedupProject
+        # project.name = @backedupProject.name if @backedupProject
+        project.name = @backedupProject.name
         growl.error errorResponse.data.errors[0], ttl: -1
 
     activate = ()->
       find()
 
-    openRemoveModal = ()=>
-      @modalInstance = $uibModal.open
-        templateUrl: 'projects/views/remove-modal.client.view.html'
-        size: 'sm'
-        scope: $scope
-
     init()
     return
 
-  Projects.$inject = ['$scope', '$uibModal', 'Project', 'growl']
+  Projects.$inject = ['$scope', 'RemoveModal', 'Project', 'growl']
 
   angular.module('projects').controller('Projects', Projects)
 )()
