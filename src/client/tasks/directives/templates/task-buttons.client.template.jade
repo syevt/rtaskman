@@ -1,7 +1,7 @@
 section.tm-task-buttons(data-ng-hide="vm.currentTask.id === task.id && \
   (vm.editingProperty === 'deadline' || \
   vm.editingProperty === 'content')")
-  i.fa.fa-calendar(title="{{vm.showDeadlineTip(task)}}"
+  i.fa.fa-calendar(title="{{vm.deadlineTip(task.deadline)}}"
     data-ng-click="vm.edit(task, 'deadline')")
   span &#124
   i.fa.fa-sort(title="Drag to change task priority"

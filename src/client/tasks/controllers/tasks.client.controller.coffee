@@ -6,10 +6,10 @@
     init = ()=>
       @cancelEdit = cancelEdit
       @create = create
+      @deadlineTip = deadlineTip
       @edit = edit
       @remove = remove
       @showBell = showBell
-      @showDeadlineTip = showDeadlineTip
       @toggleStatus = toggleStatus
       @update = update
 
@@ -28,6 +28,11 @@
         @parentProject.newTask = null
       , (errorResponse)->
         growl.error errorResponse.data.errors[0], ttl: -1
+
+    deadlineTip = (deadline)->
+      return 'Set deadline' unless deadline
+      'Edit deadline: ' + (new Date(deadline)).toLocaleDateString()
+      # maybe moment.toString?
 
     edit = (task, property)=>
       console.log task
@@ -48,12 +53,6 @@
       !!task.deadline && !task.done &&
         moment.utc(task.deadline).isBefore moment.utc().startOf('date')
         # new Date(task.deadline) < (new Date()).setUTCHours(0,0,0,0)
-
-    showDeadlineTip = (deadline)->
-      # consider using task.deadline as parameter from html
-      return 'Set deadline' unless deadline
-      'Edit deadline: ' + (new Date(deadline)).toLocaleDateString()
-      # maybe moment.toString?
 
     toggleStatus = (task)=>
       clearEditing()
