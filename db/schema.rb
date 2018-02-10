@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20180130131629) do
     t.bigint "project_id"
     t.boolean "done"
     t.string "content"
-    t.datetime "deadline"
+    t.date "deadline"
     t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
