@@ -30,10 +30,11 @@
         growl.error errorResponse.data.errors[0], ttl: -1
 
     edit = (task, property)=>
+      console.log task
       @backedupTask = angular.extend {}, task
-      clearEditing()
+      @currentTask = angular.extend {}, task
+      # clearEditing()
       setDeadline(task) if @editingProperty is 'deadline'
-      @currentTask = task
       @editingProperty = property
 
     remove = (task, index)->
@@ -48,10 +49,10 @@
         moment.utc(task.deadline).isBefore moment.utc().startOf('date')
         # new Date(task.deadline) < (new Date()).setUTCHours(0,0,0,0)
 
-    showDeadlineTip = (task)->
+    showDeadlineTip = (deadline)->
       # consider using task.deadline as parameter from html
-      return 'Set deadline' unless task.deadline
-      'Edit deadline: ' + (new Date(task.deadline)).toLocaleDateString()
+      return 'Set deadline' unless deadline
+      'Edit deadline: ' + (new Date(deadline)).toLocaleDateString()
       # maybe moment.toString?
 
     toggleStatus = (task)=>
@@ -60,13 +61,13 @@
       @currentTask = task
       update()
 
-    update = ()=>
-      task = new Task @currentTask
-      task.$update().then ()=>
+    update = (task)=>
+      taskBeingEdited = new Task @currentTask
+      taskBeingEdited.$update().then (response)=>
+        angular.extend task, response
         @currentTask = null
-        @backedupTask = null
       , (errorResponse)=>
-        @currentTask = @backedupTask if @backedupTask
+        angular.extend @currentTask, @backedupTask
         growl.error errorResponse.data.errors[0], ttl: -1
 
     clearEditing = ()=>

@@ -1,4 +1,4 @@
-form.ng-cloak.form-inline(data-ng-show="vm.currentTask === task && \
+form.ng-cloak.form-inline(data-ng-show="vm.currentTask.id === task.id && \
   vm.editingProperty === 'content'")
   .form-group
     input.form-control(data-ng-model="vm.currentTask.content")

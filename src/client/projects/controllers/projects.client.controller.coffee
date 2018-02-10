@@ -1,7 +1,7 @@
 (->
   angular = require 'angular'
 
-  Projects = ($scope, RemoveModal, Project, growl)->
+  Projects = (Project, RemoveModal, growl)->
     init = ()=>
       @add = ()-> @newProject = {}
       @create = create
@@ -56,7 +56,7 @@
     init()
     return
 
-  Projects.$inject = ['$scope', 'RemoveModal', 'Project', 'growl']
+  Projects.$inject = ['Project', 'RemoveModal', 'growl']
 
   angular.module('projects').controller('Projects', Projects)
 )()

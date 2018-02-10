@@ -11,9 +11,9 @@
           data-ng-change="vm.toggleStatus(task)")
       td.tm-task-warning
         i.ng-cloak.fa.fa-bell.tm-task-bell(title="This task is outdated"
-          data-ng-show="vm.showBell(task)").tm-task-bell-pendulum
+          data-ng-show="vm.showBell(task.deadline)").tm-task-bell-pendulum
       td.tm-task-caption(colspan="6")
-        p.text-justify(data-ng-hide="vm.currentTask === task && \
+        p.text-justify(data-ng-hide="vm.currentTask.id === task.id && \
           (vm.editingProperty === 'deadline' || \
           vm.editingProperty === 'content')") {{task.content}}
         tm-edit-task-deadline-form
