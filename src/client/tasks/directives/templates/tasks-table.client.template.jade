@@ -2,7 +2,7 @@
     data-ng-show="project.tasks.length")
   table.tm-tasks-table
     tr.tm-task-row(data-ng-repeat="task in project.tasks"
-      id="{{project._id}}-#%&-{{$index}}" tm-task-droppable)
+      id="{{vm.parentProject.id}}-tm_ids-{{task.id}}" tm-task-droppable)
       td.tm-task-done
         input(title="Toggle done/undone" type="checkbox"
           data-ng-disabled="vm.currentTask.id === task.id"

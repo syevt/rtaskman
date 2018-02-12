@@ -3,7 +3,7 @@ section.tm-task-buttons(data-ng-hide="vm.currentTask.id === task.id")
     data-ng-click="vm.edit(task, 'deadline')")
   span &#124
   i.fa.fa-sort(title="Drag to change task priority"
-    tm-task-draggable="{{project._id}}-#%&-{{$index}}")
+    tm-task-draggable="{{vm.parentProject.id}}-tm_ids-{{task.id}}")
   span &#124
   i.fa.fa-pencil(title="Edit task" data-ng-click="vm.edit(task, 'content')")
   span &#124
