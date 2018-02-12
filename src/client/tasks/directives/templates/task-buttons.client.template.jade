@@ -1,6 +1,4 @@
-section.tm-task-buttons(data-ng-hide="vm.currentTask.id === task.id && \
-  (vm.editingProperty === 'deadline' || \
-  vm.editingProperty === 'content')")
+section.tm-task-buttons(data-ng-hide="vm.currentTask.id === task.id")
   i.fa.fa-calendar(title="{{vm.deadlineTip(task.deadline)}}"
     data-ng-click="vm.edit(task, 'deadline')")
   span &#124

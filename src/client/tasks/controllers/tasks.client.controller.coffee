@@ -13,9 +13,9 @@
       @toggleStatus = toggleStatus
       @update = update
 
-    cancelEdit = (task)=>
-      clearEditing()
-      angular.extend task, @backedupTask
+    cancelEdit = ()=>
+      @currentTask = null
+      @editingProperty = ''
 
     create = ()=>
       task = new Task
@@ -24,60 +24,39 @@
         priority: @parentProject.tasks.length
 
       task.$save().then (response)=>
-        @parentProject.tasks.push response
+        @parentProject.tasks.push(response)
         @parentProject.newTask = null
       , (errorResponse)->
-        growl.error errorResponse.data.errors[0], ttl: -1
+        growl.error(errorResponse.data.errors[0], ttl: -1)
 
     deadlineTip = (deadline)->
       return 'Set deadline' unless deadline
-      'Edit deadline: ' + (new Date(deadline)).toLocaleDateString()
-      # maybe moment.toString?
+      'Edit deadline: ' + moment.utc(deadline).format('LL')
 
     edit = (task, property)=>
-      console.log task
-      @backedupTask = angular.extend {}, task
-      @currentTask = angular.extend {}, task
-      # clearEditing()
-      setDeadline(task) if @editingProperty is 'deadline'
+      @backedupTask = angular.extend({}, task)
+      @currentTask = angular.extend({}, task)
       @editingProperty = property
 
     remove = (task, index)->
-      d = moment.utc(task.deadline)
-      console.log d
-      n = moment.utc().startOf('date')
-      console.log n
-      console.log d.isAfter n
+      console.log task.deadline
 
     showBell = (task)->
       !!task.deadline && !task.done &&
-        moment.utc(task.deadline).isBefore moment.utc().startOf('date')
-        # new Date(task.deadline) < (new Date()).setUTCHours(0,0,0,0)
+        moment.utc(task.deadline).add(1, 'd') < moment.utc()
 
-    toggleStatus = (task)=>
-      clearEditing()
-      # setDeadline(task)
-      @currentTask = task
-      update()
+    toggleStatus = (task)->
+      edit(task, '')
+      update(task)
 
     update = (task)=>
-      taskBeingEdited = new Task @currentTask
+      taskBeingEdited = new Task(@currentTask)
       taskBeingEdited.$update().then (response)=>
         angular.extend task, response
         @currentTask = null
       , (errorResponse)=>
-        angular.extend @currentTask, @backedupTask
-        growl.error errorResponse.data.errors[0], ttl: -1
-
-    clearEditing = ()=>
-      @currentTask = null if @currentTask
-      @editingProperty = ''
-
-    setDeadline = (task)->
-      date = task.deadline
-      # task.deadline = if date then (new Date(date)) else (new Date())
-      task.deadline = if date then moment.utc(date) else moment.utc()
-      # moment() ???
+        angular.extend(@currentTask, @backedupTask)
+        growl.error(errorResponse.data.errors[0], ttl: -1)
 
     # vm.removeTask = (project, task, taskIndex) ->
       # vm.entityBeingRemoved = task.content
