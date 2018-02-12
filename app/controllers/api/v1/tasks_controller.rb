@@ -5,7 +5,9 @@ class Api::V1::TasksController < ApplicationController
   respond_to :json
 
   def create
-    @task = Task.new(task_params)
+    priority = Project.find(task_params[:project_id])
+                      .tasks.max_by(&:priority).priority + 1
+    @task = Task.new(task_params.merge(priority: priority))
     @task.save ? render(json: @task) : error_response
   end
 

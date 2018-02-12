@@ -21,7 +21,6 @@
       task = new Task
         project_id: @parentProject.id
         content: @parentProject.newTask.content
-        priority: @parentProject.tasks.length
 
       task.$save().then (response)=>
         @parentProject.tasks.push(response)
