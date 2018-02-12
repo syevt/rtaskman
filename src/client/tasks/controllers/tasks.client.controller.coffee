@@ -2,7 +2,7 @@
   angular = require 'angular'
   moment = require 'moment'
 
-  Tasks = ($scope, $uibModal, Task, growl)->
+  Tasks = (Task, RemoveModal, growl)->
     init = ()=>
       @cancelEdit = cancelEdit
       @create = create
@@ -38,8 +38,14 @@
       @currentTask = angular.extend({}, task)
       @editingProperty = property
 
-    remove = (task, index)->
-      console.log task.deadline
+    remove = (task, taskIndex)->
+      options = entity: 'task', caption: task.content
+      task = new Task(task)
+      RemoveModal.open(options).result.then ()=>
+        task.$remove().then ()=>
+          @parentProject.tasks.splice(taskIndex, 1)
+        , (errorResponse)->
+          growl.error(errorResponse.data.errors[0], ttl: -1)
 
     showBell = (task)->
       !!task.deadline && !task.done &&
@@ -58,21 +64,10 @@
         angular.extend(@currentTask, @backedupTask)
         growl.error(errorResponse.data.errors[0], ttl: -1)
 
-    # vm.removeTask = (project, task, taskIndex) ->
-      # vm.entityBeingRemoved = task.content
-      # vm.modalInstance = $uibModal.open
-        # templateUrl: 'projects/views/remove-modal.client.view.html'
-        # size: 'sm'
-        # scope: $scope
-      # vm.modalInstance.result.then () ->
-        # clearEditing()
-        # project.tasks.splice taskIndex, 1
-        # vm.update project
-
     init()
     return
 
-  Tasks.$inject = ['$scope', '$uibModal', 'Task', 'growl']
+  Tasks.$inject = ['Task', 'RemoveModal', 'growl']
 
   angular.module('tasks').controller('Tasks', Tasks)
 )()

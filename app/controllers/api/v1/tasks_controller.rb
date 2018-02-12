@@ -13,6 +13,11 @@ class Api::V1::TasksController < ApplicationController
     @task.update_attributes(task_params) ? head(200) : error_response
   end
 
+  def destroy
+    @task.destroy
+    @task.destroyed? ? head(200) : error_response
+  end
+
   private
 
   def task_params
