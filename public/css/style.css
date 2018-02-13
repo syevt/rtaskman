@@ -9264,6 +9264,10 @@ table.tm-tasks-table td table tr td {
 .tm-task-row-dragover {
   background: #eee;
 }
+.tm-task-row-spacer td {
+  padding-left: 3.5rem;
+  border: none !important;
+}
 @-moz-keyframes pendulum {
   0% {
     transform: rotate(0deg);

@@ -1,8 +1,12 @@
 .col-xs-8.col-xs-offset-2.tm-tasks-table-container.ng-cloak(
     data-ng-show="project.tasks.length")
   table.tm-tasks-table
-    tr.tm-task-row(data-ng-repeat="task in project.tasks"
-      id="{{vm.parentProject.id}}-tm_ids-{{task.id}}" tm-task-droppable)
+    tr.tm-task-row-spacer(data-ng-repeat-start="task in project.tasks"
+      id="above-{{vm.parentProject.id}}-{{task.id}}" hidden)
+      td
+        i.fa.fa-2x.fa-arrow-circle-o-right
+    tr.tm-task-row(id="{{vm.parentProject.id}}-tm_ids-{{task.id}}"
+      data-priority="{{task.priority}}" tm-task-droppable)
       td.tm-task-done
         input(title="Toggle done/undone" type="checkbox"
           data-ng-disabled="vm.currentTask.id === task.id"
@@ -13,11 +17,17 @@
           data-ng-show="vm.showBell(task)").tm-task-bell-pendulum
       td.tm-task-caption(colspan="6")
         p.text-justify(data-ng-hide="vm.currentTask.id === task.id").
-          {{task.content}}
+          {{task.content}}-{{task.priority}}
+      td(data-ng-hide="vm.currentTask.id === task.id")
+        i.fa.fa-2x.fa-arrow-circle-o-down
         tm-edit-task-deadline-form
         tm-edit-task-content-form
       td
         tm-task-buttons
+    tr.tm-task-row-spacer(data-ng-repeat-end
+      id="below-{{vm.parentProject.id}}-{{task.id}}" hidden)
+      td
+        i.fa.fa-2x.fa-arrow-circle-o-right
     tr
       td.tm-task-td &nbsp
       td.tm-task-td &nbsp
