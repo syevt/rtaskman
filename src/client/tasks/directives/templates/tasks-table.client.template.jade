@@ -1,11 +1,8 @@
 .col-xs-8.col-xs-offset-2.tm-tasks-table-container.ng-cloak(
     data-ng-show="project.tasks.length")
   table.tm-tasks-table
-    tr.tm-task-row-spacer(data-ng-repeat-start="task in project.tasks"
-      id="above-{{vm.parentProject.id}}-{{task.id}}" hidden)
-      td
-        i.fa.fa-2x.fa-arrow-circle-o-right
-    tr.tm-task-row(id="{{vm.parentProject.id}}-tm_ids-{{task.id}}"
+    tr.tm-task-row(data-ng-repeat="task in project.tasks"
+      id="{{vm.parentProject.id}}-tm_ids-{{task.id}}"
       data-priority="{{task.priority}}" tm-task-droppable)
       td.tm-task-done
         input(title="Toggle done/undone" type="checkbox"
@@ -15,21 +12,19 @@
       td.tm-task-warning
         i.ng-cloak.fa.fa-bell.tm-task-bell(title="This task is outdated"
           data-ng-show="vm.showBell(task)").tm-task-bell-pendulum
-      td.tm-task-caption(colspan="6")
+      //- td.tm-task-caption(colspan="6")
+      td.tm-task-caption(colspan="5")
         p.text-justify(data-ng-hide="vm.currentTask.id === task.id").
           {{task.content}}-{{task.priority}}
-      td(data-ng-hide="vm.currentTask.id === task.id")
-        i.fa.fa-2x.fa-arrow-circle-o-down
         tm-edit-task-deadline-form
         tm-edit-task-content-form
       td
         tm-task-buttons
-    tr.tm-task-row-spacer(data-ng-repeat-end
-      id="below-{{vm.parentProject.id}}-{{task.id}}" hidden)
-      td
-        i.fa.fa-2x.fa-arrow-circle-o-right
+      //- td
+        //- i.tm-drag-arrow-up.fa.fa-2x.fa-arrow-circle-o-up
+        //- i.tm-drag-arrow-down.fa.fa-2x.fa-arrow-circle-o-down
     tr
       td.tm-task-td &nbsp
       td.tm-task-td &nbsp
-      td.tm-task-td(colspan="6") &nbsp
+      td.tm-task-td(colspan="5") &nbsp
       td.tm-task-td &nbsp

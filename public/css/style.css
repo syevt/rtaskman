@@ -9261,12 +9261,16 @@ table.tm-tasks-table td table tr td {
 .tm-task-buttons i.fa {
   cursor: pointer;
 }
-.tm-task-row-dragover {
+.tm-task-row-dragover-above,
+.tm-task-row-dragover-below {
   background: #eee;
+  border: 2px solid !important;
 }
-.tm-task-row-spacer td {
-  padding-left: 3.5rem;
-  border: none !important;
+.tm-task-row-dragover-above {
+  border: 2px solid #00f !important;
+}
+.tm-task-row-dragover-below {
+  border: 2px solid #f00 !important;
 }
 @-moz-keyframes pendulum {
   0% {

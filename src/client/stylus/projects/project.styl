@@ -89,7 +89,6 @@ i.fa
   background #fcfed5
 
 .tm-task-done
-  // min-width 10rem
   width 3rem
 
 .tm-task-warning
@@ -97,6 +96,7 @@ i.fa
 
 .tm-task-caption
   min-width 45rem
+  // min-width 40rem
 
 .tm-task-caption p
   font-size 1.5rem
@@ -198,6 +198,7 @@ table.tm-tasks-table input[type=checkbox]
 
 table.tm-tasks-table td form input
   min-width 30rem
+  // min-width 25rem
 
 table.tm-tasks-table td form button
   margin-left .5rem
@@ -245,9 +246,30 @@ table.tm-tasks-table td table tr td
 .tm-task-buttons i.fa
   cursor pointer
 
-.tm-task-row-dragover
+.tm-task-row-dragover-above
+.tm-task-row-dragover-below
   background #eee
+  border 2px solid !important
 
-.tm-task-row-spacer td
-  padding-left 3.5rem
-  border none !important
+.tm-task-row-dragover-above
+  border 2px solid blue !important
+  // border-image linear-gradient(to bottom, #fff, #4470af) !important
+
+.tm-task-row-dragover-below
+  border 2px solid red !important
+  // border-image linear-gradient(to top, #fff, #4470af) !important
+
+// .tm-drag-arrow-up
+// .tm-drag-arrow-down
+  // color #4470af
+  // display inline-block
+  // position absolute
+  // top 10px
+  // left 20px
+  // visibility hidden
+
+// .tm-task-row-dragover-above .tm-drag-arrow-up
+// .tm-task-row-dragover-below .tm-drag-arrow-down
+  // margin-right 3rem
+  // display inline-block
+  // visibility visible
