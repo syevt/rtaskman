@@ -1,26 +1,29 @@
 (->
   taskDraggerHelper = ()->
-    sourceElement: (el)->
-      document.getElementById(el.getAttribute('tm-task-draggable'))
+    getIds = (el)->
+      el.id.split('-tm_ids-')
 
-    setSourceData: (el, event)->
-      ids = el.id.split('-tm_ids-')
-      event.dataTransfer.setData('projectId', ids[0])
-      event.dataTransfer.setData('id', ids[1])
-      event.dataTransfer.setData('priority', el.dataset.priority)
+    return
+      isValidTarget: (el)->
+        ids = getIds(el)
+        targetProjectId = ids[0]
+        sourceProjectId = sessionStorage.getItem('projectId')
+        targetId = ids[1]
+        sourceId = sessionStorage.getItem('id')
+        targetProjectId is sourceProjectId and targetId isnt sourceId
 
-    offsets: (el, clickX)->
-      elBox = el.getBoundingClientRect()
-      [clickX - elBox.left, elBox.height / 2]
+      offsets: (el, clickX)->
+        elBox = el.getBoundingClientRect()
+        [clickX - elBox.left, elBox.height / 2]
 
-    getSpacerElement: (el, event)->
-      sourcePriority = parseInt(event.dataTransfer.getData('sourcePriority'))
-      targetPriority = parseInt(el.dataset.priority)
-      direction = if sourcePriority > targetPriority then 'below' else 'above'
-      document.getElementById("#{direction}-#{ids[0]}-#{ids[1]}")
+      setSourceData: (el)->
+        ids = getIds(el)
+        sessionStorage.setItem('projectId', ids[0])
+        sessionStorage.setItem('id', ids[1])
+        sessionStorage.setItem('priority', el.dataset.priority)
 
-    sourceTask: (el, event)->
-      priority: parseInt(event.dataTransfer.getData('sourcePriority'))
+      sourceElement: (el)->
+        document.getElementById(el.getAttribute('tm-task-draggable'))
 
   require('angular')
     .module('tasks')
