@@ -5,35 +5,41 @@
         el.classList.remove("tm-task-row-dragover-#{item}")
 
     return
-      dragStart: (e)->
-        e.stopPropagation() if e.stopPropagation
-        e.dataTransfer.effectAllowed = "move"
-        sourceElement = taskDraggerHelper.sourceElement(@)
-        taskDraggerHelper.setSourceData(sourceElement)
-        e.dataTransfer.setDragImage(
-          sourceElement, taskDraggerHelper.offsets(sourceElement, e.clientX)...)
-        off
+      dragstart: (project, task)->
+        (e)->
+          e.stopPropagation() if e.stopPropagation
+          e.dataTransfer.effectAllowed = "move"
+          sourceElement = taskDraggerHelper.sourceElement(project, task)
+          taskDraggerHelper.setSourceData(project, task)
+          offsets = taskDraggerHelper.offsets(sourceElement, e.clientX)
+          e.dataTransfer.setDragImage(sourceElement, offsets...)
+          # return
 
-      dragEnter: (e)->
-        return unless taskDraggerHelper.isValidTarget(@)
-        targetPriority = parseInt(@dataset.priority)
-        sourcePriority = parseInt(sessionStorage.getItem('priority'))
-        direction = if sourcePriority < targetPriority then 'below' else 'above'
-        @classList.add("tm-task-row-dragover-#{direction}")
+      dragenter: (project, task)->
+        (e)->
+          return unless taskDraggerHelper.isValidTarget(project, task)
+          sourcePriority = parseInt(sessionStorage.getItem('priority'))
+          direction = if sourcePriority < task.priority then 'below' else 'above'
+          @classList.add("tm-task-row-dragover-#{direction}")
 
-      dragOver: (e)->
-        return unless taskDraggerHelper.isValidTarget(@)
-        e.dataTransfer.dropEffect = 'move'
-        e.preventDefault() if e.preventDefault
+      dragover: (project, task)->
+        (e)->
+          return unless taskDraggerHelper.isValidTarget(project, task)
+          e.dataTransfer.dropEffect = 'move'
+          e.preventDefault() if e.preventDefault
 
-      dragLeave: (e)->
-        return unless taskDraggerHelper.isValidTarget(@)
-        clearDragClasses(@)
+      dragleave: (project, task)->
+        (e)->
+          return unless taskDraggerHelper.isValidTarget(project, task)
+          clearDragClasses(@)
 
-      drop: (e)->
-        return unless taskDraggerHelper.isValidTarget(@)
-        clearDragClasses(@)
-        console.log 'dropped...'
+      drop: (project, task)->
+        (e)->
+          return unless taskDraggerHelper.isValidTarget(project, task)
+          clearDragClasses(@)
+          # console.log 'dropped...'
+          console.log e
+          console.log project
         # access to ctrlScope.parentProject
         # access to source task id and priority - got one in sessionStorage
         # access to target task priority - got 'em in sessionStorage

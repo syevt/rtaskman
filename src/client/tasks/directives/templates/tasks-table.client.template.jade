@@ -2,8 +2,7 @@
     data-ng-show="project.tasks.length")
   table.tm-tasks-table
     tr.tm-task-row(data-ng-repeat="task in project.tasks"
-      id="{{vm.parentProject.id}}-tm_ids-{{task.id}}"
-      data-priority="{{task.priority}}" tm-task-droppable)
+      id="task-{{project.id}}-{{task.id}}" tm-task-droppable)
       td.tm-task-done
         input(title="Toggle done/undone" type="checkbox"
           data-ng-disabled="vm.currentTask.id === task.id"
@@ -12,7 +11,6 @@
       td.tm-task-warning
         i.ng-cloak.fa.fa-bell.tm-task-bell(title="This task is outdated"
           data-ng-show="vm.showBell(task)").tm-task-bell-pendulum
-      //- td.tm-task-caption(colspan="6")
       td.tm-task-caption(colspan="5")
         p.text-justify(data-ng-hide="vm.currentTask.id === task.id").
           {{task.content}}-{{task.priority}}
@@ -20,9 +18,6 @@
         tm-edit-task-content-form
       td
         tm-task-buttons
-      //- td
-        //- i.tm-drag-arrow-up.fa.fa-2x.fa-arrow-circle-o-up
-        //- i.tm-drag-arrow-down.fa.fa-2x.fa-arrow-circle-o-down
     tr
       td.tm-task-td &nbsp
       td.tm-task-td &nbsp

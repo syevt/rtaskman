@@ -2,12 +2,8 @@ section.tm-task-buttons(data-ng-hide="vm.currentTask.id === task.id")
   i.fa.fa-calendar(title="{{vm.deadlineTip(task.deadline)}}"
     data-ng-click="vm.edit(task, 'deadline')")
   span &#124
-  i.fa.fa-sort(title="Drag to change task priority"
-    data-priority="{{task.priority}}"
-    tm-task-draggable="{{vm.parentProject.id}}-tm_ids-{{task.id}}")
+  i.fa.fa-sort(title="Drag to change task priority" tm-task-draggable)
   span &#124
   i.fa.fa-pencil(title="Edit task" data-ng-click="vm.edit(task, 'content')")
   span &#124
   i.fa.fa-trash(title="Delete task" data-ng-click="vm.remove(task, $index)")
-  //- i.tm-drag-arrow-up.fa.fa-2x.fa-arrow-circle-o-up
-  //- i.tm-drag-arrow-down.fa.fa-2x.fa-arrow-circle-o-down
