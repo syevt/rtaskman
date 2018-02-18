@@ -1,5 +1,7 @@
+//- form.ng-cloak.form-inline(data-ng-show="vm.currentTask.id === task.id && \
+  //- vm.editingProperty === 'content'")
 form.ng-cloak.form-inline(data-ng-show="vm.currentTask.id === task.id && \
-  vm.editingProperty === 'content'")
+  vm.editingProperty === 'content'" data-ng-submit="vm.update(task)")
   .form-group
     input.form-control(data-ng-model="vm.currentTask.content")
   tm-save-cancel-buttons

@@ -37,12 +37,12 @@
         (e)->
           return unless taskDraggerHelper.isValidTarget(project, task)
           clearDragClasses(@)
-          taskId = sessionStorage.getItem('id')
-          task = new Task
-            id: taskId
-            priority: parseInt(sessionStorage.getItem('priority'))
-            targetpriority: task.priority
-          task.$update().then ()-> console.log 'kinda updated...'
+          # taskId = sessionStorage.getItem('id')
+          currentTask = new Task
+            id: task.id
+            priority: task.priority
+            sourcepriority: parseInt(sessionStorage.getItem('priority'))
+          currentTask.$update().then ()-> console.log 'kinda updated...'
         # access to ctrlScope.parentProject
         # access to source task id and priority - got one in sessionStorage
         # access to target task priority - got 'em in sessionStorage
