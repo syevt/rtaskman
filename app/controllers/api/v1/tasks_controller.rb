@@ -13,7 +13,11 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def update
-    @task.update_attributes(task_params) ? head(200) : error_response
+    # @task.update_attributes(task_params) ? head(200) : error_response
+    ::UpdateTask.call(@task, task_params) do
+      on(:ok) { head(200) }
+      on(:error) { error_response }
+    end
   end
 
   def destroy
