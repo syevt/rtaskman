@@ -1,5 +1,5 @@
 (->
-  taskDragger = (taskDraggerHelper)->
+  taskDragger = (taskDraggerHelper, Task)->
     clearDragClasses = (el)->
       for item in ['below', 'above']
         el.classList.remove("tm-task-row-dragover-#{item}")
@@ -9,11 +9,11 @@
         (e)->
           e.stopPropagation() if e.stopPropagation
           e.dataTransfer.effectAllowed = "move"
+          e.dataTransfer.setData('text/html', 'otherwise mozilla goes crazy!!!')
           sourceElement = taskDraggerHelper.sourceElement(project, task)
           taskDraggerHelper.setSourceData(project, task)
           offsets = taskDraggerHelper.offsets(sourceElement, e.clientX)
           e.dataTransfer.setDragImage(sourceElement, offsets...)
-          # return
 
       dragenter: (project, task)->
         (e)->
@@ -37,9 +37,12 @@
         (e)->
           return unless taskDraggerHelper.isValidTarget(project, task)
           clearDragClasses(@)
-          # console.log 'dropped...'
-          console.log e
-          console.log project
+          taskId = sessionStorage.getItem('id')
+          task = new Task
+            id: taskId
+            priority: parseInt(sessionStorage.getItem('priority'))
+            targetpriority: task.priority
+          task.$update().then ()-> console.log 'kinda updated...'
         # access to ctrlScope.parentProject
         # access to source task id and priority - got one in sessionStorage
         # access to target task priority - got 'em in sessionStorage
@@ -48,13 +51,8 @@
         # 2. in server ctrl new update branch if params.targetPriority present
         # 3. reassign priorities for ALL task.parentProject.tasks
         # 4. on success in promise reassign ALL priorities in client parentProject
-        # scope: {
-          # myindex: '='
-        # },
-        # link: function(scope, element, attrs){
-          # console.log('test', scope.myindex)
 
-  taskDragger.$inject = ['taskDraggerHelper']
+  taskDragger.$inject = ['taskDraggerHelper', 'Task']
 
   require('angular').module('tasks').factory('taskDragger', taskDragger)
 )()

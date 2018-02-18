@@ -1,6 +1,7 @@
 class Api::V1::TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task, only: [:update, :destroy]
+  wrap_parameters :task, exclude: []
 
   respond_to :json
 
@@ -24,7 +25,7 @@ class Api::V1::TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(
-      :id, :project_id, :content, :done, :deadline, :priority
+      :id, :project_id, :content, :done, :deadline, :priority, :targetpriority
     )
   end
 
