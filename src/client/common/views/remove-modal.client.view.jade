@@ -1,5 +1,6 @@
 .modal-header
-  h3 Deleting {{vm.options.entity}}
+  h3(translate="REMOVE_MODAL_HEADER"
+    translate-values="{ entity: vm.options.entity }")
 .modal-body
   p.text-center Really delete "{{vm.options.caption}}"?
 .modal-footer
