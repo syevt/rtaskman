@@ -13,10 +13,9 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def update
-    # @task.update_attributes(task_params) ? head(200) : error_response
     ::UpdateTask.call(@task, task_params) do
       on(:ok) { head(200) }
-      on(:error) { error_response }
+      on(:error) { |errors| render(status: 400, json: { errors: errors }) }
     end
   end
 
@@ -38,6 +37,6 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def error_response
-    render status: 400, json: { errors: @task.errors.full_messages }
+    render(status: 400, json: { errors: @task.errors.full_messages })
   end
 end

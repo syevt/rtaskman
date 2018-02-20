@@ -55,9 +55,8 @@
       update(task)
 
     update = (task)=>
-      taskBeingEdited = new Task(@currentTask)
-      taskBeingEdited.$update().then (response)=>
-        angular.extend task, response
+      new Task(@currentTask).$update().then (response)=>
+        angular.extend(task, response)
         @currentTask = null
       , (errorResponse)=>
         angular.extend(@currentTask, @backedupTask)

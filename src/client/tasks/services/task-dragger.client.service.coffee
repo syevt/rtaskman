@@ -1,8 +1,11 @@
 (->
-  taskDragger = (taskDraggerHelper, Task)->
+  taskDragger = (taskDraggerHelper, Task, growl)->
     clearDragClasses = (el)->
       for item in ['below', 'above']
         el.classList.remove("tm-task-row-dragover-#{item}")
+
+    getSourcePriority = ()->
+      parseInt(sessionStorage.getItem('priority'))
 
     return
       dragstart: (project, task)->
@@ -18,7 +21,7 @@
       dragenter: (project, task)->
         (e)->
           return unless taskDraggerHelper.isValidTarget(project, task)
-          sourcePriority = parseInt(sessionStorage.getItem('priority'))
+          sourcePriority = getSourcePriority()
           direction = if sourcePriority < task.priority then 'below' else 'above'
           @classList.add("tm-task-row-dragover-#{direction}")
 
@@ -37,22 +40,17 @@
         (e)->
           return unless taskDraggerHelper.isValidTarget(project, task)
           clearDragClasses(@)
-          # taskId = sessionStorage.getItem('id')
+          sourcePriority = getSourcePriority()
           currentTask = new Task
             id: task.id
             priority: task.priority
-            sourcepriority: parseInt(sessionStorage.getItem('priority'))
-          currentTask.$update().then ()-> console.log 'kinda updated...'
-        # access to ctrlScope.parentProject
-        # access to source task id and priority - got one in sessionStorage
-        # access to target task priority - got 'em in sessionStorage
-        # need to inject Task resource
-        # 1. new resourse with id, priority, targetPriority
-        # 2. in server ctrl new update branch if params.targetPriority present
-        # 3. reassign priorities for ALL task.parentProject.tasks
-        # 4. on success in promise reassign ALL priorities in client parentProject
+            sourcepriority: sourcePriority
+          currentTask.$update().then ()->
+            taskDraggerHelper.reorderTasks(project.tasks, task, sourcePriority)
+          , (errorResponse)->
+            growl.error(errorResponse.data.errors[0], ttl: -1)
 
-  taskDragger.$inject = ['taskDraggerHelper', 'Task']
+  taskDragger.$inject = ['taskDraggerHelper', 'Task', 'growl']
 
   require('angular').module('tasks').factory('taskDragger', taskDragger)
 )()

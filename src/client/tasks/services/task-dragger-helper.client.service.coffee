@@ -17,6 +17,11 @@
     sourceElement: (project, task)->
       document.getElementById("task-#{project.id}-#{task.id}")
 
+    reorderTasks: (tasks, target, sourcePriority)->
+      from = tasks.findIndex (task)-> task.priority is sourcePriority
+      to = tasks.findIndex (task)-> task.priority is target.priority
+      tasks.splice(to, 0, tasks.splice(from, 1)[0])
+
   require('angular')
     .module('tasks')
     .factory('taskDraggerHelper', taskDraggerHelper)
