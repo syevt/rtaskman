@@ -1,18 +1,19 @@
 .col-xs-8.col-xs-offset-2.tm-tasks-table-container.ng-cloak(
-    data-ng-show="project.tasks.length")
+    ng-show="project.tasks.length")
   table.tm-tasks-table
-    tr.tm-task-row(data-ng-repeat="task in project.tasks"
+    tr.tm-task-row(ng-repeat="task in project.tasks"
       id="task-{{project.id}}-{{task.id}}" tm-task-droppable)
       td.tm-task-done
-        input(title="Toggle done/undone" type="checkbox"
-          data-ng-disabled="vm.currentTask.id === task.id"
-          data-ng-model="task.done"
-          data-ng-change="vm.toggleStatus(task)")
+        input(translate-attr="{title: 'tasks.toggleDoneHint'}" type="checkbox"
+          ng-disabled="vm.currentTask.id === task.id"
+          ng-model="task.done"
+          ng-change="vm.toggleStatus(task)")
       td.tm-task-warning
-        i.ng-cloak.fa.fa-bell.tm-task-bell(title="This task is outdated"
-          data-ng-show="vm.showBell(task)").tm-task-bell-pendulum
+        i.ng-cloak.fa.fa-bell.tm-task-bell.tm-task-bell-pendulum(
+          translate-attr="{title: 'tasks.outdatedHint'}"
+          ng-show="vm.showBell(task)")
       td.tm-task-caption(colspan="5")
-        p.text-justify(data-ng-hide="vm.currentTask.id === task.id").
+        p.text-justify(ng-hide="vm.currentTask.id === task.id").
           {{task.content}}-{{task.priority}}
         tm-edit-task-deadline-form
         tm-edit-task-content-form

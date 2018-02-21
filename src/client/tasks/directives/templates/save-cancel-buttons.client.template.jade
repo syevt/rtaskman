@@ -1,4 +1,4 @@
 span
-  button.btn.btn-default(type="submit") Save
-  button.btn.btn-default(type="cancel"
-    data-ng-click="vm.cancelEdit(task)") Cancel
+  button.btn.btn-default(type="submit") {{'tasks.saveButton' | translate}}
+  button.btn.btn-default(type="cancel" ng-click="vm.cancelEdit(task)").
+    {{'tasks.cancelButton' | translate}}

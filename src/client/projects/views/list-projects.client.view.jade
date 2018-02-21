@@ -1,22 +1,21 @@
 .container.ng-cloak
-  .container.tm-project-container(data-ng-repeat="project in vm.projects")
+  .container.tm-project-container(ng-repeat="project in vm.projects")
     .row
       .col-xs-8.col-xs-offset-2
         tm-project-header
-    div(data-ng-controller="Tasks as vm"
-      data-ng-init="vm.parentProject = project")
+    div(ng-controller="Tasks as vm" ng-init="vm.parentProject = project")
       .row
         .col-xs-8.col-xs-offset-2
           tm-new-task-form
       .row
         tm-tasks-table
   .container
-    .row.ng-cloak.tm-new-project(data-ng-show="vm.newProject")
+    .row.ng-cloak.tm-new-project(ng-show="vm.newProject")
       .col-xs-8.col-xs-offset-2
         tm-new-project-form
   .container
     .row
       .col-xs-4.col-xs-offset-4
-        .tm-add-project-button.text-center(data-ng-click="vm.add()")
+        .tm-add-project-button.text-center(ng-click="vm.add()")
           i.fa.fa-plus
-          span {{ 'ADD_TODO_LIST' | translate }}
+          span {{'projects.addProject' | translate}}

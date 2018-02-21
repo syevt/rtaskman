@@ -4,8 +4,8 @@
   .col-xs-11
     form
       .input-group
-        input.form-control(data-ng-model="vm.newProject.name"
-          placeholder="Enter a name for the new project...")
+        input.form-control(ng-model="vm.newProject.name"
+          translate-attr="{placeholder: 'projects.newProjectHint'}")
         .input-group-btn
-          button.btn.btn-success(type="submit"
-            data-ng-click="vm.create()") {{ 'ADD_PROJECT' | translate }}
+          button.btn.btn-success(type="submit" ng-click="vm.create()").
+            {{'projects.addButton' | translate}}

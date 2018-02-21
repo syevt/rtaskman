@@ -1,8 +1,9 @@
 .modal-header
-  h3(translate="REMOVE_MODAL_HEADER"
-    translate-values="{ entity: vm.options.entity }")
+  h3(translate="common.removeModalHeader"
+    translate-values="{entity: vm.options.entity}")
 .modal-body
-  p.text-center Really delete "{{vm.options.caption}}"?
+  p.text-center(translate="common.removeModalBody"
+    translate-values="{caption: vm.options.caption}")
 .modal-footer
-  button.btn.btn-danger(data-ng-click="vm.ok()") Delete
-  button.btn.btn-primary(data-ng-click="vm.cancel()") Cancel
+  button.btn.btn-danger(ng-click="vm.ok()" ) {{'common.delete' | translate}}
+  button.btn.btn-primary(ng-click="vm.cancel()") {{'common.cancel' | translate}}

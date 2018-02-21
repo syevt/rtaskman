@@ -1,6 +1,6 @@
-form.ng-cloak.form-inline(data-ng-show="vm.currentTask.id === task.id && \
-  vm.editingProperty === 'deadline'" data-ng-submit="vm.update(task)")
+form.ng-cloak.form-inline(ng-show="vm.currentTask.id === task.id && \
+  vm.editingProperty === 'deadline'" ng-submit="vm.update(task)")
   .input-group
-    input.form-control(type="date" tm-date-formatter
-      data-ng-model="vm.currentTask.deadline")
+    input.form-control(type="date" ng-model="vm.currentTask.deadline"
+      tm-date-formatter)
   tm-save-cancel-buttons
