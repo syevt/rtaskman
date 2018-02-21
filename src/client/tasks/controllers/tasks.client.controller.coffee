@@ -2,7 +2,7 @@
   angular = require 'angular'
   moment = require 'moment'
 
-  Tasks = (Task, RemoveModal, growl)->
+  Tasks = (Task, RemoveModal, growl, $translate)->
     init = ()=>
       @cancelEdit = cancelEdit
       @create = create
@@ -29,8 +29,9 @@
         growl.error(errorResponse.data.errors[0], ttl: -1)
 
     deadlineTip = (deadline)->
-      return 'Set deadline' unless deadline
-      'Edit deadline: ' + moment.utc(deadline).format('LL')
+      return $translate.instant('tasks.setDeadlineHint')  unless deadline
+      $translate.instant('tasks.editDeadlineHint') +
+        moment.utc(deadline).format('LL')
 
     edit = (task, property)=>
       @backedupTask = angular.extend({}, task)
@@ -66,7 +67,7 @@
     init()
     return
 
-  Tasks.$inject = ['Task', 'RemoveModal', 'growl']
+  Tasks.$inject = ['Task', 'RemoveModal', 'growl', '$translate']
 
   angular.module('tasks').controller('Tasks', Tasks)
 )()

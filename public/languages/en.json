@@ -7,8 +7,8 @@
   },
 
   "index": {
-    "appTitle": "Task Manager",
-    "appPromo": "Welcome to our super-duper task managing WEB application. If you want to dive into the beauty and power of this digital piece of art - avail yourself of the opportunity to click 'Sign Up' in the navigation bar!"
+    "appPromo": "Welcome to our super-duper task managing WEB application. If you want to dive into the beauty and power of this digital piece of art - avail yourself of the opportunity to click 'Sign Up' in the navigation bar!",
+    "appTitle": "Task Manager"
   },
 
   "projects": {
@@ -26,9 +26,11 @@
     "changePriorityHint": "Drag to change task priority",
     "deleteTaskHint": "Delete task",
     "editContentHint": "Edit task",
+    "editDeadlineHint": "Edit deadline: ",
     "newTaskHint": "Start typing to create a task...",
     "outdatedHint": "This task is outdated",
     "toggleDoneHint": "Toggle done/undone",
-    "saveButton": "Save"
+    "saveButton": "Save",
+    "setDeadlineHint": "Set deadline"
   }
 }
