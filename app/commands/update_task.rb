@@ -5,7 +5,7 @@ class UpdateTask < Rectify::Command
   end
 
   def call
-    params[:sourcepriority] ? update_project : update_task
+    @params[:sourcepriority] ? update_project : update_task
   end
 
   private
@@ -41,7 +41,7 @@ class UpdateTask < Rectify::Command
   end
 
   def update_task
-    return publish(:ok) if @task.update_attributes(params)
+    return publish(:ok) if @task.update_attributes(@params)
     publish(:error, @task.errors.full_messages)
   end
 end

@@ -27,7 +27,7 @@ class Api::V1::TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(
+    params.require(:task).except(:created_at, :updated_at).permit(
       :id, :project_id, :content, :done, :deadline, :priority, :sourcepriority
     )
   end
