@@ -3,5 +3,5 @@ class Task < ApplicationRecord
 
   validates :content,
             presence: true,
-            format: { with: /\A[\p{Alnum}.\s]+\z/ }
+            format: { with: /\A[\p{Alnum}.,\-()"'`?\s]+\z/ }
 end

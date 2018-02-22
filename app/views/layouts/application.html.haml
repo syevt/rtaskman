@@ -4,7 +4,7 @@
     %meta{charset: "UTF-8"}
     %meta{name: "viewport", content: "width=device-width"}
     = csrf_meta_tags
-    %title Rails API Task Manager
+    %title= t('.title')
     %link{href: "/css/style.css", rel: "stylesheet"}
   %body
     = yield

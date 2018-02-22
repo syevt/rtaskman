@@ -4,5 +4,5 @@ class Project < ApplicationRecord
 
   validates :name,
             presence: true,
-            format: { with: /\A[\p{Alnum}.\s]+\z/ }
+            format: { with: /\A[\p{Alnum}.,\-()"'`?\s]+\z/ }
 end
