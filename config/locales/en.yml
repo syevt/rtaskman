@@ -1,6 +1,4 @@
 en:
-  errors:
-    format: '%{message}'
   activerecord:
     models:
       project:
@@ -20,6 +18,7 @@ en:
         deadline: 'Deadline'
         priority: 'Priority'
     errors:
+      format: '%{message}'
       models:
         project:
           attributes:
@@ -39,6 +38,8 @@ en:
       brand: 'Task manager'
       home: 'Home'
       signup: 'Sign up'
+      email: 'email'
+      password: 'password'
       login: 'Log in'
       user_projects: "User's projects"
       signout: 'Sign out'

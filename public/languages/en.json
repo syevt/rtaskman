@@ -17,6 +17,7 @@
     "deleteButton": "Delete project",
     "editButton": "Edit project",
     "newProjectHint": "Enter a name for the project...",
+    "noProjectsMessage": "You don't have projects yet. Why won't you click the button below to add some?",
     "save": "Save"
   },
 

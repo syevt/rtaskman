@@ -1,40 +1,43 @@
 %div{'growl': true}
 .container
-  %nav.navbar.navbar-inverse.navbar-default{'role': "navigation",
-    'data-ng-controller': "LoginController"}
+  %nav.navbar.navbar-inverse.navbar-default{'role': 'navigation',
+    'ng-controller': 'LoginController'}
     .navbar-header
-      %button.navbar-toggle{'data-ng-init': "navCollapsed = true",
-        'data-ng-click': "navCollapsed = !navCollapsed"}
+      %button.navbar-toggle{'ng-init': 'navCollapsed = true',
+        'ng-click': 'navCollapsed = !navCollapsed'}
         %span.sr-only= t('.toggle_nav')
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand{href: "/#!/"}= t('.brand')
-    .collapse.navbar-collapse{'data-ng-class': "!navCollapsed && 'in'"}
+      %a.navbar-brand{href: '/#!/'}= t('.brand')
+    .collapse.navbar-collapse{'ng-class': "!navCollapsed && 'in'"}
       %ul.nav.navbar-nav
         %li
-          %a{href: "/#!/"}= t('.home')
+          %a{href: '/#!/'}= t('.home')
         %li
-          %a.ng-cloak{'href': "", 'data-ng-click': "showSignupModal()",
-            'data-ng-hide': "identity.isAuthenticated()"}= t('.signup')
+          %a.ng-cloak{'href': '', 'ng-click': 'showSignupModal()',
+            'ng-hide': 'identity.isAuthenticated()'}= t('.signup')
       %form.navbar-form.navbar-right.ng-cloak{ |
-        'data-ng-hide': "identity.isAuthenticated()", |
-        'data-ng-submit': "signin()", role: "form" }
+        'ng-hide': 'identity.isAuthenticated()', |
+        'ng-submit': 'signin()', role: 'form' }
         .form-group
-          %input.form-control{ type: "email", placeholder: "email",
-            'data-ng-model': "email" }
+          %input.form-control{ type: 'email', placeholder: t('.email'),
+            'ng-model': 'email' }
         .form-group
-          %input.form-control{ type: "password",
-            'placeholder': "password",
-            'data-ng-model': "password" }
+          %input.form-control{ type: 'password',
+            'placeholder': t('.password'),
+            'ng-model': 'password' }
         %button.btn.btn-primary= t('.login')
-      %ul.nav.navbar-nav.navbar-right.ng-cloak{ 'data-ng-show': "identity.isAuthenticated()" }
-        %li{ 'uib-dropdown': "" }
-          %a#tm-user-dropdown{ 'href': "", 'uib-dropdown-toggle': "" }
-            %span{ 'data-ng-bind': "identity.user.email" }
+      %ul.nav.navbar-nav.navbar-right.ng-cloak{ |
+        'ng-show': 'identity.isAuthenticated()' } |
+        %li{ 'uib-dropdown': '' }
+          %a#tm-user-dropdown{ 'href': '', 'uib-dropdown-toggle': '' }
+            %span{ 'ng-bind': 'identity.user.email' }
             %b.caret
-          %ul.dropdown-menu{ 'uib-dropdown-toggle': "", 'aria-labelledby': "tm-user-dropdown" }
+          %ul.dropdown-menu{ 'uib-dropdown-toggle': '',
+            'aria-labelledby': 'tm-user-dropdown' }
             %li
-              %a{ 'href': "", 'data-ng-click': "showUserProjects()" }= t('.user_projects')
-              %a{ 'href': "", 'data-ng-click': "signout()" }= t('.signout')
+              %a{ 'href': '', 'ng-click': 'showUserProjects()' |
+                }= t('.user_projects') |
+              %a{ 'href': '', 'ng-click': 'signout()' }= t('.signout')
 %div{ 'ng-view': true }
