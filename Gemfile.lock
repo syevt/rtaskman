@@ -69,6 +69,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.5)
+    database_cleaner (1.6.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.3.0)
@@ -244,6 +245,7 @@ DEPENDENCIES
   active_model_serializers
   byebug
   capybara
+  database_cleaner
   devise_token_auth
   factory_girl_rails
   faker

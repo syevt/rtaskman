@@ -1,8 +1,8 @@
 .container.ng-cloak
-  .container
+  .container(ng-hide='vm.projects.length || vm.newProject')
     .col-xs-6.col-xs-offset-3
       .well
-        h3.text-center No projects stub
+        h3.text-center {{'projects.noProjectsMessage' | translate}}
   .container.tm-project-container(ng-repeat="project in vm.projects")
     .row
       .col-xs-8.col-xs-offset-2

@@ -3,6 +3,7 @@ require 'capybara/rspec'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
 require 'factory_girl_rails'
+require_relative 'support/database_cleaner'
 require_relative 'support/factory_girl'
 require_relative 'support/auth_helper'
 
@@ -20,7 +21,8 @@ Capybara.register_driver :poltergeist do |app|
   )
 end
 
-Capybara.current_driver = :poltergeist
+# Capybara.current_driver = :poltergeist
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
