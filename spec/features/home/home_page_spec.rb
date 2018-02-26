@@ -39,9 +39,10 @@ feature 'Home page' do
     end
 
     context 'with user having projects' do
-      given!(:projects) { create_list(:project_with_tasks, 3, user: user) }
-
-      background { sign_in(user) }
+      background do
+        create_list(:project_with_tasks, 3, user: user)
+        sign_in(user)
+      end
 
       include_examples 'no auth elements'
 
