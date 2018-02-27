@@ -3,9 +3,11 @@ require 'capybara/rspec'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
 require 'factory_girl_rails'
+require 'json_matchers/rspec'
 require_relative 'support/database_cleaner'
 require_relative 'support/factory_girl'
-require_relative 'support/auth_helper'
+require_relative 'support/feature/auth_helper'
+require_relative 'support/request/json_helper'
 
 ['spec/**/shared_examples/*.rb', 'spec/**/shared_contexts/*.rb',
  'spec/helpers/*.rb'].each do |glob|
@@ -45,7 +47,9 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
-  config.include Devise::Test::IntegrationHelpers, type: :feature
+  # config.include Devise::Test::IntegrationHelpers, type: :feature
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Rails.application.routes.url_helpers
-  config.include AuthHelper, type: :feature
+  config.include Feature::AuthHelper, type: :feature
+  config.include Request::JsonHelper, type: :request
 end

@@ -38,7 +38,7 @@ end
 group :test do
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'faker'
+  gem 'json_matchers'
   gem 'poltergeist'
   gem 'selenium-webdriver'
 end

@@ -27,7 +27,7 @@ feature 'Projects page', js: true do
   end
 
   context "click on 'Delete project'" do
-    before do
+    background do
       find("i[title='#{project_tr['deleteButton']}']",
            visible: false, match: :first).trigger('click')
     end

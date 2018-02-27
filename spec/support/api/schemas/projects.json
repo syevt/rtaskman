@@ -1,0 +1,26 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "tasks"],
+    "properties": {
+      "id": {"type": "integer"},
+      "name": {"type": "string"},
+      "tasks": {
+        "type": "array",
+        "items": {
+          "required": ["id", "project_id", "done",
+                       "content", "priority", "deadline"],
+          "properties": {
+            "id": {"type": "integer"},
+            "project_id": {"type": "integer"},
+            "done": {"type": ["null", "boolean"]},
+            "content": {"type": "string"},
+            "priority": {"type": "integer"},
+            "deadline": {"type": ["null", "string"], "format": "date-time"}
+          }
+        }
+      }
+    }
+  }
+}
