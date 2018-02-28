@@ -1,25 +1,28 @@
 class Api::V1::ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:update, :destroy]
-
+  load_and_authorize_resource
   respond_to :json
 
   def index
-    @projects = Project.where(user_id: current_user.id).includes(:tasks)
+    @projects = @projects.order(id: :asc).includes(:tasks)
   end
 
   def create
-    @project = Project.new(project_params.merge(user_id: current_user.id))
+    @project.user = current_user
     @project.save ? render(json: @project) : error_response
   end
 
   def update
-    @project.update_attributes(project_params) ? head(200) : error_response
+    if @project.update_attributes(project_params)
+      render(json: @project)
+    else
+      error_response
+    end
   end
 
   def destroy
     @project.destroy
-    @project.destroyed? ? head(200) : error_response
+    @project.destroyed? ? render(json: @project) : error_response
   end
 
   private
@@ -28,11 +31,7 @@ class Api::V1::ProjectsController < ApplicationController
     params.require(:project).permit(:id, :name)
   end
 
-  def set_project
-    @project = Project.find(params[:id])
-  end
-
   def error_response
-    render status: 400, json: { errors: @project.errors.full_messages }
+    render(status: 400, json: { errors: @project.errors.full_messages })
   end
 end

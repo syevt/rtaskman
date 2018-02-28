@@ -43,3 +43,5 @@ en:
       login: 'Log in'
       user_projects: "User's projects"
       signout: 'Sign out'
+  cancancan:
+    unauthorized: 'Not authorized to access this resource'

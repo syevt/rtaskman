@@ -7,7 +7,7 @@
       "id": {"type": "integer"},
       "name": {"type": "string"},
       "tasks": {
-        "type": "array",
+        "type": ["null", "array"],
         "items": {
           "required": ["id", "project_id", "done",
                        "content", "priority", "deadline"],

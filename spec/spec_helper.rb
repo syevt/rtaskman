@@ -48,7 +48,7 @@ RSpec.configure do |config|
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
   # config.include Devise::Test::IntegrationHelpers, type: :feature
-  config.include Devise::Test::IntegrationHelpers, type: :request
+  # config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Rails.application.routes.url_helpers
   config.include Feature::AuthHelper, type: :feature
   config.include Request::JsonHelper, type: :request
