@@ -6,9 +6,10 @@ class Api::V1::TasksController < ApplicationController
   respond_to :json
 
   def create
-    priority = Project.find(task_params[:project_id])
-                      .tasks.max_by(&:priority).priority + 1
+    tasks = Project.where(id: task_params[:project_id]).includes(:tasks)[0].tasks
+    priority = tasks.length.zero? ? 0 : tasks.max_by(&:priority).priority + 1
     @task = Task.new(task_params.merge(priority: priority))
+    # @task.priority = priority
     @task.save ? render(json: @task) : error_response
   end
 
@@ -21,7 +22,7 @@ class Api::V1::TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    @task.destroyed? ? head(200) : error_response
+    @task.destroyed? ? render(json: @task) : error_response
   end
 
   private

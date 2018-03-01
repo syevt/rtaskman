@@ -75,7 +75,7 @@ describe 'Projects API' do
           expect(json[:name]).to eq(project.name)
         end
 
-        it 'removes it from database' do
+        it 'removes project from database' do
           expect {
             delete(api_v1_project_path(project), headers: headers)
           }.to change(Project, :count).by(-1)
