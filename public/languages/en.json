@@ -1,4 +1,10 @@
 {
+  "auth": {
+    "signedUp": "User has been successfully created",
+    "loggedIn": "Successfully logged in!",
+    "loggedOut": "You have logged out!"
+  },
+
   "common": {
     "cancel": "Cancel",
     "delete": "Delete",
