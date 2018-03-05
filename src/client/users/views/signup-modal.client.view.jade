@@ -1,5 +1,5 @@
 .modal-header
-  h3 Creating a new account
+  h3 {{'auth.createAccount' | translate}}
 form(name="userForm" data-ng-submit="create()" novalidate)
   .modal-body
     div.form-group.has-feedback(
@@ -7,42 +7,43 @@ form(name="userForm" data-ng-submit="create()" novalidate)
       (userForm.email.$touched || userForm.$submitted),\
       'has-success': userForm.email.$touched && !userForm.email.$invalid,\
       'has-warning': userForm.email.$touched && userForm.email.$pending }")
-      label.control-label Email:
+      label.control-label {{'auth.email' | translate}}
       input.form-control(
         data-ng-model="email" ng-model-options="{ updateOn: 'blur' }"
         name="email" required email-validator)
       i.glyphicon.glyphicon-repeat.glyphicon-spin.form-control-feedback(
         data-ng-show="userForm.email.$pending")
       p.help-block(data-ng-if="userForm.email.$error.required").
-        Email is required
+        {{'auth.emailRequired' | translate }}
       p.help-block(data-ng-if="userForm.email.$error.emailValidator").
-        Please enter a valid email
+        {{'auth.validEmailNeeded' | translate}}
     div.form-group(data-ng-class="{ 'has-error': userForm.password.$invalid &&\
       (userForm.password.$touched || userForm.$submitted),\
       'has-success': userForm.password.$touched && !userForm.password.$invalid }")
-      label.control-label Password:
+      label.control-label {{'auth.password' | translate}}
       input.form-control(type="password" data-ng-model="password"
         ng-model-options="{ updateOn: 'blur' }" name="password"
-        required minlength="6")
+        required minlength="8")
       p.help-block(data-ng-if="userForm.password.$error.required").
-        Password is required
+        {{'auth.passwordRequired' | translate}}
       p.help-block(data-ng-if="userForm.password.$error.minlength").
-        Min 6 chars are required
+        {{'auth.passwordLength' | translate}}
     div.form-group(data-ng-class="{ 'has-error':\
       userForm.confirmPassword.$invalid &&\
       (userForm.confirmPassword.$touched || userForm.$submitted),\
       'has-success': userForm.confirmPassword.$touched &&\
       !userForm.confirmPassword.$invalid }")
-      label.control-label Confirm password:
+      label.control-label {{'auth.confirmPassword' | translate}}
       input.form-control(type="password" data-ng-model="confirmPassword"
         ng-model-options="{ updateOn: 'blur' }" name="confirmPassword"
         required confirm-password)
       p.help-block(data-ng-if="userForm.confirmPassword.$error.required").
-        Confirm the password
+        {{'auth.confirmPasswordRequired' | translate}}
       p.help-block(data-ng-if="userForm.confirmPassword.$error.confirmPassword").
-        This should match the password
+        {{'auth.confirmPasswordMatch' | translate}}
     div(data-ng-show="error")
       p(data-ng-repeat="err in error.data.errorMessages") {{ err }}
   .modal-footer
-    button.btn.btn-primary(type="submit") Add User
-    button.btn.btn-warning(data-ng-click="cancel()") Cancel
+    button.btn.btn-primary(type="submit") {{'auth.addUser' | translate}}
+    button.btn.btn-warning(data-ng-click="cancel()").
+      {{'auth.cancel' | translate}}

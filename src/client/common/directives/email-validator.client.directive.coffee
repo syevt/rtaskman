@@ -17,7 +17,9 @@ angular.module('common')
         if ctrl.$isEmpty modelValue
           return on
 
-        if /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test viewValue
+        email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
+        # if /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,10}$/.test viewValue
+        if email_regex.test viewValue
           return on
 
         return off

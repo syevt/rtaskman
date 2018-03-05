@@ -1,12 +1,24 @@
 {
   "auth": {
-    "signedUp": "User has been successfully created",
+    "addUser": "Add User",
+    "cancel": "Cancel",
+    "confirmPassword": "Confirm password:",
+    "confirmPasswordMatch": "This should match the password",
+    "confirmPasswordRequired": "Confirm the password",
+    "createAccount": "Creating a new account",
+    "email": "Email:",
+    "emailRequired": "Email is required",
     "loggedIn": "Successfully logged in!",
-    "loggedOut": "You have logged out!"
+    "loggedOut": "You have logged out!",
+    "password": "Password:",
+    "passwordLength": "Min 8 chars are required",
+    "passwordRequired": "Password is required",
+    "signedUp": "User has been successfully created",
+    "validEmailNeeded": "Please enter a valid email"
   },
 
   "common": {
-    "cancel": "Cancel",
+    "cancel": "@:auth.cancel",
     "delete": "Delete",
     "removeModalBody": "Really delete \"{{caption}}\"?",
     "removeModalHeader": "Deleting {{entity}}"
@@ -29,7 +41,7 @@
 
   "tasks": {
     "addButton": "Add task",
-    "cancelButton": "@:common.cancel",
+    "cancelButton": "@:auth.cancel",
     "changePriorityHint": "Drag to change task priority",
     "deleteTaskHint": "Delete task",
     "editContentHint": "Edit task",
