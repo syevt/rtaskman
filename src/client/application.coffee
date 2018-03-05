@@ -23,7 +23,7 @@ mainApplicationModule = angular.module mainApplicationModuleName,
    'projects', 'tasks']
 
 configure = ($locationProvider, growlProvider, $authProvider,
-             $qProvider, $translateProvider) ->
+$qProvider, $translateProvider) ->
   $locationProvider.hashPrefix('!')
   growlProvider.onlyUniqueMessages(on)
   growlProvider.globalTimeToLive(2000)
