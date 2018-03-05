@@ -8,7 +8,7 @@ form(name="userForm" ng-submit="create()" novalidate)
       'has-success': userForm.email.$touched && !userForm.email.$invalid}")
       label.control-label {{'auth.email' | translate}}
       input.form-control(name="email" ng-model="email"
-        ng-model-options="{updateOn: 'blur'}"required email-validator)
+        ng-model-options="{updateOn: 'blur'}" required tm-email-validator)
       i.glyphicon.glyphicon-repeat.glyphicon-spin.form-control-feedback(
         ng-show="userForm.email.$pending")
       p.help-block(ng-if="userForm.email.$error.required").
@@ -32,7 +32,7 @@ form(name="userForm" ng-submit="create()" novalidate)
       label.control-label {{'auth.confirmPassword' | translate}}
       input.form-control(type="password" ng-model="confirmPassword"
         ng-model-options="{updateOn: 'blur'}" name="confirmPassword"
-        required confirm-password)
+        required tm-confirm-password)
       p.help-block(ng-if="userForm.confirmPassword.$error.required").
         {{'auth.confirmPasswordRequired' | translate}}
       p.help-block(ng-if="userForm.confirmPassword.$error.confirmPassword").
