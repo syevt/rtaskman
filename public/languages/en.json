@@ -18,7 +18,7 @@
   },
 
   "common": {
-    "cancel": "@:auth.cancel",
+    "cancel": "Cancel",
     "delete": "Delete",
     "removeModalBody": "Really delete \"{{caption}}\"?",
     "removeModalHeader": "Deleting {{entity}}"
@@ -41,7 +41,7 @@
 
   "tasks": {
     "addButton": "Add task",
-    "cancelButton": "@:auth.cancel",
+    "cancelButton": "Cancel",
     "changePriorityHint": "Drag to change task priority",
     "deleteTaskHint": "Delete task",
     "editContentHint": "Edit task",

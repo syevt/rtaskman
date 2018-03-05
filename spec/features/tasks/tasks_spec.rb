@@ -15,14 +15,17 @@ feature 'Tasks on projects page', js: true do
     expect(page).to have_css('td.tm-task-caption p', text: new_task_name)
   end
 
-  scenario "click on 'Edit task' to change task name", skip: true, use_selenium: true do
-    initial_content = project.tasks.first.content
-    edited = 'changed task name'
+  scenario "click on 'Edit task' to change task name" do
+    task = project.tasks.first
+    edited = 'changed task content'
     find("i[title='#{task_tr['editContentHint']}']",
-         visible: false, match: :first).hover.click
-    click_on(task_tr['save'])
+         visible: false, match: :first).trigger('click')
+    within("#task-#{project.id}-#{task.id}") do
+      all('input')[1].set(edited)
+    end
+    click_on(task_tr['saveButton'])
     expect(page).to have_css('td.tm-task-caption p', text: edited)
-    expect(page).not_to have_css('td.tm-task-caption p', text: initial_content)
+    expect(page).not_to have_css('td.tm-task-caption p', text: task.content)
   end
 
   context 'outdated task' do
