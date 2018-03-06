@@ -1,13 +1,13 @@
 .modal-header
   h3 {{'auth.createAccount' | translate}}
-form(name="userForm" ng-submit="create()" novalidate)
+form(name="userForm" ng-submit="vm.create()" novalidate)
   .modal-body
     div.form-group.has-feedback(
       ng-class="{'has-error': userForm.email.$invalid &&\
       (userForm.email.$touched || userForm.$submitted),\
       'has-success': userForm.email.$touched && !userForm.email.$invalid}")
       label.control-label {{'auth.email' | translate}}
-      input.form-control(name="email" ng-model="email"
+      input.form-control(name="email" ng-model="vm.email"
         ng-model-options="{updateOn: 'blur'}" required tm-email-validator)
       i.glyphicon.glyphicon-repeat.glyphicon-spin.form-control-feedback(
         ng-show="userForm.email.$pending")
@@ -19,7 +19,7 @@ form(name="userForm" ng-submit="create()" novalidate)
       (userForm.password.$touched || userForm.$submitted),\
       'has-success': userForm.password.$touched && !userForm.password.$invalid}")
       label.control-label {{'auth.password' | translate}}
-      input.form-control(type="password" name="password" ng-model="password"
+      input.form-control(type="password" name="password" ng-model="vm.password"
         ng-model-options="{ updateOn: 'blur' }" required minlength="8")
       p.help-block(ng-if="userForm.password.$error.required").
         {{'auth.passwordRequired' | translate}}
@@ -30,7 +30,7 @@ form(name="userForm" ng-submit="create()" novalidate)
       'has-success': userForm.confirmPassword.$touched &&\
       !userForm.confirmPassword.$invalid}")
       label.control-label {{'auth.confirmPassword' | translate}}
-      input.form-control(type="password" ng-model="confirmPassword"
+      input.form-control(type="password" ng-model="vm.confirmPassword"
         ng-model-options="{updateOn: 'blur'}" name="confirmPassword"
         required tm-confirm-password)
       p.help-block(ng-if="userForm.confirmPassword.$error.required").
@@ -41,4 +41,4 @@ form(name="userForm" ng-submit="create()" novalidate)
       p(ng-repeat="err in error.data.errorMessages") {{err}}
   .modal-footer
     button.btn.btn-primary(type="submit") {{'auth.addUser' | translate}}
-    button.btn.btn-warning(ng-click="cancel()") {{'auth.cancel' | translate}}
+    button.btn.btn-warning(ng-click="vm.cancel()") {{'auth.cancel' | translate}}

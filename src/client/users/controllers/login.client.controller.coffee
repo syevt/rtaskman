@@ -13,7 +13,7 @@
       @password = ''
       modalInstance = $uibModal.open
         templateUrl: 'users/views/signup-modal.client.view.html'
-        controller: 'SignupController'
+        controller: 'SignupController as vm'
         scope: $scope
         resolve:
           userForm: ()->
@@ -25,7 +25,7 @@
         growl.success($translate.instant('auth.loggedIn'))
         $location.path('/projects')
       , (errorResponse)->
-          growl.error(errorResponse.errors[0])
+        growl.error(errorResponse.errors[0])
 
     signout = ()=>
       $auth.signOut().then ()=>
