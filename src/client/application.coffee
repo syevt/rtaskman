@@ -23,7 +23,7 @@ mainApplicationModule = angular.module mainApplicationModuleName,
    'projects', 'tasks']
 
 configure = ($locationProvider, growlProvider, $authProvider,
-$qProvider, $translateProvider) ->
+$qProvider, $translateProvider)->
   $locationProvider.hashPrefix('!')
   growlProvider.onlyUniqueMessages(on)
   growlProvider.globalTimeToLive(2000)
@@ -38,10 +38,9 @@ $qProvider, $translateProvider) ->
 configure.$inject = ['$locationProvider', 'growlProvider', '$authProvider',
                      '$qProvider', '$translateProvider']
 
-runBlock = ($auth, Identity) ->
-  unless Identity.user
-    $auth.validateUser().then (user) ->
-      Identity.user = user
+runBlock = ($auth, Identity)->
+  $auth.validateUser().then (user)->
+    Identity.user = user
 
 runBlock.$inject = ['$auth', 'Identity']
 
@@ -52,5 +51,5 @@ mainApplicationModule
 if window.location.hash is '#_=_'
   window.location.hash = '#!'
 
-angular.element(document).ready ->
-  angular.bootstrap document, [mainApplicationModuleName]
+angular.element(document).ready ()->
+  angular.bootstrap(document, [mainApplicationModuleName])

@@ -11,7 +11,7 @@
         email: @email
         password: @password
         password_confirmation: @confirmPassword
-        ).then (response) ->
+        ).then (response) =>
           Identity.user = response.data.data
           growl.success($translate.instant('auth.signedUp'))
           $uibModalInstance.close()

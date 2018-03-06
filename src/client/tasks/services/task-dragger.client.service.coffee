@@ -11,7 +11,7 @@
       dragstart: (project, task)->
         (e)->
           e.stopPropagation() if e.stopPropagation
-          e.dataTransfer.effectAllowed = "move"
+          e.dataTransfer.effectAllowed = 'move'
           e.dataTransfer.setData('text/html', 'otherwise mozilla goes crazy!!!')
           sourceElement = taskDraggerHelper.sourceElement(project, task)
           taskDraggerHelper.setSourceData(project, task)
