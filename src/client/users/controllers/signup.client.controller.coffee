@@ -1,4 +1,6 @@
 (->
+  angular = require('angular')
+
   SignupController = ($scope, $location, $uibModalInstance, $auth, Identity,
   growl, $translate) ->
     init = ()=>
@@ -12,7 +14,7 @@
         password: @password
         password_confirmation: @confirmPassword
         ).then (response) =>
-          Identity.user = response.data.data
+          Identity.user = angular.extend(response.data.data, signedIn: on)
           growl.success($translate.instant('auth.signedUp'))
           $uibModalInstance.close()
           $location.path('/projects')
@@ -26,7 +28,5 @@
   SignupController.$inject = ['$scope', '$location', '$uibModalInstance',
                               '$auth', 'Identity', 'growl', '$translate']
 
-  require('angular')
-    .module('users')
-    .controller('SignupController', SignupController)
+  angular.module('users').controller('SignupController', SignupController)
 )()
