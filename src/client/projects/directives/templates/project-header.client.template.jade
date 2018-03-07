@@ -1,18 +1,18 @@
 .row.tm-project-header
   .col-xs-1
     i.fa.fa-calendar-o.tm-glyphicon-shadow-light-bottom
-  .col-xs-11(ng-hide="vm.currentProject.id === project.id")
+  .col-xs-11(ng-hide='vm.currentProject.id === project.id')
     span.tm-project-name {{project.name}}
     section.pull-right.tm-project-buttons
       i.fa.fa-pencil(translate-attr="{title: 'projects.editButton'}"
-        ng-click="vm.edit(project)")
+        ng-click='vm.edit(project)')
       span &#124
       i.fa.fa-trash(translate-attr="{title: 'projects.deleteButton'}"
-        ng-click="vm.remove(project, $index)")
-  .col-xs-11.ng-cloak(ng-show="vm.currentProject.id === project.id")
+        ng-click='vm.remove(project, $index)')
+  .col-xs-11.ng-cloak(ng-show='vm.currentProject.id === project.id')
     form
       .input-group
-        input.form-control(ng-model="vm.currentProject.name")
+        input.form-control(ng-model='vm.currentProject.name')
         .input-group-btn
-          button.btn.btn-success(type="submit" ng-click="vm.update(project)").
+          button.btn.btn-success(type='submit' ng-click='vm.update(project)').
             {{'projects.save' | translate}}

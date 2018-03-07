@@ -1,7 +1,7 @@
 (->
   config = ($routeProvider)->
-    $routeProvider.
-      when '/projects',
+    $routeProvider
+      .when '/projects',
         templateUrl: 'projects/views/list-projects.client.view.html'
         controller: 'Projects as vm'
 

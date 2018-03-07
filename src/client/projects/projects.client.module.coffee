@@ -1,4 +1,4 @@
-require('angular').module 'projects', []
+require('angular').module('projects', [])
 require './controllers'
 require './services'
 require './directives'

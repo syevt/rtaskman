@@ -1,5 +1,5 @@
-section.tm-task-buttons(ng-hide="vm.currentTask.id === task.id")
-  i.fa.fa-calendar(title="{{vm.deadlineTip(task.deadline)}}"
+section.tm-task-buttons(ng-hide='vm.currentTask.id === task.id')
+  i.fa.fa-calendar(title='{{vm.deadlineTip(task.deadline)}}'
     ng-click="vm.edit(task, 'deadline')")
   span &#124
   i.fa.fa-sort(translate-attr="{title: 'tasks.changePriorityHint'}"
@@ -9,4 +9,4 @@ section.tm-task-buttons(ng-hide="vm.currentTask.id === task.id")
     ng-click="vm.edit(task, 'content')")
   span &#124
   i.fa.fa-trash(translate-attr="{title: 'tasks.deleteTaskHint'}"
-    ng-click="vm.remove(task, $index)")
+    ng-click='vm.remove(task, $index)')

@@ -56,7 +56,6 @@
       update(task)
 
     update = (task)=>
-      console.log task
       new Task(@currentTask).$update().then (response)=>
         angular.extend(task, response)
         @currentTask = null

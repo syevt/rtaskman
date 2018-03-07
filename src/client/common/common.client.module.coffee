@@ -1,3 +1,3 @@
-require('angular').module 'common', []
+require('angular').module('common', [])
 require './directives'
 require './services'
