@@ -12,9 +12,9 @@
         i.ng-cloak.fa.fa-bell.tm-task-bell.tm-task-bell-pendulum(
           translate-attr="{title: 'tasks.outdatedHint'}"
           ng-show='vm.showBell(task)')
-      td.tm-task-caption(colspan='6')
+      td.tm-task-content(colspan='6')
         p.text-justify(ng-hide='vm.currentTask.id === task.id').
-          {{task.content}}-{{task.priority}}
+          {{task.content}}
         tm-edit-task-content-form
         tm-edit-task-deadline-form
       td
@@ -22,5 +22,5 @@
     tr
       td.tm-task-td &nbsp
       td.tm-task-td &nbsp
-      td.tm-task-td(colspan='5') &nbsp
+      td.tm-task-td(colspan='6') &nbsp
       td.tm-task-td &nbsp

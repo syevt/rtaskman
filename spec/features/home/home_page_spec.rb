@@ -32,7 +32,7 @@ feature 'Home page' do
 
       scenario 'has empty projects page' do
         expect(page).not_to have_css('.tm-project-name')
-        expect(page).not_to have_css('.tm-task-caption')
+        expect(page).not_to have_css('.tm-task-content')
         expect(page).to have_text(js_tr['addProject'])
         expect(page).to have_text(js_tr['noProjectsMessage'])
       end
@@ -48,7 +48,7 @@ feature 'Home page' do
 
       scenario 'has user`s projects on page' do
         expect(page).to have_css('.tm-project-name', count: 3)
-        expect(page).to have_css('.tm-task-caption', count: 6)
+        expect(page).to have_css('.tm-task-content', count: 6)
         expect(page).not_to have_text(js_tr['noProjectsMessage'])
       end
     end
