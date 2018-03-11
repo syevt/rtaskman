@@ -10,6 +10,7 @@ var gulp = require('gulp'),
   concat = require('gulp-concat'),
   stylus = require('gulp-stylus'),
   pug = require('gulp-pug');
+  Server = require('karma').Server;
 
 gulp.task('bundle', function(){
   gulp.src('./src/client/application.coffee', {read: false})
@@ -50,6 +51,13 @@ gulp.task('stylus', function(){
       'include css': true
     }))
     .pipe(gulp.dest('./public/css'))
+});
+
+gulp.task('test', function(done){
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    // singleRun: true
+  }, done).start()
 });
 
 gulp.task('watch', function(){
