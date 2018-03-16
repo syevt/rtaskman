@@ -30,6 +30,7 @@ gulp.task('bundle', function(){
       d.run(function(){
         file.contents = browserify({
           entries: [file.path],
+          ignore: ['**/*.spec*'],
           extensions: ['.coffee'],
           debug: true
         }).transform(coffeeify).bundle();
@@ -61,7 +62,7 @@ gulp.task('test', function(done){
 });
 
 gulp.task('watch', function(){
-  gulp.watch('./src/client/**/*.coffee', ['bundle']);
+  gulp.watch(['src/client/**/*.coffee', '!src/client/**/*.spec.coffee'], ['bundle']);
   gulp.watch('./src/client/**/**/*.jade', ['pug']);
   gulp.watch('./src/client/stylus/**/*.styl', ['stylus']);
 });

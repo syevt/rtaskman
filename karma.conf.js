@@ -2,7 +2,7 @@ module.exports = function(config) {
   config.set({
     basePath: 'src/client',
 
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'chai', 'sinon'],
 
     preprocessors: {
       '**/*.spec.coffee': ['coffee']
@@ -19,9 +19,28 @@ module.exports = function(config) {
     },
 
     files: [
-      '**/**/*.spec.coffee',
-      {pattern: '../../public/js/bundle.js', included: false, watched: true}
+      {pattern: '../../public/js/bundle.js', included: true, watched: true},
+      {
+        pattern: '../../node_modules/angular-mocks/angular-mocks.js',
+        included: true, watched: false
+      },
+      {
+        pattern: '../../node_modules/sinon-chai/lib/sinon-chai.js',
+        included: true, watched: false
+      },
+      {
+        pattern: '../../node_modules/bardjs/bard.js',
+        included: true, watched: false
+      },
+      '**/*.spec.coffee'
     ],
+
+    client: {
+      mocha: {
+        reporter: 'html',
+        ui: 'bdd'
+      }
+    },
 
     exclude: [
     ],
@@ -29,9 +48,7 @@ module.exports = function(config) {
     reporters: ['mocha'],
 
     mochaReporter: {
-      output: 'minimal',
       showDiff: true,
-      divider: ''
     },
 
     port: 9876,
@@ -42,6 +59,7 @@ module.exports = function(config) {
 
     autoWatch: true,
 
+    // browsers: ['PhantomJS', 'Firefox'],
     browsers: ['PhantomJS'],
 
     singleRun: false,

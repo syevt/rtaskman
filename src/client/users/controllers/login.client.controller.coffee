@@ -11,6 +11,7 @@
     showSignupModal = ()=>
       @email = ''
       @password = ''
+      @confirmPassword = ''
       modalInstance = $uibModal.open
         templateUrl: 'users/views/signup-modal.client.view.html'
         controller: 'SignupController as vm'
