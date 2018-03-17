@@ -1,16 +1,17 @@
 describe 'LoginController', ()->
   controller = {}
+  cred_fields = ['email', 'password', 'confirmPassword']
 
   beforeEach ()->
     bard.appModule('taskManager')
     bard.inject('$controller', '$q', '$rootScope', '$location', '$uibModal',
-    '$httpBackend', '$auth', 'Identity', 'growl', '$translate')
+                '$auth', 'growl', '$translate')
     controller = $controller('LoginController', $scope: $rootScope.$new)
 
   context 'showSignupModal()', ()->
     it 'clears @email, @password and @confirmPassword', ()->
       controller.showSignupModal()
-      for field in ['email', 'password', 'confirmPassword']
+      for field in cred_fields
         expect(controller[field]).to.be.empty
 
     it 'opens signup modal', ()->
@@ -18,24 +19,56 @@ describe 'LoginController', ()->
       controller.showSignupModal()
       expect($uibModal.open).to.have.been.called
 
-  context 'signin()', ()->
-    context 'with success', ()->
-      it 'assigns returned user to @identity.user', ()->
+  context 'signing in and out', ()->
+    beforeEach ()->
+      sinon.spy(growl, 'success')
+      sinon.spy($translate, 'instant')
+      sinon.spy($location, 'path')
+
+    context 'signin()', ()->
+      context 'with successful response', ()->
         email = 'some@email.ua'
-        sinon.stub($auth, 'submitLogin').returns($q.when(email: email))
-        controller.signin()
+
+        beforeEach ()->
+          sinon.stub($auth, 'submitLogin').returns($q.when(email: email))
+          controller.signin()
+          $rootScope.$apply()
+
+        it 'assigns returned user to @identity.user', ()->
+          expect(controller.identity.user.email).to.eq(email)
+
+        it 'makes growl to show success message', ()->
+          expect($translate.instant).to.have.been.calledWith('auth.loggedIn')
+          expect(growl.success).to.have.been.called
+
+        it 'routes to user`s projects view', ()->
+          expect($location.path).to.have.been.calledWith('/projects')
+
+      context 'with error response', ()->
+        it 'makes growl to show error message', ()->
+          error = 'login error'
+          sinon.spy(growl, 'error')
+          sinon.stub($auth, 'submitLogin').returns($q.reject(errors: [error]))
+          controller.signin()
+          $rootScope.$apply()
+          expect(growl.error).to.have.been.calledWith(error)
+
+    context 'signout()', ()->
+      beforeEach ()->
+        sinon.stub($auth, 'signOut').returns($q.when())
+        controller.signout()
         $rootScope.$apply()
-        expect(controller.identity.user.email).to.eq(email)
 
-      it 'makes growl to show success message', ()->
+      it 'nullifies @email, @password and @confirmPassword', ()->
+        for field in cred_fields
+          expect(controller[field]).to.be.null
 
-      it 'routes to user`s projects view', ()->
+      it 'nullifies @identity.user', ()->
+        expect(controller.identity.user).to.be.null
 
-    context 'with error', ()->
-      it 'makes growl to show error message', ()->
-        error = 'login error'
-        sinon.spy(growl, 'error')
-        sinon.stub($auth, 'submitLogin').returns($q.reject(errors: [error]))
-        controller.signin()
-        $rootScope.$apply()
-        expect(growl.error).to.have.been.calledWith(error)
+      it 'makes growl show successful signout message', ()->
+        expect($translate.instant).to.have.been.calledWith('auth.loggedOut')
+        expect(growl.success).to.have.been.called
+
+      it "routes to '/'", ()->
+        expect($location.path).to.have.been.calledWith('/')

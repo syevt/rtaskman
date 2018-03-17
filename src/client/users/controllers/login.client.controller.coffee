@@ -32,6 +32,7 @@
       $auth.signOut().then ()=>
         @email = null
         @password = null
+        @confirmPassword = null
         @identity.user = null
         growl.success($translate.instant('auth.loggedOut'))
         $location.path('/')
@@ -40,7 +41,7 @@
     return
 
   LoginController.$inject = ['$scope', '$location', '$uibModal', '$auth',
-                             'Identity',  'growl', '$translate']
+                             'Identity', 'growl', '$translate']
 
   require('angular')
     .module('users')

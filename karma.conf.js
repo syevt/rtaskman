@@ -5,7 +5,7 @@ module.exports = function(config) {
     frameworks: ['mocha', 'chai', 'sinon'],
 
     preprocessors: {
-      '**/*.spec.coffee': ['coffee']
+      '**/*.spec.coffee': ['coffee'],
     },
 
     coffeePreprocessor: {
@@ -49,6 +49,7 @@ module.exports = function(config) {
 
     mochaReporter: {
       showDiff: true,
+      // showDiff: 'inline',
     },
 
     port: 9876,
