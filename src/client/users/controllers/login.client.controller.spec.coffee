@@ -1,6 +1,7 @@
 describe 'LoginController', ()->
   controller = {}
   cred_fields = ['email', 'password', 'confirmPassword']
+  sandbox = sinon.createSandbox()
 
   beforeEach ()->
     bard.appModule('taskManager')
@@ -8,7 +9,10 @@ describe 'LoginController', ()->
                 '$auth', 'growl', '$translate')
     controller = $controller('LoginController', $scope: $rootScope.$new)
 
-  context 'showSignupModal()', ()->
+  afterEach ()->
+    sandbox.restore()
+
+  context '#showSignupModal', ()->
     it 'clears @email, @password and @confirmPassword', ()->
       controller.showSignupModal()
       for field in cred_fields
@@ -21,11 +25,11 @@ describe 'LoginController', ()->
 
   context 'signing in and out', ()->
     beforeEach ()->
-      sinon.spy(growl, 'success')
-      sinon.spy($translate, 'instant')
-      sinon.spy($location, 'path')
+      sandbox.spy(growl, 'success')
+      sandbox.spy($translate, 'instant')
+      sandbox.spy($location, 'path')
 
-    context 'signin()', ()->
+    context '#signin', ()->
       context 'with successful response', ()->
         email = 'some@email.ua'
 
@@ -47,13 +51,13 @@ describe 'LoginController', ()->
       context 'with error response', ()->
         it 'makes growl to show error message', ()->
           error = 'login error'
-          sinon.spy(growl, 'error')
+          sandbox.spy(growl, 'error')
           sinon.stub($auth, 'submitLogin').returns($q.reject(errors: [error]))
           controller.signin()
           $rootScope.$apply()
           expect(growl.error).to.have.been.calledWith(error)
 
-    context 'signout()', ()->
+    context '#signout', ()->
       beforeEach ()->
         sinon.stub($auth, 'signOut').returns($q.when())
         controller.signout()
