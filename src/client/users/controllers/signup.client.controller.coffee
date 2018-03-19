@@ -1,14 +1,14 @@
 (->
   angular = require('angular')
 
-  SignupController = ($scope, $location, $uibModalInstance, $auth, Identity,
-  growl, $translate) ->
+  SignupController = ($location, $uibModalInstance, $auth, Identity,
+  growl, $translate)->
     init = ()=>
       @cancel = ()-> $uibModalInstance.dismiss()
       @create = create
 
     create = ()=>
-      return if $scope.userForm.$invalid
+      return if @userForm.$invalid
       $auth.submitRegistration(
         email: @email
         password: @password
@@ -25,8 +25,8 @@
     init()
     return
 
-  SignupController.$inject = ['$scope', '$location', '$uibModalInstance',
-                              '$auth', 'Identity', 'growl', '$translate']
+  SignupController.$inject = ['$location', '$uibModalInstance', '$auth',
+                              'Identity', 'growl', '$translate']
 
   angular.module('users').controller('SignupController', SignupController)
 )()

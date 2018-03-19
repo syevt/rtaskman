@@ -7,12 +7,8 @@ describe 'SignupController', ()->
     bard.appModule('taskManager')
     bard.inject('$controller', '$q', '$rootScope', '$location',
                 '$auth', 'growl', '$translate')
-    scope = $rootScope.$new()
     controller = $controller 'SignupController',
-                             # $scope: $rootScope.$new,
-                             $scope: scope,
                              $uibModalInstance: $uibModalInstance
-    scope.$digest()
 
   afterEach ()->
     sandbox.restore()
@@ -26,7 +22,7 @@ describe 'SignupController', ()->
   context '#create', ()->
     context 'with invalid registration data', ()->
       it 'doesn`t submit invalid registration data', ()->
-        sandbox.stub(controller.$scope.userForm, '$invalid').returns(on)
+        controller.userForm = $invalid: on
         sandbox.spy($auth, 'submitRegistration')
         controller.create()
         expect($auth.submitRegistration).to.not.have.been.called

@@ -1,6 +1,5 @@
 (->
-  LoginController = ($scope, $location, $uibModal, $auth, Identity,
-  growl, $translate)->
+  LoginController = ($location, $uibModal, $auth, Identity, growl, $translate)->
     init = ()=>
       @identity = Identity
       @showUserProjects = ()-> $location.path('/projects')
@@ -15,10 +14,7 @@
       modalInstance = $uibModal.open
         templateUrl: 'users/views/signup-modal.client.view.html'
         controller: 'SignupController as vm'
-        scope: $scope
-        resolve:
-          userForm: ()->
-            return $scope.userForm
+        bindToController: on
 
     signin = ()=>
       $auth.submitLogin(email: @email, password: @password).then (user)=>
@@ -40,8 +36,8 @@
     init()
     return
 
-  LoginController.$inject = ['$scope', '$location', '$uibModal', '$auth',
-                             'Identity', 'growl', '$translate']
+  LoginController.$inject = ['$location', '$uibModal', '$auth', 'Identity',
+                             'growl', '$translate']
 
   require('angular')
     .module('users')

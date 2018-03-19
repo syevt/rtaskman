@@ -1,41 +1,44 @@
 .modal-header
   h3 {{'auth.createAccount' | translate}}
-form(name='userForm' ng-submit='vm.create()' novalidate)
+form(name='vm.userForm' ng-submit='vm.create()' novalidate)
   .modal-body
     div.form-group.has-feedback(
-      ng-class="{'has-error': userForm.email.$invalid &&\
-      (userForm.email.$touched || userForm.$submitted),\
-      'has-success': userForm.email.$touched && !userForm.email.$invalid}")
+      ng-class="{'has-error': vm.userForm.email.$invalid &&\
+      (vm.userForm.email.$touched || vm.userForm.$submitted),\
+      'has-success': vm.userForm.email.$touched &&\
+      !vm.userForm.email.$invalid}")
       label.control-label {{'auth.email' | translate}}
       input.form-control(name='email' ng-model='vm.email'
         ng-model-options="{updateOn: 'blur'}" required tm-email-validator)
       i.glyphicon.glyphicon-repeat.glyphicon-spin.form-control-feedback(
-        ng-show='userForm.email.$pending')
-      p.help-block(ng-if='userForm.email.$error.required').
+        ng-show='vm.userForm.email.$pending')
+      p.help-block(ng-if='vm.userForm.email.$error.required').
         {{'auth.emailRequired' | translate }}
-      p.help-block(ng-if='userForm.email.$error.emailValidator').
+      p.help-block(ng-if='vm.userForm.email.$error.emailValidator').
         {{'auth.validEmailNeeded' | translate}}
-    div.form-group(ng-class="{'has-error': userForm.password.$invalid &&\
-      (userForm.password.$touched || userForm.$submitted),\
-      'has-success': userForm.password.$touched && !userForm.password.$invalid}")
+    div.form-group(ng-class="{'has-error': vm.userForm.password.$invalid &&\
+      (vm.userForm.password.$touched || vm.userForm.$submitted),\
+      'has-success': vm.userForm.password.$touched &&\
+      !vm.userForm.password.$invalid}")
       label.control-label {{'auth.password' | translate}}
       input.form-control(type='password' name='password' ng-model='vm.password'
         ng-model-options="{ updateOn: 'blur' }" required minlength='8')
-      p.help-block(ng-if='userForm.password.$error.required').
+      p.help-block(ng-if='vm.userForm.password.$error.required').
         {{'auth.passwordRequired' | translate}}
-      p.help-block(ng-if='userForm.password.$error.minlength').
+      p.help-block(ng-if='vm.userForm.password.$error.minlength').
         {{'auth.passwordLength' | translate}}
-    div.form-group(ng-class="{'has-error':\ userForm.confirmPassword.$invalid &&\
-      (userForm.confirmPassword.$touched || userForm.$submitted),\
-      'has-success': userForm.confirmPassword.$touched &&\
-      !userForm.confirmPassword.$invalid}")
+    div.form-group(ng-class="{'has-error':\
+      vm.userForm.confirmPassword.$invalid &&\
+      (vm.userForm.confirmPassword.$touched || vm.userForm.$submitted),\
+      'has-success': vm.userForm.confirmPassword.$touched &&\
+      !vm.userForm.confirmPassword.$invalid}")
       label.control-label {{'auth.confirmPassword' | translate}}
       input.form-control(type='password' ng-model='vm.confirmPassword'
         ng-model-options="{updateOn: 'blur'}" name='confirmPassword'
         required tm-confirm-password)
-      p.help-block(ng-if='userForm.confirmPassword.$error.required').
+      p.help-block(ng-if='vm.userForm.confirmPassword.$error.required').
         {{'auth.confirmPasswordRequired' | translate}}
-      p.help-block(ng-if='userForm.confirmPassword.$error.confirmPassword').
+      p.help-block(ng-if='vm.userForm.confirmPassword.$error.confirmPassword').
         {{'auth.confirmPasswordMatch' | translate}}
   .modal-footer
     button.btn.btn-primary(type='submit') {{'auth.addUser' | translate}}

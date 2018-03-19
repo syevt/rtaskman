@@ -7,7 +7,7 @@ describe 'LoginController', ()->
     bard.appModule('taskManager')
     bard.inject('$controller', '$q', '$rootScope', '$location', '$uibModal',
                 '$auth', 'growl', '$translate')
-    controller = $controller('LoginController', $scope: $rootScope.$new)
+    controller = $controller('LoginController')
 
   afterEach ()->
     sandbox.restore()
