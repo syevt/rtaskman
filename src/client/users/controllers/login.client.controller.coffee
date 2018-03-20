@@ -10,7 +10,6 @@
     showSignupModal = ()=>
       @email = ''
       @password = ''
-      @confirmPassword = ''
       modalInstance = $uibModal.open
         templateUrl: 'users/views/signup-modal.client.view.html'
         controller: 'SignupController as vm'
@@ -28,7 +27,6 @@
       $auth.signOut().then ()=>
         @email = null
         @password = null
-        @confirmPassword = null
         @identity.user = null
         growl.success($translate.instant('auth.loggedOut'))
         $location.path('/')

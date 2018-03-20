@@ -1,6 +1,6 @@
 describe 'LoginController', ()->
   controller = {}
-  cred_fields = ['email', 'password', 'confirmPassword']
+  cred_fields = ['email', 'password']
   sandbox = sinon.createSandbox()
 
   beforeEach ()->
@@ -19,7 +19,7 @@ describe 'LoginController', ()->
         expect(controller[field]).to.be.empty
 
     it 'opens signup modal', ()->
-      sinon.spy($uibModal, 'open')
+      sandbox.spy($uibModal, 'open')
       controller.showSignupModal()
       expect($uibModal.open).to.have.been.called
 
@@ -34,7 +34,7 @@ describe 'LoginController', ()->
         email = 'some@email.ua'
 
         beforeEach ()->
-          sinon.stub($auth, 'submitLogin').returns($q.when(email: email))
+          sandbox.stub($auth, 'submitLogin').returns($q.when(email: email))
           controller.signin()
           $rootScope.$apply()
 
@@ -52,14 +52,14 @@ describe 'LoginController', ()->
         it 'makes growl to show error message', ()->
           error = 'login error'
           sandbox.spy(growl, 'error')
-          sinon.stub($auth, 'submitLogin').returns($q.reject(errors: [error]))
+          sandbox.stub($auth, 'submitLogin').returns($q.reject(errors: [error]))
           controller.signin()
           $rootScope.$apply()
           expect(growl.error).to.have.been.calledWith(error)
 
     context '#signout', ()->
       beforeEach ()->
-        sinon.stub($auth, 'signOut').returns($q.when())
+        sandbox.stub($auth, 'signOut').returns($q.when())
         controller.signout()
         $rootScope.$apply()
 

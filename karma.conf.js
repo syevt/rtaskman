@@ -49,7 +49,8 @@ module.exports = function(config) {
 
     mochaReporter: {
       showDiff: true,
-      // showDiff: 'inline',
+      // showDiff: 'unified',
+      // showDiff: 'inline'
     },
 
     port: 9876,

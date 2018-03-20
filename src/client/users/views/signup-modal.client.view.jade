@@ -10,8 +10,6 @@ form(name='vm.userForm' ng-submit='vm.create()' novalidate)
       label.control-label {{'auth.email' | translate}}
       input.form-control(name='email' ng-model='vm.email'
         ng-model-options="{updateOn: 'blur'}" required tm-email-validator)
-      i.glyphicon.glyphicon-repeat.glyphicon-spin.form-control-feedback(
-        ng-show='vm.userForm.email.$pending')
       p.help-block(ng-if='vm.userForm.email.$error.required').
         {{'auth.emailRequired' | translate }}
       p.help-block(ng-if='vm.userForm.email.$error.emailValidator').
