@@ -32,6 +32,10 @@ module.exports = function(config) {
         pattern: '../../node_modules/bardjs/bard.js',
         included: true, watched: false
       },
+      {
+        pattern: '../../node_modules/moment/moment.js',
+        included: true, watched: false
+      },
       '**/*.spec.coffee'
     ],
 
