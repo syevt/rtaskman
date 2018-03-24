@@ -1,4 +1,4 @@
-describe.only 'Tasks', ()->
+describe 'Tasks', ()->
   controller = {}
   sandbox = sinon.createSandbox()
 
@@ -135,3 +135,48 @@ describe.only 'Tasks', ()->
         task.deadline = yesterday
         task.done = on
         expect(controller.showBell(task)).to.be.false
+
+  context '#toggleStatus', ()->
+    it 'calls #edit and #update', ()->
+      task = {content: 'test'}
+      editSpy = sandbox.spy(controller, 'edit')
+      updateSpy = sandbox.spy(controller, 'update')
+      controller.toggleStatus(task)
+      expect(editSpy).to.have.been.calledWith(task, '')
+      expect(updateSpy.calledImmediatelyAfter(editSpy)).to.be.true
+
+  context '#update', ()->
+    task = content: 'being updated'
+
+    beforeEach ()->
+      controller.backedupTask = content: 'backed up'
+      controller.currentTask = content: 'current'
+
+    context 'with successful response', ()->
+      beforeEach ()->
+        sandbox.stub(Task.prototype, '$update')
+          .returns($q.when(content: 'updated'))
+        controller.update(task)
+        $rootScope.$apply()
+
+      it 'updates task properties with those returned by backend', ()->
+        expect(task.content).to.eq('updated')
+
+      it 'nullifies @currentTask', ()->
+        expect(controller.currentTask).to.be.null
+
+    context 'with error response', ()->
+      error = 'update error'
+
+      beforeEach ()->
+        sandbox.spy(growl, 'error')
+        sandbox.stub(Task.prototype, '$update')
+          .returns($q.reject(data: {errors: [error]}))
+        controller.update(task)
+        $rootScope.$apply()
+
+      it 'restores current task`s properties from backup', ()->
+        expect(controller.currentTask.content).to.eq('backed up')
+
+      it 'makes growl show error message', ()->
+        expect(growl.error).to.have.been.calledWith('update error', ttl: -1)

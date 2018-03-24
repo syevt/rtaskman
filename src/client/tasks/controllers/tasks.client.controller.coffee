@@ -51,9 +51,9 @@
       !!task.deadline && !task.done &&
         moment.utc(task.deadline).add(1, 'd') < moment.utc()
 
-    toggleStatus = (task)->
-      edit(task, '')
-      update(task)
+    toggleStatus = (task)=>
+      @edit(task, '')
+      @update(task)
 
     update = (task)=>
       new Task(@currentTask).$update().then (response)=>
