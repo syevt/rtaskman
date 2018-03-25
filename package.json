@@ -42,6 +42,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-sinon": "^1.0.5",
     "mocha": "^5.0.4",
+    "phantomjs-polyfill-find-index": "^1.0.1",
     "sinon": "^4.4.3",
     "sinon-chai": "^3.0.0"
   }
