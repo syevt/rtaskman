@@ -70,11 +70,11 @@ describe 'Tasks', ()->
     beforeEach ()->
       controller.edit(task, 'content')
 
-    it 'backs up the task being updated', ()->
+    it 'backs up the task being edited', ()->
       expect(controller.backedupTask).to.include(task)
 
-    it 'sets current task`s values to those of the task being updated', ()->
-      expect(controller.backedupTask).to.include(task)
+    it 'sets current task`s values to those of the task being edited', ()->
+      expect(controller.currentTask).to.include(task)
 
     it 'sets scope`s editingProperty to the task`s updating property', ()->
       expect(controller.editingProperty).to.eq('content')
@@ -179,4 +179,4 @@ describe 'Tasks', ()->
         expect(controller.currentTask.content).to.eq('backed up')
 
       it 'makes growl show error message', ()->
-        expect(growl.error).to.have.been.calledWith('update error', ttl: -1)
+        expect(growl.error).to.have.been.calledWith(error, ttl: -1)
