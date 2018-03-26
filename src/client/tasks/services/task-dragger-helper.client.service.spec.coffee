@@ -55,11 +55,6 @@ describe 'taskDraggerHelper', ()->
       expect(spy).to.have.been.calledWith('task-4-5')
 
   context '#reorderTasks with priorities sequence 1, 2, 3, 4, 5, 6', ()->
-    tasks = []
-
-    beforeEach ()->
-      tasks = [1..6].map (priority)-> {priority: priority}
-
     dragCases = [
       [1, 2, [2, 1, 3, 4, 5, 6]],
       [2, 1, [2, 1, 3, 4, 5, 6]],
@@ -78,5 +73,6 @@ describe 'taskDraggerHelper', ()->
     for drag in dragCases
       do (drag)->
         it "and dragging #{drag[0]} to #{drag[1]} gives #{drag[2]}", ()->
+          tasks = [1..6].map (priority)-> {priority: priority}
           taskDraggerHelper.reorderTasks(tasks, {priority: drag[1]}, drag[0])
           expect(tasks.map (task)-> task.priority).to.eql(drag[2])
