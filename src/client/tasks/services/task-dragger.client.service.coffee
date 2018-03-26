@@ -23,7 +23,7 @@
           return unless taskDraggerHelper.isValidTarget(project, task)
           sourcePriority = getSourcePriority()
           direction = if sourcePriority < task.priority then 'below' else 'above'
-          @classList.add("tm-task-row-dragover-#{direction}")
+          e.currentTarget.classList.add("tm-task-row-dragover-#{direction}")
 
       dragover: (project, task)->
         (e)->
@@ -34,12 +34,12 @@
       dragleave: (project, task)->
         (e)->
           return unless taskDraggerHelper.isValidTarget(project, task)
-          clearDragClasses(@)
+          clearDragClasses(e.currentTarget)
 
       drop: (project, task)->
         (e)->
           return unless taskDraggerHelper.isValidTarget(project, task)
-          clearDragClasses(@)
+          clearDragClasses(e.currentTarget)
           sourcePriority = getSourcePriority()
           currentTask = new Task
             id: task.id
