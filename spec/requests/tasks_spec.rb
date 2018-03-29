@@ -64,11 +64,9 @@ describe 'Tasks API' do
             [5, 12] => [[3, 5, 6, 11, 12, 42, 98], [3, 12, 5, 10, 11, 42, 98]],
             [42, 6] => [[3, 5, 6, 11, 12, 42, 98], [3, 5, 7, 12, 13, 6, 98]]
           }
-
           cases.each do |priorities, sets|
-            it "for tasks' collection with priorities #{sets.first} "\
-              "swapping #{priorities.first} and #{priorities.last} "\
-              "gives #{sets.last} sequence" do
+            it "for priorities #{sets.first} drag #{priorities.first} to "\
+             "#{priorities.last} gives #{sets.last} sequence" do
               tasks = sets.first.map do |number|
                 create(:task, project: project, priority: number)
               end

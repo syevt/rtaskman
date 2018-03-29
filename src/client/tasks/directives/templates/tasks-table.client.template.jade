@@ -1,7 +1,7 @@
 .col-xs-8.col-xs-offset-2.tm-tasks-table-container.ng-cloak(
     ng-show='project.tasks.length')
   table.tm-tasks-table
-    tr.tm-task-row(ng-repeat='task in project.tasks'
+    tr.tm-task-row(ng-repeat="task in project.tasks"
       id='task-{{project.id}}-{{task.id}}' tm-task-droppable)
       td.tm-task-done
         input(translate-attr="{title: 'tasks.toggleDoneHint'}" type='checkbox'

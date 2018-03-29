@@ -17,10 +17,16 @@
     sourceElement: (project, task)->
       document.getElementById("task-#{project.id}-#{task.id}")
 
-    reorderTasks: (tasks, target, sourcePriority)->
+    reorderTasks: (tasks, targetPriority, sourcePriority)->
       from = tasks.findIndex (task)-> task.priority is sourcePriority
-      to = tasks.findIndex (task)-> task.priority is target.priority
-      tasks.splice(to, 0, tasks.splice(from, 1)[0])
+      to = tasks.findIndex (task)-> task.priority is targetPriority
+      source = (task for task in tasks when task.priority is sourcePriority)[0]
+      source.priority = targetPriority
+      if from < to
+        task.priority -= 1 for task in tasks[(from + 1)..to]
+      else
+        task.priority += 1 for task in tasks[to...from]
+      tasks.sort (current, next)-> current.priority - next.priority
 
   require('angular')
     .module('tasks')

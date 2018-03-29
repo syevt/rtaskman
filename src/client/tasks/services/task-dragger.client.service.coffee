@@ -46,7 +46,8 @@
             priority: task.priority
             sourcepriority: sourcePriority
           currentTask.$update().then ()->
-            taskDraggerHelper.reorderTasks(project.tasks, task, sourcePriority)
+            taskDraggerHelper.reorderTasks(
+              project.tasks, task.priority, sourcePriority)
           , (errorResponse)->
             growl.error(errorResponse.data.errors[0], ttl: -1)
 
