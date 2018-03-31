@@ -124,7 +124,7 @@ describe 'Projects', ()->
         controller.update(project)
         $rootScope.$apply()
 
-      it 'update project`s properties with those of returned project', ()->
+      it 'updates project`s properties with those of returned project', ()->
         expect(project.name).to.eq('updated')
 
       it 'nullifies @currentProject', ()->

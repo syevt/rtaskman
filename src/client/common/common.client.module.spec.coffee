@@ -1,8 +1,3 @@
-describe 'Testing modules', ->
-  module = null
-
-  before ->
-    module = angular.module('taskManager')
-
-  it 'should be registered', ->
-    expect(module).not.to.eq(null)
+describe 'common module', ()->
+  it 'should be registered', ()->
+    expect(angular.module('common')).to.exist
