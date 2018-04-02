@@ -6,7 +6,7 @@ describe 'Projects', ()->
   beforeEach ()->
     bard.appModule('taskManager')
     bard.inject('$controller', '$q', '$rootScope', 'Project',
-                'RemoveModal', 'growl')
+                'removalModal', 'growl')
     controller = $controller('Projects')
 
   afterEach ()->
@@ -88,13 +88,13 @@ describe 'Projects', ()->
       controller.projects = fakeProjects
 
     it 'shows removal confirmation modal', ()->
-      sandbox.spy(RemoveModal, 'open')
+      sandbox.spy(removalModal, 'open')
       controller.remove(project, 0)
-      expect(RemoveModal.open).to
+      expect(removalModal.open).to
         .have.been.calledWith(entity: 'project', caption: 'some project')
 
     it 'with successful response removes project from @projects', ()->
-      sandbox.stub(RemoveModal, 'open').returns(result: $q.when())
+      sandbox.stub(removalModal, 'open').returns(result: $q.when())
       sandbox.stub(Project.prototype, '$remove').returns($q.when())
       controller.remove(project, 0)
       $rootScope.$apply()
@@ -102,7 +102,7 @@ describe 'Projects', ()->
 
     it 'with error response makes growl show error message', ()->
       error = 'removal error'
-      sandbox.stub(RemoveModal, 'open').returns(result: $q.when())
+      sandbox.stub(removalModal, 'open').returns(result: $q.when())
       sandbox.stub(Project.prototype, '$remove')
         .returns($q.reject(data: {errors: [error]}))
       sandbox.spy(growl, 'error')

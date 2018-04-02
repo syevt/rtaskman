@@ -4,7 +4,7 @@ describe 'Tasks', ()->
 
   beforeEach ()->
     bard.appModule('taskManager')
-    bard.inject('$controller', '$q', '$rootScope', 'Task', 'RemoveModal',
+    bard.inject('$controller', '$q', '$rootScope', 'Task', 'removalModal',
                 'growl', '$translate')
     controller = $controller('Tasks')
 
@@ -86,13 +86,13 @@ describe 'Tasks', ()->
       controller.parentProject = tasks: [{content: 'first'}, {content: 'second'}]
 
     it 'shows removal confirmation modal', ()->
-      sandbox.spy(RemoveModal, 'open')
+      sandbox.spy(removalModal, 'open')
       controller.remove(task, 0)
-      expect(RemoveModal.open).to
+      expect(removalModal.open).to
         .have.been.calledWith(entity: 'task', caption: 'hard task')
 
     it 'with successful response removes task from parent project', ()->
-      sandbox.stub(RemoveModal, 'open').returns(result: $q.when())
+      sandbox.stub(removalModal, 'open').returns(result: $q.when())
       sandbox.stub(Task.prototype, '$remove').returns($q.when())
       controller.remove(task, 0)
       $rootScope.$apply()
@@ -100,7 +100,7 @@ describe 'Tasks', ()->
 
     it 'with error response makes growl show error message', ()->
       error = 'removal error'
-      sandbox.stub(RemoveModal, 'open').returns(result: $q.when())
+      sandbox.stub(removalModal, 'open').returns(result: $q.when())
       sandbox.stub(Task.prototype, '$remove')
         .returns($q.reject(data: {errors: [error]}))
       sandbox.spy(growl, 'error')

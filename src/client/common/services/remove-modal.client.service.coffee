@@ -1,5 +1,5 @@
 (->
-  RemoveModal = ($uibModal)->
+  removalModal = ($uibModal)->
     open: (modalOptions)->
       $uibModal.open
         templateUrl: 'common/views/remove-modal.client.view.html'
@@ -11,7 +11,7 @@
           return
         controllerAs: 'vm'
 
-  RemoveModal.$inject = ['$uibModal']
+  removalModal.$inject = ['$uibModal']
 
-  require('angular').module('common').factory('RemoveModal', RemoveModal)
+  require('angular').module('common').factory('removalModal', removalModal)
 )()

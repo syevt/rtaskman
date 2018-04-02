@@ -2,7 +2,7 @@
   angular = require 'angular'
   moment = require 'moment'
 
-  Tasks = (Task, RemoveModal, growl, $translate)->
+  Tasks = (Task, removalModal, growl, $translate)->
     init = ()=>
       @cancelEdit = cancelEdit
       @create = create
@@ -41,7 +41,7 @@
     remove = (task, taskIndex)->
       options = entity: 'task', caption: task.content
       task = new Task(task)
-      RemoveModal.open(options).result.then ()=>
+      removalModal.open(options).result.then ()=>
         task.$remove().then ()=>
           @parentProject.tasks.splice(taskIndex, 1)
         , (errorResponse)->
@@ -66,7 +66,7 @@
     init()
     return
 
-  Tasks.$inject = ['Task', 'RemoveModal', 'growl', '$translate']
+  Tasks.$inject = ['Task', 'removalModal', 'growl', '$translate']
 
   angular.module('tasks').controller('Tasks', Tasks)
 )()
