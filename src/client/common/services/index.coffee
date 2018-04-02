@@ -1,1 +1,1 @@
-require './remove-modal.client.service'
+require './removal-modal.client.service'
