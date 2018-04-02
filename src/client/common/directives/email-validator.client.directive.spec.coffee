@@ -5,7 +5,7 @@ describe 'tmEmailValidator directive', ()->
   beforeEach ()->
     bard.appModule('taskManager')
     bard.inject('$rootScope', '$compile')
-    scope = $rootScope
+    scope = $rootScope.$new()
     el = angular.element('<form name="vm.userForm">' +
       '<input ng-model="vm.email" name="email" tm-email-validator />' +
       '</form>')

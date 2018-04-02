@@ -5,7 +5,7 @@ describe 'tmConfirmPassword directive', ()->
   beforeEach ()->
     bard.appModule('taskManager')
     bard.inject('$rootScope', '$compile')
-    scope = $rootScope
+    scope = $rootScope.$new()
     el = angular.element('<form name="vm.userForm">' +
       '<input ng-model="vm.password" name="password" />' +
       '<input ng-model="vm.confirmPassword" name="confirmPassword"' +
