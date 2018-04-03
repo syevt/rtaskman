@@ -5,5 +5,5 @@ describe 'removalModal', ()->
       bard.inject('removalModal', '$uibModal')
       modalOpen = sinon.spy($uibModal, 'open')
       removalModal.open()
-      expect(modalOpen).to.have.been.calledWith()
+      expect(modalOpen).to.have.been.called
       modalOpen.restore()

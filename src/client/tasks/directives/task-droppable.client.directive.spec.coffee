@@ -1,4 +1,4 @@
-describe.only 'tmTaskDroppable directive', ()->
+describe 'tmTaskDroppable directive', ()->
   scope = {}
   el = angular.element('<div tm-task-droppable></div>')
   spy = {}
