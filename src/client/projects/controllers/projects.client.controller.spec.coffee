@@ -6,7 +6,7 @@ describe 'Projects', ()->
   beforeEach ()->
     bard.appModule('taskManager')
     bard.inject('$controller', '$q', '$rootScope', 'Project',
-                'removalModal', 'growl')
+                'removalModal', 'growl', '$translate')
     controller = $controller('Projects')
 
   afterEach ()->
@@ -88,10 +88,14 @@ describe 'Projects', ()->
       controller.projects = fakeProjects
 
     it 'shows removal confirmation modal', ()->
+      projectTranslation = 'project'
+      sandbox.stub($translate, 'instant')
+        .withArgs('projects.project')
+        .returns(projectTranslation)
       sandbox.spy(removalModal, 'open')
       controller.remove(project, 0)
       expect(removalModal.open).to
-        .have.been.calledWith('project', 'some project')
+        .have.been.calledWith(projectTranslation, 'some project')
 
     it 'with successful response removes project from @projects', ()->
       sandbox.stub(removalModal, 'open').returns(result: $q.when())

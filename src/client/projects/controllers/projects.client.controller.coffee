@@ -1,7 +1,7 @@
 (->
   angular = require('angular')
 
-  Projects = (Project, removalModal, growl)->
+  Projects = (Project, removalModal, growl, $translate)->
     init = ()=>
       @add = ()-> @newProject = {}
       @create = create
@@ -34,7 +34,8 @@
         growl.error(errorResponse.data.errors[0], ttl: -1)
 
     remove = (project, projectIndex)=>
-      removalModal.open('project', project.name).result.then ()=>
+      projectTranslation = $translate.instant('projects.project')
+      removalModal.open(projectTranslation, project.name).result.then ()=>
         project.$remove().then ()=>
           @projects.splice(projectIndex, 1)
         , (errorResponse)->
@@ -55,7 +56,7 @@
     init()
     return
 
-  Projects.$inject = ['Project', 'removalModal', 'growl']
+  Projects.$inject = ['Project', 'removalModal', 'growl', '$translate']
 
   angular.module('projects').controller('Projects', Projects)
 )()

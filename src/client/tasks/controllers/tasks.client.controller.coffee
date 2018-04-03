@@ -29,7 +29,7 @@
         growl.error(errorResponse.data.errors[0], ttl: -1)
 
     deadlineTip = (deadline)->
-      return $translate.instant('tasks.setDeadlineHint')  unless deadline
+      return $translate.instant('tasks.setDeadlineHint') unless deadline
       $translate.instant('tasks.editDeadlineHint') +
         moment.utc(deadline).format('LL')
 
@@ -39,8 +39,9 @@
       @editingProperty = property
 
     remove = (task, taskIndex)->
+      taskTranslation = $translate.instant('tasks.task')
       task = new Task(task)
-      removalModal.open('task', task.content).result.then ()=>
+      removalModal.open(taskTranslation, task.content).result.then ()=>
         task.$remove().then ()=>
           @parentProject.tasks.splice(taskIndex, 1)
         , (errorResponse)->

@@ -86,9 +86,14 @@ describe 'Tasks', ()->
       controller.parentProject = tasks: [{content: 'first'}, {content: 'second'}]
 
     it 'shows removal confirmation modal', ()->
+      taskTranslation = 'task'
+      sandbox.stub($translate, 'instant')
+        .withArgs('tasks.task')
+        .returns(taskTranslation)
       sandbox.spy(removalModal, 'open')
       controller.remove(task, 0)
-      expect(removalModal.open).to.have.been.calledWith('task', 'hard task')
+      expect(removalModal.open).to
+        .have.been.calledWith(taskTranslation, 'hard task')
 
     it 'with successful response removes task from parent project', ()->
       sandbox.stub(removalModal, 'open').returns(result: $q.when())

@@ -36,6 +36,7 @@
     "editButton": "Edit project",
     "newProjectHint": "Enter a name for the project...",
     "noProjectsMessage": "You don't have projects yet. Why won't you click the button below to add some?",
+    "project": "project",
     "save": "Save"
   },
 
@@ -48,6 +49,7 @@
     "editDeadlineHint": "Edit deadline: ",
     "newTaskHint": "Start typing to create a task...",
     "outdatedHint": "This task is outdated",
+    "task": "task",
     "toggleDoneHint": "Toggle done/undone",
     "saveButton": "Save",
     "setDeadlineHint": "Set deadline"
