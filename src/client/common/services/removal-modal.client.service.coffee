@@ -1,15 +1,13 @@
 (->
   removalModal = ($uibModal)->
-    open: (modalOptions)->
+    open: (entity, caption)->
       $uibModal.open
         templateUrl: 'common/views/removal-modal.client.view.html'
         size: 'sm'
-        controller: ($uibModalInstance)->
-          @options = modalOptions
-          @ok = ()-> $uibModalInstance.close()
-          @cancel = ()-> $uibModalInstance.dismiss()
-          return
-        controllerAs: 'vm'
+        controller: 'RemovalModalCtrl as vm'
+        resolve:
+          entity: ()-> entity
+          caption: ()-> caption
 
   removalModal.$inject = ['$uibModal']
 

@@ -88,8 +88,7 @@ describe 'Tasks', ()->
     it 'shows removal confirmation modal', ()->
       sandbox.spy(removalModal, 'open')
       controller.remove(task, 0)
-      expect(removalModal.open).to
-        .have.been.calledWith(entity: 'task', caption: 'hard task')
+      expect(removalModal.open).to.have.been.calledWith('task', 'hard task')
 
     it 'with successful response removes task from parent project', ()->
       sandbox.stub(removalModal, 'open').returns(result: $q.when())

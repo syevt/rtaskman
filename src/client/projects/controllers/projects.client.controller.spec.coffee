@@ -91,7 +91,7 @@ describe 'Projects', ()->
       sandbox.spy(removalModal, 'open')
       controller.remove(project, 0)
       expect(removalModal.open).to
-        .have.been.calledWith(entity: 'project', caption: 'some project')
+        .have.been.calledWith('project', 'some project')
 
     it 'with successful response removes project from @projects', ()->
       sandbox.stub(removalModal, 'open').returns(result: $q.when())

@@ -1,6 +1,6 @@
 describe 'SignupController', ()->
   controller = {}
-  $uibModalInstance = dismiss: (()->), close: (()->)
+  $uibModalInstance = close: (()->), dismiss: (()->)
   sandbox = sinon.createSandbox()
 
   beforeEach ()->

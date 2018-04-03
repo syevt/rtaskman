@@ -20,8 +20,8 @@
   "common": {
     "cancel": "Cancel",
     "delete": "Delete",
-    "removeModalBody": "Really delete \"{{caption}}\"?",
-    "removeModalHeader": "Deleting {{entity}}"
+    "removalModalBody": "Really delete \"{{caption}}\"?",
+    "removalModalHeader": "Deleting {{entity}}"
   },
 
   "index": {

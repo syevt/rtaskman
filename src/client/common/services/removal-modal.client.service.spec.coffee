@@ -1,15 +1,9 @@
-describe.only 'removalModal', ()->
-  sandbox = sinon.createSandbox()
-
-  beforeEach ()->
-    bard.appModule('taskManager')
-    bard.inject('removalModal', '$uibModal')
-
-  afterEach ()->
-    sandbox.restore()
-
+describe 'removalModal', ()->
   context '#open', ()->
     it 'calls open() on $uibModal', ()->
-      sandbox.spy($uibModal, 'open')
+      bard.appModule('taskManager')
+      bard.inject('removalModal', '$uibModal')
+      modalOpen = sinon.spy($uibModal, 'open')
       removalModal.open()
-      expect($uibModal.open).to.have.been.called
+      expect(modalOpen).to.have.been.calledWith()
+      modalOpen.restore()

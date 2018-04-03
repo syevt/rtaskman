@@ -39,9 +39,8 @@
       @editingProperty = property
 
     remove = (task, taskIndex)->
-      options = entity: 'task', caption: task.content
       task = new Task(task)
-      removalModal.open(options).result.then ()=>
+      removalModal.open('task', task.content).result.then ()=>
         task.$remove().then ()=>
           @parentProject.tasks.splice(taskIndex, 1)
         , (errorResponse)->

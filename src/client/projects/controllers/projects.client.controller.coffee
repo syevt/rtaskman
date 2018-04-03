@@ -34,8 +34,7 @@
         growl.error(errorResponse.data.errors[0], ttl: -1)
 
     remove = (project, projectIndex)=>
-      options = entity: 'project', caption: project.name
-      removalModal.open(options).result.then ()=>
+      removalModal.open('project', project.name).result.then ()=>
         project.$remove().then ()=>
           @projects.splice(projectIndex, 1)
         , (errorResponse)->
