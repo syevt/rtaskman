@@ -1,1 +1,1 @@
-require './projects.client.service'
+require './project.client.service'
