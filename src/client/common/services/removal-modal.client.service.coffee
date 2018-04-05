@@ -4,7 +4,7 @@
       $uibModal.open
         templateUrl: 'common/views/removal-modal.client.view.html'
         size: 'sm'
-        controller: 'RemovalModalCtrl as vm'
+        controller: 'RemovalModalController as vm'
         resolve:
           entity: ()-> entity
           caption: ()-> caption

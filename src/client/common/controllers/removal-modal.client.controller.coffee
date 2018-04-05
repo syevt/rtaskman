@@ -1,5 +1,5 @@
 (->
-  RemovalModalCtrl = ($uibModalInstance, entity, caption)->
+  RemovalModalController = ($uibModalInstance, entity, caption)->
     init = ()=>
       @entity = entity
       @caption = caption
@@ -9,9 +9,9 @@
     init()
     return
 
-  RemovalModalCtrl.$inject = ['$uibModalInstance', 'entity', 'caption']
+  RemovalModalController.$inject = ['$uibModalInstance', 'entity', 'caption']
 
   require('angular')
     .module('common')
-    .controller('RemovalModalCtrl', RemovalModalCtrl)
+    .controller('RemovalModalController', RemovalModalController)
 )()

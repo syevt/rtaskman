@@ -1,4 +1,4 @@
-describe 'RemovalModalCtrl', ()->
+describe 'RemovalModalController', ()->
   controller = {}
   sandbox = sinon.createSandbox()
   $uibModalInstance = close: (()->), dismiss: (()->)
@@ -6,7 +6,7 @@ describe 'RemovalModalCtrl', ()->
   beforeEach ()->
     bard.appModule('taskManager')
     bard.inject('$controller')
-    controller = $controller 'RemovalModalCtrl',
+    controller = $controller 'RemovalModalController',
       $uibModalInstance: $uibModalInstance
       entity: 'foo'
       caption: 'bar'
