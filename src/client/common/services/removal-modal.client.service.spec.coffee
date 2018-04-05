@@ -1,4 +1,4 @@
-describe 'removalModal', ()->
+describe 'removalModal service', ()->
   context '#open', ()->
     it 'calls open() on $uibModal', ()->
       bard.appModule('taskManager')

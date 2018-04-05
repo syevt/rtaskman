@@ -1,4 +1,4 @@
-describe 'Projects', ()->
+describe 'Projects controller', ()->
   controller = {}
   fakeProjects = [{name: 'first'}, {name: 'second'}]
   sandbox = sinon.createSandbox()

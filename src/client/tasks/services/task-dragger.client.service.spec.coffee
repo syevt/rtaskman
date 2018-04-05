@@ -1,4 +1,4 @@
-describe 'taskDragger', ()->
+describe 'taskDragger service', ()->
   dragEvent = {}
   sandbox = sinon.createSandbox()
 

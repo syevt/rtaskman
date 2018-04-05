@@ -1,4 +1,4 @@
-describe 'Tasks', ()->
+describe 'Tasks controller', ()->
   controller = {}
   sandbox = sinon.createSandbox()
 

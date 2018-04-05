@@ -1,4 +1,4 @@
-describe 'taskDraggerHelper', ()->
+describe 'taskDraggerHelper service', ()->
   sandbox = sinon.createSandbox()
 
   beforeEach ()->
