@@ -42,6 +42,7 @@ group :test do
   gem 'json_matchers'
   gem 'poltergeist'
   gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 group :development do
