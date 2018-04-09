@@ -17,9 +17,9 @@ describe 'Projects API' do
     include_examples 'unauthenticated', :post, :api_v1_projects_path
 
     context 'with logged in user' do
-      context 'with successful creation' do
-        let(:name) { 'some fancy project' }
+      let(:name) { 'some fancy project' }
 
+      context 'with successful creation' do
         it 'returns new project' do
           post(api_v1_projects_path, params: { project: { name: name } },
                                      headers: headers)
@@ -42,12 +42,11 @@ describe 'Projects API' do
         allow_any_instance_of(Project).to(
           receive_message_chain('errors.full_messages').and_return([error])
         )
-        post(api_v1_projects_path, params: { project: { name: 'foo' } },
+        post(api_v1_projects_path, params: { project: { name: name } },
                                    headers: headers)
         expect(response.status).to eq(400)
         expect(json[:errors]).to eq([error])
       end
-
     end
   end
 
