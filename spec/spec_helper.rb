@@ -1,9 +1,13 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'rails_helper'
 require 'capybara/rspec'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
 require 'factory_girl_rails'
 require 'json_matchers/rspec'
+require 'wisper/rspec/matchers'
 require_relative 'support/database_cleaner'
 require_relative 'support/factory_girl'
 require_relative 'support/feature/auth_helper'
@@ -52,4 +56,5 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include Feature::AuthHelper, type: :feature
   config.include Request::JsonHelper, type: :request
+  config.include Wisper::RSpec::BroadcastMatcher
 end

@@ -43,6 +43,8 @@ group :test do
   gem 'poltergeist'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 3.1'
+  gem 'simplecov', require: false
+  gem 'wisper-rspec', require: false
 end
 
 group :development do
