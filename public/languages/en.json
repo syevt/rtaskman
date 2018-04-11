@@ -20,6 +20,8 @@
   "common": {
     "cancel": "Cancel",
     "delete": "Delete",
+    "emptyError": "Cannot be empty",
+    "invalidError": "Only letters, digits and .,-/()\"'`?! are allowed",
     "removalModalBody": "Really delete \"{{caption}}\"?",
     "removalModalHeader": "Deleting {{entity}}"
   },

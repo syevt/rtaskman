@@ -18,17 +18,18 @@ en:
         deadline: 'Deadline'
         priority: 'Priority'
     errors:
-      format: '%{message}'
       models:
         project:
           attributes:
             name:
               <<: &invalid
-                invalid: "Only letters, digits and .,-()\"'`? are allowed"
+                invalid: "Only letters, digits and .,-/()\"'`?! are allowed"
         task:
           attributes:
             content:
               <<: *invalid
+  errors:
+    format: '%{message}'
   layouts:
     application:
       title: 'Rails API Task Manager'
