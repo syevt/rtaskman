@@ -20,30 +20,64 @@ describe 'Tasks controller', ()->
       expect(controller.editingProperty).to.be.empty
 
   context '#create', ()->
-    context 'with successful response', ()->
-      beforeEach ()->
-        sandbox.stub(Task.prototype, '$save').returns($q.when(content: 'foo'))
-        controller.parentProject = id: 1, newTask: {content: 'bar'}, tasks: []
-        controller.create()
-        $rootScope.$apply()
+    context 'with valid task content', ()->
+      context 'with successful response', ()->
+        beforeEach ()->
+          sandbox.stub(Task.prototype, '$save').returns($q.when(content: 'foo'))
+          controller.parentProject = id: 1, newTask: {content: 'bar'}, tasks: []
+          controller.create()
+          $rootScope.$apply()
 
-      it 'adds new task to the project', ()->
-        expect(controller.parentProject.tasks).to.deep.include(content: 'foo')
+        it 'adds new task to the project', ()->
+          expect(controller.parentProject.tasks).to.deep.include(content: 'foo')
 
-      it 'nullifies parentProject.newTask variable', ()->
-        expect(controller.parentProject.newTask).to.be.null
+        it 'nullifies parentProject.newTask variable', ()->
+          expect(controller.parentProject.newTask).to.be.null
 
-    context 'with error response', ()->
-      error = 'awful error'
+      context 'with error response', ()->
+        error = 'awful error'
 
-      it 'makes growl show error message', ()->
-        sandbox.stub(Task.prototype, '$save').returns(
-          $q.reject(data: {errors: [error]}))
-        sandbox.spy(growl, 'error')
-        controller.parentProject = id: 1, newTask: {content: 'bar'}, tasks: []
-        controller.create()
-        $rootScope.$apply()
-        expect(growl.error).to.have.been.calledWith(error, ttl: -1)
+        it 'makes growl show error message', ()->
+          sandbox.stub(Task.prototype, '$save').returns(
+            $q.reject(data: {errors: [error]}))
+          sandbox.spy(growl, 'error')
+          controller.parentProject = id: 1, newTask: {content: 'bar'}, tasks: []
+          controller.create()
+          $rootScope.$apply()
+          expect(growl.error).to.have.been.calledWith(error, ttl: -1)
+
+    context 'with non-valid task content', ()->
+      context 'with null`ed newTask', ()->
+        beforeEach ()->
+          controller.parentProject = tasks: []
+
+        it "makes growl show 'empty' error", ()->
+          sandbox.spy($translate, 'instant')
+          sandbox.spy(growl, 'error')
+          controller.create()
+          expect($translate.instant).to
+            .have.been.calledWith('common.emptyError')
+          expect(growl.error).to.have.been.called
+
+        it 'doesn`t add task to @parentProject.tasks', ()->
+          controller.create()
+          expect(controller.parentProject.tasks.length).to.eq(0)
+
+      context 'with invalid task content', ()->
+        beforeEach ()->
+          controller.parentProject = newTask: {content: '*foo*'}, tasks: []
+
+        it "makes growl show 'invalid' error", ()->
+          sandbox.spy($translate, 'instant')
+          sandbox.spy(growl, 'error')
+          controller.create()
+          expect($translate.instant).to
+            .have.been.calledWith('common.invalidError')
+          expect(growl.error).to.have.been.called
+
+        it 'doesn`t add task to @parentProject.tasks', ()->
+          controller.create()
+          expect(controller.parentProject.tasks.length).to.eq(0)
 
   context '#deadlineTip', ()->
     beforeEach ()->
@@ -150,37 +184,77 @@ describe 'Tasks controller', ()->
       expect(updateSpy.calledImmediatelyAfter(editSpy)).to.be.true
 
   context '#update', ()->
-    task = content: 'being updated'
+    task = {}
 
     beforeEach ()->
-      controller.backedupTask = content: 'backed up'
-      controller.currentTask = content: 'current'
+      task = content: 'being updated'
 
-    context 'with successful response', ()->
+    context 'with valid task content', ()->
       beforeEach ()->
-        sandbox.stub(Task.prototype, '$update')
-          .returns($q.when(content: 'updated'))
-        controller.update(task)
-        $rootScope.$apply()
+        controller.backedupTask = content: 'backed up'
+        controller.currentTask = content: 'current'
 
-      it 'updates task properties with those returned by backend', ()->
-        expect(task.content).to.eq('updated')
+      context 'with successful response', ()->
+        beforeEach ()->
+          sandbox.stub(Task.prototype, '$update')
+            .returns($q.when(content: 'updated'))
+          controller.update(task)
+          $rootScope.$apply()
 
-      it 'nullifies @currentTask', ()->
-        expect(controller.currentTask).to.be.null
+        it 'updates task properties with those returned by backend', ()->
+          expect(task.content).to.eq('updated')
 
-    context 'with error response', ()->
-      error = 'update error'
+        it 'nullifies @currentTask', ()->
+          expect(controller.currentTask).to.be.null
 
+      context 'with error response', ()->
+        error = 'update error'
+
+        beforeEach ()->
+          sandbox.spy(growl, 'error')
+          sandbox.stub(Task.prototype, '$update')
+            .returns($q.reject(data: {errors: [error]}))
+          controller.update(task)
+          $rootScope.$apply()
+
+        it 'restores current task`s properties from backup', ()->
+          expect(controller.currentTask.content).to.eq('backed up')
+
+        it 'makes growl show error message', ()->
+          expect(growl.error).to.have.been.calledWith(error, ttl: -1)
+
+    context 'with non-valid task content', ()->
       beforeEach ()->
-        sandbox.spy(growl, 'error')
-        sandbox.stub(Task.prototype, '$update')
-          .returns($q.reject(data: {errors: [error]}))
-        controller.update(task)
-        $rootScope.$apply()
+        controller.currentTask = content: 'to update'
 
-      it 'restores current task`s properties from backup', ()->
-        expect(controller.currentTask.content).to.eq('backed up')
+      context 'with empty task content', ()->
+        beforeEach ()->
+          controller.currentTask = content: ''
 
-      it 'makes growl show error message', ()->
-        expect(growl.error).to.have.been.calledWith(error, ttl: -1)
+        it "makes growl show 'empty' error", ()->
+          sandbox.spy($translate, 'instant')
+          sandbox.spy(growl, 'error')
+          controller.update(task)
+          expect($translate.instant).to
+            .have.been.calledWith('common.emptyError')
+          expect(growl.error).to.have.been.called
+
+        it 'doesn`t update task content', ()->
+          controller.update(task)
+          expect(task.content).to.eq('being updated')
+
+      context 'with invalid task content', ()->
+        beforeEach ()->
+          controller.currentTask = content: '{invalid}'
+
+        it "makes growl show 'invalid' error", ()->
+          sandbox.spy($translate, 'instant')
+          sandbox.spy(growl, 'error')
+          controller.update(task)
+          expect($translate.instant).to
+            .have.been.calledWith('common.invalidError')
+          expect(growl.error).to.have.been.called
+
+        it 'doesn`t update task content', ()->
+          controller.update(task)
+          expect(task.content).to.eq('being updated')

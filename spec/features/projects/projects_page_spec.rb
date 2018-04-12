@@ -1,18 +1,6 @@
 feature 'Projects page', js: true do
   include_context 'client translations'
 
-  shared_examples 'empty error' do
-    scenario "shows 'empty' error" do
-      expect(page).to have_text(common_tr['emptyError'])
-    end
-  end
-
-  shared_examples 'invalid error' do
-    scenario "shows 'invalid' error" do
-      expect(page).to have_text(common_tr['invalidError'])
-    end
-  end
-
   given!(:user) { create(:user) }
   given(:project_tr) { translations['projects'] }
   given(:common_tr) { translations['common'] }

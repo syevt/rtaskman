@@ -2,7 +2,7 @@
   angular = require 'angular'
   moment = require 'moment'
 
-  Tasks = (Task, removalModal, growl, $translate)->
+  Tasks = (Task, removalModal, growl, $translate, textValidator)->
     init = ()=>
       @cancelEdit = cancelEdit
       @create = create
@@ -18,6 +18,7 @@
       @editingProperty = ''
 
     create = ()=>
+      return unless textValidator.validate(@parentProject.newTask?.content)
       task = new Task
         project_id: @parentProject.id
         content: @parentProject.newTask.content
@@ -56,6 +57,8 @@
       @update(task)
 
     update = (task)=>
+      return unless textValidator.validate(@currentTask.content)
+
       new Task(@currentTask).$update().then (response)=>
         angular.extend(task, response)
         @currentTask = null
@@ -66,7 +69,8 @@
     init()
     return
 
-  Tasks.$inject = ['Task', 'removalModal', 'growl', '$translate']
+  Tasks.$inject = ['Task', 'removalModal', 'growl', '$translate',
+                   'textValidator']
 
   angular.module('tasks').controller('Tasks', Tasks)
 )()
