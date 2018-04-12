@@ -1,4 +1,4 @@
-describe.only 'textValidator service', ()->
+describe 'textValidator service', ()->
   sandbox = sinon.createSandbox()
 
   beforeEach ()->

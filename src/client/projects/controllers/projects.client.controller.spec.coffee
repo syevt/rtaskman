@@ -20,33 +20,69 @@ describe 'Projects controller', ()->
   context '#create', ()->
     beforeEach ()->
       controller.projects = [{name: 'one'}, {name: 'two'}]
-      controller.newProject = name: 'third'
 
-    context 'with successful response', ()->
+    context 'with valid project name', ()->
       beforeEach ()->
-        sandbox.stub(Project.prototype, '$save')
-          .returns($q.when(name: 'fourth'))
-        controller.create()
-        $rootScope.$apply()
+        controller.newProject = name: 'third'
 
-      it 'adds new project to user`s projects', ()->
-        expect(controller.projects).to.deep.include(name: 'fourth')
-      it 'nullifies @newProject', ()->
-        expect(controller.newProject).to.be.null
+      context 'with successful response', ()->
+        beforeEach ()->
+          sandbox.stub(Project.prototype, '$save')
+            .returns($q.when(name: 'fourth'))
+          controller.create()
+          $rootScope.$apply()
 
-    context 'with error response', ()->
-      error = 'adding error'
-      beforeEach ()->
-        sandbox.spy(growl, 'error')
-        sandbox.stub(Project.prototype, '$save')
-          .returns($q.reject(data: {errors: [error]}))
-        controller.create()
-        $rootScope.$apply()
+        it 'adds new project to user`s projects', ()->
+          expect(controller.projects).to.deep.include(name: 'fourth')
+        it 'nullifies @newProject', ()->
+          expect(controller.newProject).to.be.null
 
-      it 'makes growl show error message', ()->
-        expect(growl.error).to.have.been.calledWith(error, ttl: -1)
-      it 'nullifies @newProject', ()->
-        expect(controller.newProject).to.be.null
+      context 'with error response', ()->
+        error = 'adding error'
+        beforeEach ()->
+          sandbox.spy(growl, 'error')
+          sandbox.stub(Project.prototype, '$save')
+            .returns($q.reject(data: {errors: [error]}))
+          controller.create()
+          $rootScope.$apply()
+
+        it 'makes growl show error message', ()->
+          expect(growl.error).to.have.been.calledWith(error, ttl: -1)
+        it 'nullifies @newProject', ()->
+          expect(controller.newProject).to.be.null
+
+    context 'with non-valid project name', ()->
+      context 'with empty project name', ()->
+        beforeEach ()->
+          controller.newProject = name: ''
+
+        it "makes growl show 'empty' error", ()->
+          sandbox.spy($translate, 'instant')
+          sandbox.spy(growl, 'error')
+          controller.create()
+          expect($translate.instant).to
+            .have.been.calledWith('common.emptyError')
+          expect(growl.error).to.have.been.called
+
+        it 'doesn`t add new project to @projects', ()->
+          controller.create()
+          expect(controller.projects.length).to.eq(2)
+
+      context 'with invalid project name', ()->
+        beforeEach ()->
+          controller.newProject = name: '$omething |nvalid'
+
+        it "makes growl show 'invalid' error", ()->
+          sandbox.spy($translate, 'instant')
+          sandbox.spy(growl, 'error')
+          controller.create()
+          expect($translate.instant).to
+            .have.been.calledWith('common.invalidError')
+          expect(growl.error).to.have.been.called
+
+        it 'doesn`t add new project to @projects', ()->
+          controller.create()
+          expect(controller.projects.length).to.eq(2)
 
   context '#edit', ()->
     project = name: 'agenda'
@@ -115,37 +151,74 @@ describe 'Projects controller', ()->
       expect(growl.error).to.have.been.calledWith(error, ttl: -1)
 
   context '#update', ()->
-    project = name: 'to update'
+    project = {}
 
     beforeEach ()->
-      controller.currentProject = name: 'current'
-      controller.backedupProject = name: 'backed up'
+      project = name: 'to update'
 
-    context 'with successful response', ()->
+    context 'with valid project name', ()->
       beforeEach ()->
-        sandbox.stub(Project.prototype, '$update')
-          .returns($q.when(name: 'updated'))
-        controller.update(project)
-        $rootScope.$apply()
+        controller.currentProject = name: 'current'
+        controller.backedupProject = name: 'backed up'
 
-      it 'updates project`s properties with those of returned project', ()->
-        expect(project.name).to.eq('updated')
+      context 'with successful response', ()->
+        beforeEach ()->
+          sandbox.stub(Project.prototype, '$update')
+            .returns($q.when(name: 'updated'))
+          controller.update(project)
+          $rootScope.$apply()
 
-      it 'nullifies @currentProject', ()->
-        expect(controller.currentProject).to.be.null
+        it 'updates project`s properties with those of returned project', ()->
+          expect(project.name).to.eq('updated')
 
-    context 'with error response', ()->
-      error = 'udate project error'
+        it 'nullifies @currentProject', ()->
+          expect(controller.currentProject).to.be.null
 
-      beforeEach ()->
-        sandbox.spy(growl, 'error')
-        sandbox.stub(Project.prototype, '$update')
-          .returns($q.reject(data: {errors: [error]}))
-        controller.update(project)
-        $rootScope.$apply()
+      context 'with error response', ()->
+        error = 'udate project error'
 
-      it 'restores current project`s properties from backup', ()->
-        expect(controller.currentProject.name).to.eq('backed up')
+        beforeEach ()->
+          sandbox.spy(growl, 'error')
+          sandbox.stub(Project.prototype, '$update')
+            .returns($q.reject(data: {errors: [error]}))
+          controller.update(project)
+          $rootScope.$apply()
 
-      it 'makes growl show error message', ()->
-        expect(growl.error).to.have.been.calledWith(error, ttl: -1)
+        it 'restores current project`s properties from backup', ()->
+          expect(controller.currentProject.name).to.eq('backed up')
+
+        it 'makes growl show error message', ()->
+          expect(growl.error).to.have.been.calledWith(error, ttl: -1)
+
+    context 'with non-valid project name', ()->
+      context 'with empty project name', ()->
+        beforeEach ()->
+          controller.currentProject = name: ''
+
+        it "makes growl show 'empty' error", ()->
+          sandbox.spy($translate, 'instant')
+          sandbox.spy(growl, 'error')
+          controller.update(project)
+          expect($translate.instant).to
+            .have.been.calledWith('common.emptyError')
+          expect(growl.error).to.have.been.called
+
+        it 'doesn`t change project`s name', ()->
+          controller.update(project)
+          expect(project.name).to.eq('to update')
+
+      context 'with invalid project name', ()->
+        beforeEach ()->
+          controller.currentProject = name: '<project></project>'
+
+        it "makes growl show 'invalid' error", ()->
+          sandbox.spy($translate, 'instant')
+          sandbox.spy(growl, 'error')
+          controller.update(project)
+          expect($translate.instant).to
+            .have.been.calledWith('common.invalidError')
+          expect(growl.error).to.have.been.called
+
+        it 'doesn`t change project`s name', ()->
+          controller.update(project)
+          expect(project.name).to.eq('to update')

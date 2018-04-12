@@ -1,7 +1,7 @@
 (->
   angular = require('angular')
 
-  Projects = (Project, removalModal, growl, $translate)->
+  Projects = (Project, removalModal, growl, $translate, textValidator)->
     init = ()=>
       @add = ()-> @newProject = {}
       @create = create
@@ -13,6 +13,7 @@
       activate()
 
     create = ()=>
+      return unless textValidator.validate(@newProject.name)
       project = new Project(name: @newProject.name)
 
       project.$save().then (response)=>
@@ -42,8 +43,8 @@
           growl.error(errorResponse.data.errors[0], ttl: -1)
 
     update = (project)=>
-      projectBeingUpdated = new Project(@currentProject)
-      projectBeingUpdated.$update().then (response)=>
+      return unless textValidator.validate(@currentProject.name)
+      new Project(@currentProject).$update().then (response)=>
         angular.extend(project, response)
         @currentProject = null
       , (errorResponse)=>
@@ -56,7 +57,8 @@
     init()
     return
 
-  Projects.$inject = ['Project', 'removalModal', 'growl', '$translate']
+  Projects.$inject = ['Project', 'removalModal', 'growl', '$translate',
+                      'textValidator']
 
   angular.module('projects').controller('Projects', Projects)
 )()

@@ -41,7 +41,7 @@ describe 'LoginController', ()->
         it 'assigns returned user to @identity.user', ()->
           expect(controller.identity.user.email).to.eq(email)
 
-        it 'makes growl to show success message', ()->
+        it 'makes growl show success message', ()->
           expect($translate.instant).to.have.been.calledWith('auth.loggedIn')
           expect(growl.success).to.have.been.called
 
@@ -49,7 +49,7 @@ describe 'LoginController', ()->
           expect($location.path).to.have.been.calledWith('/projects')
 
       context 'with error response', ()->
-        it 'makes growl to show error message', ()->
+        it 'makes growl show error message', ()->
           error = 'login error'
           sandbox.spy(growl, 'error')
           sandbox.stub($auth, 'submitLogin').returns($q.reject(errors: [error]))
