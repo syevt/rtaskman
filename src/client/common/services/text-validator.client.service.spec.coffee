@@ -51,4 +51,3 @@ describe 'textValidator service', ()->
         do (text)->
           it "'#{text}' returns true", ()->
             expect(textValidator.validate(text)).to.be.true
-                
