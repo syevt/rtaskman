@@ -13,12 +13,12 @@
         email: @email
         password: @password
         password_confirmation: @confirmPassword
-        ).then (response) ->
+        ).then (response)->
           Identity.user = angular.extend(response.data.data, signedIn: on)
           growl.success($translate.instant('auth.signedUp'))
           $uibModalInstance.close()
           $location.path('/projects')
-       , (errorResponse) ->
+       , (errorResponse)->
          $uibModalInstance.close()
          growl.error(errorResponse.data.errors.full_messages[0], ttl: -1)
 

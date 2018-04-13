@@ -15,7 +15,7 @@ describe 'Projects controller', ()->
   context '#add', ()->
     it 'assigns empty object to @newProject', ()->
       controller.add()
-      expect(controller.newProject).to.empty
+      expect(controller.newProject).to.be.empty
 
   context '#create', ()->
     beforeEach ()->
