@@ -1,8 +1,4 @@
-class Api::V1::ProjectsController < ApplicationController
-  before_action :authenticate_user!
-  load_and_authorize_resource
-  respond_to :json
-
+class Api::V1::ProjectsController < ResourceController
   def index
     @projects = @projects.order(id: :asc).includes(:tasks)
   end

@@ -1,8 +1,5 @@
-class Api::V1::TasksController < ApplicationController
-  before_action :authenticate_user!
+class Api::V1::TasksController < ResourceController
   wrap_parameters :task, exclude: []
-  load_and_authorize_resource
-  respond_to :json
 
   def create
     tasks = Project.where(id: task_params[:project_id]).includes(:tasks)[0].tasks
