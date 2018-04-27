@@ -2,8 +2,8 @@ class Api::V1::TasksController < ResourceController
   wrap_parameters :task, exclude: []
 
   def create
-    tasks = Project.where(id: task_params[:project_id]).includes(:tasks)[0].tasks
-    priority = tasks.length.zero? ? 0 : tasks.max_by(&:priority).priority + 1
+    tasks = Task.where(project_id: task_params[:project_id])
+    priority = tasks.empty? ? 0 : tasks.max_by(&:priority).priority + 1
     @task.priority = priority
     respond(@task.save)
   end
