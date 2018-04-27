@@ -1,6 +1,6 @@
 class Api::V1::ProjectsController < ResourceController
   def index
-    @projects = @projects.order(id: :asc).includes(:tasks)
+    render(json: @projects.order(id: :asc).includes(:tasks))
   end
 
   def create
