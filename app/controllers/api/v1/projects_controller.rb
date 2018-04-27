@@ -5,29 +5,21 @@ class Api::V1::ProjectsController < ResourceController
 
   def create
     @project.user = current_user
-    @project.save ? render(json: @project) : error_response
+    respond(@project.save)
   end
 
   def update
-    if @project.update_attributes(project_params)
-      render(json: @project)
-    else
-      error_response
-    end
+    respond(@project.update_attributes(project_params))
   end
 
   def destroy
     @project.destroy
-    @project.destroyed? ? render(json: @project) : error_response
+    respond(@project.destroyed?)
   end
 
   private
 
   def project_params
     params.require(:project).permit(:id, :name)
-  end
-
-  def error_response
-    render(status: 400, json: { errors: @project.errors.full_messages })
   end
 end

@@ -5,7 +5,7 @@ class Api::V1::TasksController < ResourceController
     tasks = Project.where(id: task_params[:project_id]).includes(:tasks)[0].tasks
     priority = tasks.length.zero? ? 0 : tasks.max_by(&:priority).priority + 1
     @task.priority = priority
-    @task.save ? render(json: @task) : error_response
+    respond(@task.save)
   end
 
   def update
@@ -17,7 +17,7 @@ class Api::V1::TasksController < ResourceController
 
   def destroy
     @task.destroy
-    @task.destroyed? ? render(json: @task) : error_response
+    respond(@task.destroyed?)
   end
 
   private
@@ -26,9 +26,5 @@ class Api::V1::TasksController < ResourceController
     params.require(:task).except(:created_at, :updated_at).permit(
       :id, :project_id, :content, :done, :deadline, :priority, :sourcepriority
     )
-  end
-
-  def error_response
-    render(status: 400, json: { errors: @task.errors.full_messages })
   end
 end
