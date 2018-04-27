@@ -5,7 +5,7 @@
     %meta{name: "viewport", content: "width=device-width"}
     = csrf_meta_tags
     %title= t('.title')
-    %link{href: "/css/style.css", rel: "stylesheet"}
+    = stylesheet_link_tag('/css/style')
   %body
     = yield
-  %script{src: "/js/bundle.js"}
+  = javascript_include_tag('/js/bundle')
