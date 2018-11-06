@@ -1,3 +1,15 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  mount_devise_token_auth_for 'User', at: 'auth'
+
+  root to: 'home#index'
+
+  get 'home/index'
+
+  namespace :api do
+    namespace :v1 do
+      resources :projects, except: [:new, :show, :edit],
+                           defaults: { format: :json }
+      resources :tasks, only: [:create, :update, :destroy]
+    end
+  end
 end

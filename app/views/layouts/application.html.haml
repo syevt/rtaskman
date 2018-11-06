@@ -1,0 +1,11 @@
+!!! 5
+%html
+  %head
+    %meta{charset: "UTF-8"}
+    %meta{name: "viewport", content: "width=device-width"}
+    = csrf_meta_tags
+    %title= t('.title')
+    = stylesheet_link_tag('/css/style')
+  %body
+    = yield
+  = javascript_include_tag('/js/bundle')

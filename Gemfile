@@ -5,7 +5,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.3'
 # Use postgresql as the database for Active Record
@@ -21,10 +20,35 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'active_model_serializers'
+gem 'cancancan'
+gem 'devise_token_auth'
+gem 'ffi', '>=1.9.24'
+gem 'hamlit-rails'
+gem 'loofah', '>= 2.2.1'
+gem 'nokogiri', '>= 1.8.2'
+gem 'omniauth'
+gem 'rails-html-sanitizer', '>= 1.0.4'
+gem 'rectify'
+gem 'sprockets', '>= 3.7.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'rspec-rails', '~> 3.5'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'json_matchers'
+  gem 'poltergeist'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 3.1'
+  gem 'simplecov', require: false
+  gem 'wisper-rspec', require: false
 end
 
 group :development do

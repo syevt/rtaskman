@@ -1,0 +1,26 @@
+.col-xs-8.col-xs-offset-2.tm-tasks-table-container.ng-cloak(
+    ng-show='project.tasks.length')
+  table.tm-tasks-table
+    tr.tm-task-row(ng-repeat="task in project.tasks"
+      id='task-{{project.id}}-{{task.id}}' tm-task-droppable)
+      td.tm-task-done
+        input(translate-attr="{title: 'tasks.toggleDoneHint'}" type='checkbox'
+          ng-disabled='vm.currentTask.id === task.id'
+          ng-model='task.done'
+          ng-change='vm.toggleStatus(task)')
+      td.tm-task-warning
+        i.ng-cloak.fa.fa-bell.tm-task-bell.tm-task-bell-pendulum(
+          translate-attr="{title: 'tasks.outdatedHint'}"
+          ng-show='vm.showBell(task)')
+      td.tm-task-content(colspan='6')
+        p.text-justify(ng-hide='vm.currentTask.id === task.id').
+          {{task.content}}
+        tm-edit-task-content-form
+        tm-edit-task-deadline-form
+      td
+        tm-task-buttons
+    tr
+      td.tm-task-td &nbsp
+      td.tm-task-td &nbsp
+      td.tm-task-td(colspan='6') &nbsp
+      td.tm-task-td &nbsp

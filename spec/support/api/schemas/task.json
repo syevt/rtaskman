@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "required": ["id", "done", "content", "priority", "deadline"],
+  "properties": {
+    "id": {"type": "integer"},
+    "done": {"type": ["null", "boolean"]},
+    "content": {"type": "string"},
+    "priority": {"type": "integer"},
+    "deadline": {
+      "type": ["null", "string"], "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    }
+  }
+}

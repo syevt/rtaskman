@@ -17,7 +17,9 @@
 /yarn-error.log
 
 .byebug_history
-tmux*
+coverage
+config/database.yml
 Session.vim
-coverage/
+*.swp
 tags
+tmux*

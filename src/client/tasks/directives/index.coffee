@@ -1,0 +1,8 @@
+require './new-task-form.client.directive'
+require './edit-task-deadline-form.client.directive'
+require './edit-task-content-form.client.directive'
+require './task-buttons.client.directive'
+require './tasks-table.client.directive'
+require './save-cancel-buttons.client.directive'
+require './task-draggable.client.directive'
+require './task-droppable.client.directive'
