@@ -20,6 +20,7 @@
     "hoek": "^4.2.1",
     "https-proxy-agent": "^2.2.0",
     "lodash": "^4.17.5",
+    "method-override": "^2.3.10",
     "mime": "^1.4.1",
     "moment": "^2.20.1",
     "negotiator": "^0.6.1",
